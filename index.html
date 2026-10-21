@@ -1,587 +1,442 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en-GB">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Year 8 Python: Nested Control Structures</title>
-<meta name="description" content="Year 8 Digital Technologies: review of Activities 1 to 5, then nested control structures, with a Python code runner.">
+<title>Y8 Nested Control Structures (Teacher)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #EEF0FA; --card: #F8F9FF; --ink: #2A2B47; --muted: #4F5274; --line: #D9DCEE;
-  --peach: #FFB088; --mint: #8FD9B6; --lilac: #C3B4F5; --butter: #FFD97A; --sky: #A9D2F7;
-  --code-bg: #2E3150; --code-ink: #EEF0FA; --code-dim: #A7ACD4;
-  --tok-kw: #FFB088; --tok-fn: #FFD97A; --tok-str: #9EE6C2; --tok-num: #C3B4F5;
-  --ok-bg: #DDF5EA; --ok-ink: #17603D; --no-bg: #FFE4D6; --no-ink: #9A2A14;
-  --clay: 8px 8px 18px rgba(163,168,207,.55), -6px -6px 14px rgba(255,255,255,.95);
-  --clay-sm: 4px 4px 10px rgba(163,168,207,.5), -3px -3px 8px rgba(255,255,255,.9);
-  --press: inset 3px 3px 7px rgba(163,168,207,.55), inset -3px -3px 7px rgba(255,255,255,.9);
-  --sans: "Segoe UI", Calibri, system-ui, -apple-system, Roboto, Arial, sans-serif;
-  --mono: "Cascadia Code", Consolas, "Courier New", monospace;
-  color-scheme: light;
+:root{
+  --maroon:#7a1f2b; --maroon-d:#5a1520; --ink:#1f1d24; --muted:#5b5866; --bg:#fbf7f2; --card:#ffffff;
+  --line:#e7dfd6; --ok:#1f8a4c; --bad:#c0392b; --gold:#ffd166;
+  --code-bg:#262a44; --code-ink:#eef0fa; --code-dim:#a7acd4;
+  --tok-kw:#ffb088; --tok-fn:#ffd97a; --tok-str:#9ee6c2; --tok-num:#c3b4f5;
+  --l1:rgba(255,176,136,.16); --l2:rgba(143,217,182,.18); --l3:rgba(195,180,245,.24);
+  --control:#FFAB19; --events:#FFBF00; --looks:#9966FF; --sensing:#5CB1D6; --vars:#FF8C1A; --ops:#59C059;
+  --mono:"Cascadia Code",Consolas,"Courier New",monospace;
 }
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 120px; }
-body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 17px; line-height: 1.55; }
-.wrap { max-width: 1060px; margin: 0 auto; padding: 0 16px; }
-h1, h2, h3, h4 { line-height: 1.2; margin: 0; }
-p { margin: 0 0 12px; }
-ul, ol { margin: 0 0 12px; padding-left: 22px; }
-p code, li code, td code, .fb code { background: #E4E6F6; padding: 1px 6px; border-radius: 6px; font-family: var(--mono); font-size: .92em; }
-a { color: #4936B8; }
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Atkinson Hyperlegible",system-ui,sans-serif;font-size:19px;line-height:1.5}
+button{font:inherit;cursor:pointer}
+code{font-family:var(--mono);background:#efe7df;border-radius:6px;padding:0 6px;font-size:.92em}
+header{position:sticky;top:0;z-index:10;background:var(--maroon);color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.bar{display:flex;align-items:center;gap:12px;padding:10px 16px;max-width:1200px;margin:0 auto}
+.bar h1{font-size:18px;margin:0;font-weight:700;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.timer{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.14);border-radius:10px;padding:4px 8px}
+.timer span{font-variant-numeric:tabular-nums;font-weight:700;min-width:54px;text-align:center}
+.timer button,.iconbtn{background:#fff;color:var(--maroon);border:0;border-radius:8px;padding:4px 10px;font-weight:700;font-size:15px}
+.timer.done span{color:var(--gold)}
+nav.steps{display:flex;gap:6px;overflow-x:auto;padding:0 16px 10px;max-width:1200px;margin:0 auto;scrollbar-width:thin}
+nav.steps button{flex:0 0 auto;border:2px solid rgba(255,255,255,.35);background:transparent;color:#fff;border-radius:999px;padding:5px 12px;font-size:15px;white-space:nowrap}
+nav.steps button.on{background:#fff;color:var(--maroon);border-color:#fff;font-weight:700}
+nav.steps button.seen:not(.on){border-color:var(--gold)}
+.progress{height:5px;background:rgba(255,255,255,.2)}
+.progress i{display:block;height:100%;background:var(--gold);width:0;transition:width .3s}
+main{max-width:1100px;margin:0 auto;padding:22px 16px 110px}
+section{display:none;animation:fade .25s}
+section.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1}}
+h2{font-size:32px;margin:0 0 4px;color:var(--maroon)}
+.sub{color:var(--muted);margin:0 0 18px}
+.mins{display:inline-block;background:#f3e6e8;color:var(--maroon);border-radius:999px;padding:2px 12px;font-size:15px;font-weight:700;margin-bottom:8px}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:0 1px 0 rgba(0,0,0,.03);min-width:0}
+.card h3{margin:0 0 6px;font-size:21px}
+.card p{margin:6px 0}
+.big{font-size:22px}
+.btn{background:var(--maroon);color:#fff;border:0;border-radius:12px;padding:10px 18px;font-weight:700}
+.btn.alt{background:#fff;color:var(--maroon);border:2px solid var(--maroon)}
+.btn.sm{padding:5px 12px;font-size:16px;border-radius:10px}
+.btn:disabled{opacity:.4;cursor:default}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.two{display:grid;gap:16px;grid-template-columns:1.25fr 1fr}
+.two > *{min-width:0}
+.two.even{grid-template-columns:1fr 1fr}.two.pzgrid{grid-template-columns:.85fr 1.15fr}
+.opts{grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr))}
+@media (max-width:820px){.two,.two.even,.two.pzgrid{grid-template-columns:1fr}h2{font-size:26px}}
+@media (max-width:600px){.bar{flex-wrap:wrap}.bar h1{flex-basis:100%;font-size:15px}#fs{display:none}html,body{font-size:17px}}
+.do{background:#fff7e0;border:2px dashed #e8c35a;border-radius:14px;padding:10px 14px;margin:0 0 14px}
+.do b.h{display:block;color:#7a5a00}
+.do ol{margin:4px 0 0;padding-left:22px}
+.badge{display:inline-block;border-radius:6px;padding:1px 8px;font-size:14px;font-weight:700;color:#fff;margin-right:4px}
+kbd{background:#fff;border:1px solid #ccc;border-bottom-width:3px;border-radius:6px;padding:0 6px;font-size:15px}
+details.teacher{margin-top:20px;background:#f3eee8;border-radius:12px;padding:10px 14px;color:#3d3943;font-size:16px}
+details.teacher summary{cursor:pointer;font-weight:700;color:var(--maroon)}
+.foot{position:fixed;bottom:0;left:0;right:0;background:rgba(251,247,242,.96);border-top:1px solid var(--line);z-index:9}
+.foot .in2{max-width:1100px;margin:0 auto;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.foot .where{color:var(--muted);font-size:15px;text-align:center;flex:1}
+.map{display:grid;gap:8px}
+.map button{display:flex;justify-content:space-between;align-items:center;text-align:left;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+.map button:hover{border-color:var(--maroon)}
+.map b{color:var(--maroon);white-space:nowrap;margin-left:10px}
+.reveal{display:none;margin-top:8px;background:#fff7e0;border-radius:10px;padding:8px 12px;font-weight:700}
+.reveal.show{display:block}
 
-/* Header */
-header.hero { padding: 36px 0 10px; }
-.eyebrow { font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
-header.hero h1 { font-size: clamp(30px, 5vw, 46px); }
-header.hero p.lead { font-size: 19px; color: var(--muted); max-width: 760px; margin-top: 12px; }
-.chips { display: flex; flex-wrap: wrap; gap: 10px; }
-.chip { display: inline-block; padding: 6px 14px; border-radius: 999px; font-weight: 700; font-size: 14px; box-shadow: var(--clay-sm); }
-.chip.mono { font-family: var(--mono); font-weight: 600; }
-.peach { background: var(--peach); } .mint { background: var(--mint); } .lilac { background: var(--lilac); }
-.butter { background: var(--butter); } .sky { background: var(--sky); } .plain { background: var(--card); }
+/* code */
+pre.code{margin:0;background:var(--code-bg);color:var(--code-ink);border-radius:14px;padding:12px 0;overflow-x:auto;font-family:var(--mono);font-size:16px;line-height:1.6}
+pre.code .ln{display:block;padding:0 16px 0 0;white-space:pre;min-height:1.6em;width:max-content;min-width:100%;position:relative}
+pre.code .ln::before{content:attr(data-n);display:inline-block;width:38px;padding-right:12px;text-align:right;color:#6e74a3;user-select:none}
+.t-kw{color:var(--tok-kw);font-weight:700}.t-fn{color:var(--tok-fn)}.t-str{color:var(--tok-str)}.t-num{color:var(--tok-num)}.t-com{color:var(--code-dim);font-style:italic}
+pre.levels .ln{padding-right:46px}
+pre.levels .ln[data-l="1"]{background:var(--l1)}pre.levels .ln[data-l="2"]{background:var(--l2)}pre.levels .ln[data-l="3"]{background:var(--l3)}
+pre.levels .ln::after{content:attr(data-badge);position:absolute;right:12px;font-family:system-ui,sans-serif;font-size:11px;font-weight:700;color:#c9cdeb}
+pre.code .ln.new{background:rgba(255,217,122,.22);box-shadow:inset 4px 0 0 var(--gold);padding-right:52px}
+pre.code .ln.new::after{content:"NEW";position:absolute;right:12px;font-family:system-ui,sans-serif;font-size:11px;font-weight:700;color:var(--gold)}
+pre.code .ln.cur{background:rgba(255,209,102,.32);box-shadow:inset 4px 0 0 var(--gold)}
+pre.click .ln{cursor:pointer}
+pre.click .ln:hover{background:rgba(255,255,255,.08)}
+pre.click .ln.sel{background:rgba(255,209,102,.32);box-shadow:inset 4px 0 0 var(--gold)}
+pre.click .ln.par{background:rgba(92,177,214,.25)}
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;font-size:15px}
+.legend span{padding:2px 10px;border-radius:999px;font-weight:700}
 
-/* Sticky bar */
-.bar { position: sticky; top: 0; z-index: 20; background: rgba(238,240,250,.95); backdrop-filter: blur(6px); padding: 10px 0 8px; border-bottom: 1px solid #E0E3F3; }
-.bar .wrap { display: flex; flex-direction: column; gap: 8px; }
-.bar-top { display: flex; align-items: center; gap: 12px; }
-.progress { flex: 1; height: 12px; border-radius: 999px; background: var(--card); box-shadow: var(--press); overflow: hidden; }
-.progress span { display: block; height: 100%; width: 0; background: var(--mint); border-radius: 999px; transition: width .3s; }
-.bar-top .ptxt { font-size: 14px; font-weight: 700; white-space: nowrap; }
-.steps-nav { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; }
-.steps-nav a { flex: none; text-decoration: none; color: var(--ink); font-weight: 700; font-size: 14px; padding: 6px 12px; border-radius: 999px; background: var(--card); box-shadow: var(--clay-sm); }
-.steps-nav a.done { background: var(--mint); }
-.steps-nav a.meet { background: transparent; box-shadow: none; color: var(--muted); padding-left: 4px; padding-right: 2px; }
-.toggle { font: inherit; font-size: 13px; font-weight: 700; border: 0; cursor: pointer; border-radius: 999px; padding: 6px 12px; background: var(--card); color: var(--ink); box-shadow: var(--clay-sm); white-space: nowrap; }
-.toggle[aria-pressed="true"] { background: var(--butter); box-shadow: var(--press); }
+/* Scratch blocks */
+.script{display:inline-flex;flex-direction:column;gap:3px;margin:6px 0;font-size:16px;font-family:system-ui,sans-serif}
+.blk{display:inline-block;color:#fff;border-radius:6px;padding:5px 10px;font-weight:700;width:max-content;max-width:100%;box-shadow:inset 0 -2px 0 rgba(0,0,0,.18)}
+.blk.hat{border-radius:16px 16px 6px 6px;padding-top:9px}
+.blk .v{background:#fff;color:#333;border-radius:999px;padding:0 8px;margin:0 2px}
+.blk .r{background:rgba(0,0,0,.18);border-radius:999px;padding:0 8px;margin:0 2px}
+.in{margin-left:22px;display:flex;flex-direction:column;gap:3px;border-left:12px solid var(--control);padding:3px 0 3px 4px;border-radius:0 0 0 6px}
+.ev{background:var(--events);color:#3b2a00}.co{background:var(--control);color:#3b2a00}.lo{background:var(--looks)}.se{background:var(--sensing)}.va{background:var(--vars)}
 
-/* Overview */
-.overview { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin: 22px 0 6px; }
-.overview .card { margin: 0; }
-.plan-list { list-style: none; padding: 0; margin: 10px 0 0; }
-.plan-list li { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px dashed var(--line); }
-.plan-list li:last-child { border-bottom: 0; }
-.plan-list a { text-decoration: none; color: var(--ink); font-weight: 600; }
-.plan-list .min { color: var(--muted); font-size: 14px; white-space: nowrap; }
+/* choices */
+.opts{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin-top:12px}
+.opt{text-align:left;background:#fff;border:2px solid var(--line);border-radius:12px;padding:12px 14px;white-space:pre-line;color:var(--ink)}
+.opt.mono{font-family:var(--mono);font-size:16px}
+.opt:hover:not(:disabled){border-color:var(--maroon)}
+.opt:disabled{cursor:default}
+.opt.right{border-color:var(--ok);background:#e9f7ef}
+.opt.wrong{border-color:var(--bad);background:#fdecea}
+.feedback{min-height:28px;margin-top:10px;font-weight:700}
+.fb{margin-top:12px;border-radius:12px;padding:10px 14px}
+.fb.ok{background:#e9f7ef;color:#155c34}.fb.no{background:#fdecea;color:#8e2a1f}
+.fb b{display:block}
+.monitors{display:flex;gap:10px;flex-wrap:wrap}
+.mon{display:inline-flex;align-items:center;gap:8px;background:#f2f2f2;border:1px solid #ccc;border-radius:6px;padding:4px 6px;font-weight:700;font-size:16px;font-family:var(--mono)}
+.mon b{background:var(--vars);color:#fff;border-radius:4px;padding:1px 10px;min-width:34px;text-align:center;transition:transform .2s}
+.mon b.pop{transform:scale(1.35)}
 
-/* Cards and steps */
-.card { background: var(--card); border-radius: 26px; box-shadow: var(--clay); padding: 26px; margin-bottom: 24px; }
-.card h3 { font-size: 22px; margin-bottom: 6px; }
-.sub { color: var(--muted); margin-bottom: 14px; }
-.meeting { margin: 44px 0 16px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-.meeting h2 { font-size: clamp(26px, 4vw, 34px); }
-section.step { margin-bottom: 30px; }
-.step-head { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
-.step-no { flex: none; width: 54px; height: 54px; border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 800; box-shadow: var(--clay-sm); }
-.step-head .t { flex: 1; min-width: 220px; }
-.step-head h2 { font-size: clamp(22px, 3.4vw, 28px); }
-.step-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
-.meta { font-size: 13px; font-weight: 700; padding: 3px 10px; border-radius: 999px; background: #E4E6F6; }
-.done-btn { margin-top: 6px; }
-.done-btn[aria-pressed="true"] { background: var(--mint); box-shadow: var(--press); }
-.doing { background: var(--card); border-radius: 18px; box-shadow: var(--clay-sm); padding: 14px 18px; margin-bottom: 18px; }
-.doing b { display: block; margin-bottom: 4px; }
-.doing ol { margin: 0; }
-.tnote { display: none; background: #FFF5D1; border: 2px dashed #E3BE4F; border-radius: 16px; padding: 12px 16px; margin: 14px 0; font-size: 15px; }
-.tnote::before { content: "Teacher note"; display: block; font-weight: 800; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 4px; color: #8A6A00; }
-body.teacher .tnote { display: block; }
-.task { margin-top: 22px; padding-top: 20px; border-top: 2px dashed var(--line); }
-.task h4 { font-size: 18px; margin: 0 0 10px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-.tag { font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; padding: 3px 10px; border-radius: 999px; }
-.file { font-family: var(--mono); font-size: 14px; font-weight: 700; padding: 5px 12px; border-radius: 10px; background: var(--code-bg); color: #fff; }
-.act-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+/* runner */
+.runner{margin-top:12px;background:#20233a;border-radius:14px;overflow:hidden}
+.runner-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 10px;background:#1a1c30}
+.runner-bar .name{color:#c9cdeb;font-family:var(--mono);font-size:14px;font-weight:700;margin-right:auto}
+.rbtn{border:0;border-radius:999px;padding:6px 14px;font-size:15px;font-weight:700;background:#e4e6f6;color:var(--ink)}
+.rbtn.run{background:#8fd9b6}
+.rbtn:disabled{opacity:.6;cursor:wait}
+.editor{display:flex;background:var(--code-bg)}
+.gutter{flex:none;width:44px;padding:10px 10px 10px 0;text-align:right;color:#6e74a3;font-family:var(--mono);font-size:16px;line-height:1.6;user-select:none;overflow:hidden;white-space:pre}
+.editor textarea{flex:1;min-width:0;border:0;resize:vertical;background:transparent;color:var(--code-ink);font-family:var(--mono);font-size:16px;line-height:1.6;padding:10px 12px 10px 4px;outline:none;white-space:pre;overflow:auto;tab-size:4;caret-color:var(--gold)}
+.inputs-row{display:none;padding:8px 12px;background:#262a44;color:#c9cdeb;font-size:15px;gap:10px;align-items:flex-start;flex-wrap:wrap}
+.inputs-row.show{display:flex}
+.inputs-row textarea{flex:1;min-width:140px;height:62px;border-radius:8px;border:0;padding:6px 10px;font-family:var(--mono);font-size:15px;background:#1a1c30;color:var(--code-ink)}
+.out-head{padding:5px 12px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8c92c4;background:#15172a;display:flex;justify-content:space-between}
+.out{margin:0;min-height:48px;max-height:280px;overflow:auto;padding:8px 12px 12px;background:#15172a;color:#e6e8f8;font-family:var(--mono);font-size:15px;line-height:1.55;white-space:pre-wrap}
+.out .in{color:var(--gold)}.out .err{color:#ff9d85}.out .note{color:#8c92c4;font-style:italic}.out .okn{color:#8fd9b6}
 
-/* Activity tabs */
-.tabs { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; }
-.tabs button { font: inherit; font-weight: 700; font-size: 15px; border: 0; cursor: pointer; border-radius: 14px; padding: 9px 16px; background: var(--card); color: var(--ink); box-shadow: var(--clay-sm); }
-.tabs button[aria-selected="true"] { box-shadow: var(--press); background: #E4E6F6; }
-.tabs button .tick { margin-left: 6px; color: var(--ok-ink); }
+/* parsons */
+.pz{display:flex;flex-direction:column;gap:6px}
+.pline{display:flex;align-items:center;gap:6px;background:#fff;border:2px solid var(--line);border-radius:10px;padding:4px 6px}
+.pline .ctl{display:flex;gap:4px;flex:none}
+.pline .ctl button{border:1px solid var(--line);background:#f7f2ec;border-radius:8px;width:34px;height:32px;font-weight:700;color:var(--maroon);padding:0}
+.pline code{flex:1;min-width:0;background:none;padding:0;font-size:14.5px;white-space:pre;overflow-x:auto}
+@media (max-width:600px){.pline code{font-size:13px}.pline .ctl button{width:30px}}
+.pline .lvl{flex:none;font-size:13px;font-weight:700;color:var(--muted);width:30px;text-align:center}
+.pline.good{border-color:var(--ok);background:#eef8f1}
+.pline.badp{border-color:var(--bad);background:#fdecea}
 
-/* Code blocks */
-pre.code { margin: 0; background: var(--code-bg); color: var(--code-ink); border-radius: 18px; padding: 14px 0; overflow-x: auto; font-family: var(--mono); font-size: 15px; line-height: 1.6; box-shadow: var(--clay-sm); }
-pre.code .ln { display: block; padding: 0 18px 0 0; white-space: pre; min-height: 1.6em; width: max-content; min-width: 100%; }
-pre.code .ln::before { content: attr(data-n); display: inline-block; width: 40px; padding-right: 12px; text-align: right; color: #6E74A3; user-select: none; }
-.t-kw { color: var(--tok-kw); font-weight: 700; } .t-fn { color: var(--tok-fn); } .t-str { color: var(--tok-str); }
-.t-num { color: var(--tok-num); } .t-com { color: var(--code-dim); font-style: italic; }
-pre.levels .ln { position: relative; padding-right: 46px; }
-pre.levels .ln[data-l="1"] { background: rgba(255,176,136,.13); }
-pre.levels .ln[data-l="2"] { background: rgba(143,217,182,.16); }
-pre.levels .ln[data-l="3"] { background: rgba(195,180,245,.22); }
-pre.levels .ln::after { content: attr(data-badge); position: absolute; right: 12px; font-family: var(--sans); font-size: 11px; font-weight: 800; color: #C9CDEB; }
-pre.code .ln.new { background: rgba(255,217,122,.22); box-shadow: inset 4px 0 0 var(--butter); }
-pre.code .ln.new::after { content: "NEW"; position: absolute; right: 12px; font-family: var(--sans); font-size: 11px; font-weight: 800; color: var(--butter); }
-pre.code .ln.new { position: relative; padding-right: 50px; }
-pre.bug .ln { cursor: pointer; }
-pre.bug .ln:hover { background: rgba(255,255,255,.08); }
-pre.bug .ln:focus-visible { outline: 2px solid var(--butter); outline-offset: -2px; }
-pre.bug .ln.picked-no { background: rgba(255,120,90,.28); }
-pre.bug .ln.picked-ok { background: rgba(143,217,182,.32); }
-.legend { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0 0; font-size: 14px; }
-.legend span { padding: 4px 12px; border-radius: 999px; font-weight: 700; }
+/* player */
+.panel{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:12px}
+.panel h4{margin:0 0 6px;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.say{min-height:52px}
+.vars{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px}
+.var{background:#f2f2f2;border-radius:10px;padding:6px 10px;transition:background .3s}
+.var .k{font-family:var(--mono);font-size:13px;color:var(--muted)}
+.var .v{font-family:var(--mono);font-size:20px;font-weight:700}
+.var.changed{background:var(--gold)}
+.pout{margin:0;min-height:80px;max-height:200px;overflow:auto;background:#15172a;color:#e6e8f8;border-radius:10px;padding:8px 10px;font-family:var(--mono);font-size:15px;white-space:pre-wrap}
 
-/* Runner */
-.runner { margin-top: 14px; background: #262946; border-radius: 20px; box-shadow: var(--clay-sm); overflow: hidden; }
-.runner-bar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding: 10px 12px; background: #20233D; }
-.runner-bar .name { color: #C9CDEB; font-family: var(--mono); font-size: 13px; font-weight: 700; margin-right: auto; }
-.rbtn { font: inherit; font-size: 14px; font-weight: 700; border: 0; cursor: pointer; border-radius: 999px; padding: 7px 14px; color: var(--ink); background: #E4E6F6; }
-.rbtn.run { background: var(--mint); }
-.rbtn:disabled { opacity: .6; cursor: wait; }
-.rbtn:focus-visible { outline: 3px solid var(--butter); outline-offset: 2px; }
-.editor { display: flex; background: var(--code-bg); }
-.gutter { flex: none; width: 46px; padding: 12px 10px 12px 0; text-align: right; color: #6E74A3; font-family: var(--mono); font-size: 15px; line-height: 1.6; user-select: none; overflow: hidden; white-space: pre; }
-.editor textarea { flex: 1; min-width: 0; border: 0; resize: vertical; background: transparent; color: var(--code-ink); font-family: var(--mono); font-size: 15px; line-height: 1.6; padding: 12px 14px 12px 4px; outline: none; white-space: pre; overflow: auto; tab-size: 4; caret-color: var(--butter); }
-.editor textarea:focus { background: rgba(255,255,255,.03); }
-.inputs-row { display: none; padding: 10px 14px; background: #2A2D4C; color: #C9CDEB; font-size: 14px; gap: 10px; align-items: flex-start; flex-wrap: wrap; }
-.inputs-row.show { display: flex; }
-.inputs-row textarea { flex: 1; min-width: 160px; height: 64px; border-radius: 10px; border: 0; padding: 6px 10px; font-family: var(--mono); font-size: 14px; background: #1E2138; color: var(--code-ink); }
-.out-head { padding: 6px 14px; font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #8C92C4; background: #1A1C30; display: flex; justify-content: space-between; }
-.out { margin: 0; min-height: 52px; max-height: 300px; overflow: auto; padding: 10px 14px 14px; background: #1A1C30; color: #E6E8F8; font-family: var(--mono); font-size: 14.5px; line-height: 1.55; white-space: pre-wrap; }
-.out .in { color: var(--butter); }
-.out .err { color: #FF9D85; }
-.out .note { color: #8C92C4; font-style: italic; }
-.out .okn { color: var(--mint); }
+/* checklist */
+.check{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:12px}
+.check.done{background:#eef8f1;border-color:#bfe3cc}
+.check .top{display:flex;gap:12px;align-items:flex-start}
+.check input{width:26px;height:26px;margin-top:3px;accent-color:var(--ok);flex:0 0 auto}
+.check .t{font-weight:700}
+.tbl{width:100%;border-collapse:collapse;font-size:17px;background:#fff;border-radius:12px;overflow:hidden}
+.tbl th,.tbl td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3e6e8;color:var(--maroon)}
+.tbl td.m{font-family:var(--mono);font-size:15px}
+.tbl tr.hid td{color:transparent;background:#f6f1eb}
+.tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
 
-/* Choices */
-.q { font-weight: 700; margin: 12px 0 10px; }
-.opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; }
-button.opt { font: inherit; text-align: left; border: 0; cursor: pointer; background: var(--card); color: var(--ink); border-radius: 16px; padding: 12px 16px; box-shadow: var(--clay-sm); white-space: pre-line; }
-button.opt.mono { font-family: var(--mono); font-size: 15px; }
-button.opt:hover:not(:disabled) { background: #fff; }
-button.opt:focus-visible, .btn:focus-visible, .toggle:focus-visible { outline: 3px solid #6B5BD6; outline-offset: 2px; }
-button.opt:disabled { cursor: default; }
-button.opt.ok { background: var(--ok-bg); box-shadow: var(--press); }
-button.opt.no { background: var(--no-bg); box-shadow: var(--press); }
-.fb { margin-top: 14px; padding: 14px 16px; border-radius: 16px; }
-.fb.ok { background: var(--ok-bg); color: var(--ok-ink); }
-.fb.no { background: var(--no-bg); color: var(--no-ink); }
-.fb b.word { display: block; margin-bottom: 4px; }
-.fb pre.code { margin-top: 10px; }
-.btn { font: inherit; font-weight: 700; border: 0; cursor: pointer; border-radius: 999px; padding: 10px 20px; color: var(--ink); box-shadow: var(--clay-sm); background: var(--card); }
-.btn:active { box-shadow: var(--press); }
-.row-btns { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 14px; }
-details.answer { margin-top: 12px; }
-details.answer summary { cursor: pointer; font-weight: 700; display: inline-block; padding: 8px 16px; border-radius: 999px; background: var(--card); box-shadow: var(--clay-sm); }
-details.answer[open] summary { margin-bottom: 12px; }
+.kwrow{display:flex;flex-wrap:wrap;gap:8px;align-items:flex-start;margin:6px 0 16px}
+.kwlab{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:7px;margin-right:2px}
+.kw{background:#fff;border:2px solid #e3c9cd;border-radius:12px;padding:5px 12px;text-align:left;color:var(--ink);max-width:340px}
+.kw b{color:var(--maroon)}
+.kw span{display:none;font-size:15px;color:var(--ink);margin-top:2px}
+.kw[aria-expanded="true"]{background:#fff7e0;border-color:#e8c35a}
+.kw[aria-expanded="true"] span{display:block}
 
-/* Layout */
-.two { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; align-items: start; }
-.two > * { min-width: 0; }
-@media (max-width: 800px) { .two, .overview { grid-template-columns: 1fr; } .card { padding: 20px; border-radius: 22px; } }
-@media (max-width: 600px) { pre.code, .editor textarea, .gutter { font-size: 13.5px; } }
-
-/* Tables */
-.tbl-wrap { overflow-x: auto; border-radius: 16px; box-shadow: var(--clay-sm); }
-table { border-collapse: collapse; width: 100%; background: var(--card); font-size: 15px; }
-th, td { padding: 9px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
-th { background: var(--lilac); font-weight: 800; }
-td.mono { font-family: var(--mono); }
-tr.hidden-row td { color: transparent; background: #E9EBF8; }
-
-.nest { border-radius: 20px; padding: 14px 16px; font-weight: 700; font-family: var(--mono); font-size: 15px; }
-.nest .nest { margin-top: 10px; }
-.nest small { font-family: var(--sans); font-weight: 600; color: var(--muted); display: block; font-size: 14px; }
-.flow { width: 100%; height: auto; display: block; }
-.flow-wrap { background: var(--card); border-radius: 20px; box-shadow: var(--clay-sm); padding: 12px; }
-
-/* Video */
-.video { position: relative; width: 100%; aspect-ratio: 16 / 9; border-radius: 20px; overflow: hidden; box-shadow: var(--clay-sm); background: var(--code-bg); }
-.video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
-
-/* Player */
-.player { display: grid; grid-template-columns: 1.25fr 1fr; gap: 18px; }
-.player > * { min-width: 0; }
-@media (max-width: 800px) { .player { grid-template-columns: 1fr; } }
-pre.code .ln.cur { background: rgba(255,217,122,.30); box-shadow: inset 4px 0 0 var(--butter); }
-.panel { background: var(--card); border-radius: 18px; box-shadow: var(--clay-sm); padding: 14px 16px; margin-bottom: 14px; }
-.panel h4 { font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
-.vars { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; }
-.var { background: #E9EBF8; border-radius: 12px; padding: 8px 10px; transition: background .3s; }
-.var .k { font-family: var(--mono); font-size: 13px; color: var(--muted); }
-.var .v { font-family: var(--mono); font-size: 20px; font-weight: 700; }
-.var.changed { background: var(--butter); }
-.say { font-size: 16px; min-height: 48px; }
-.pout { margin: 0; min-height: 90px; max-height: 220px; overflow: auto; background: #1A1C30; color: #E6E8F8; border-radius: 14px; padding: 10px 12px; font-family: var(--mono); font-size: 14px; white-space: pre-wrap; }
-.controls { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 12px; }
-.controls .count { font-weight: 700; font-size: 14px; margin-left: auto; }
-.controls select { font: inherit; font-size: 14px; border-radius: 999px; border: 0; padding: 7px 10px; background: var(--card); box-shadow: var(--clay-sm); }
-
-/* Quiz */
-.qz { padding: 18px 0; border-bottom: 2px dashed var(--line); }
-.qz:last-of-type { border-bottom: 0; }
-.score { position: sticky; bottom: 16px; margin-top: 18px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; background: var(--butter); border-radius: 20px; padding: 14px 20px; box-shadow: var(--clay); font-weight: 800; font-size: 18px; z-index: 5; }
-.result { display: none; text-align: center; padding: 10px 0 4px; }
-.result.show { display: block; }
-.result .big { font-size: 48px; font-weight: 800; }
-
-footer { margin: 40px 0; color: var(--muted); font-size: 14px; text-align: center; }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .progress span, .var { transition: none; } }
+.tnotes{display:none;background:#fffdf7;border:2px solid #e8c35a;border-radius:16px;padding:14px 16px;font-size:16px;line-height:1.5;align-self:start;position:sticky;top:122px;max-height:calc(100vh - 210px);overflow:auto}
+.tnotes .tn-head{font-weight:700;color:#7a5a00;text-transform:uppercase;letter-spacing:.06em;font-size:13px;margin-bottom:4px}
+.tnotes h4{margin:12px 0 4px;color:var(--maroon);font-size:16px}
+.tnotes p{margin:4px 0}.tnotes ul,.tnotes ol{margin:4px 0;padding-left:20px}
+body.notes main{max-width:1500px}
+body.notes section.on{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:20px}
+body.notes .tnotes{display:block}
+@media (max-width:1100px){body.notes section.on{display:block}body.notes .tnotes{position:static;max-height:none;margin-top:18px}}
+.iconbtn[aria-pressed="true"]{background:var(--gold);color:#3b2a00}
 </style>
 </head>
 <body>
-
-<div class="wrap">
-  <header class="hero">
-    <div class="eyebrow">Golden International School · Year 8 Digital Technologies · Python IV</div>
-    <h1>Nested Control Structures</h1>
-    <p class="lead">Two lessons. In Meeting 1 you review Activities 1 to 5 and learn what nesting is. In Meeting 2 you build a guessing game with attempts, hints and lives. Every program on this page has a <b>Run</b> button, so you can test it here.</p>
-  </header>
-</div>
-
-<div class="bar">
-  <div class="wrap">
-    <div class="bar-top">
-      <div class="progress" aria-hidden="true"><span id="progFill"></span></div>
-      <span class="ptxt" id="progText">0 of 8 steps done</span>
-      <button class="toggle" id="teacherToggle" aria-pressed="false">Teacher notes: off</button>
+<header>
+  <div class="bar">
+    <h1>Year 8 Digital Technologies · Python IV · Nested Control Structures</h1>
+    <div class="timer" id="timer" title="Timer for this part of the lesson">
+      <span id="tleft">1:00</span>
+      <button id="tgo" aria-label="Start or pause timer">Start</button>
+      <button id="treset" aria-label="Reset timer">Reset</button>
     </div>
-    <nav class="steps-nav" aria-label="Lesson steps">
-      <a class="meet" href="#m1">Meeting 1</a>
-      <a href="#s1" data-step="s1">1 Review</a>
-      <a href="#s2" data-step="s2">2 Nesting</a>
-      <a href="#s3" data-step="s3">3 Two kinds</a>
-      <a href="#s4" data-step="s4">4 Plan it</a>
-      <a class="meet" href="#m2">Meeting 2</a>
-      <a href="#s5" data-step="s5">5 Watch it run</a>
-      <a href="#s6" data-step="s6">6 Build the game</a>
-      <a href="#s7" data-step="s7">7 Trace and test</a>
-      <a href="#s8" data-step="s8">8 Quiz</a>
-    </nav>
+    <button class="iconbtn" id="tn" aria-pressed="false" title="Show or hide teacher notes (key: N)">Teacher notes</button>
+    <button class="iconbtn" id="fs" title="Full screen">Full screen</button>
   </div>
-</div>
+  <nav class="steps" id="steps" aria-label="Lesson parts"></nav>
+  <div class="progress"><i id="prog"></i></div>
+</header>
 
-<main class="wrap">
+<main>
 
-  <div class="overview">
+<!-- 0 START -->
+<section data-title="Start" data-min="1">
+  <span class="mins">1 min</span>
+  <h2>Today's lesson</h2>
+  <p class="sub">Last lesson we reviewed Activities 1 to 5. Today: a warm-up challenge, then <b>nested control structures</b>. You will finish with a guessing game that has <b>attempts, hints and lives</b>.</p>
+  <div class="two">
+    <div class="map" id="map"></div>
     <div class="card">
-      <h3>Meeting 1 · 60 minutes</h3>
-      <ul class="plan-list">
-        <li><a href="#s1">Step 1: Review Activities 1 to 5</a><span class="min">20 min</span></li>
-        <li><a href="#s2">Step 2: What is a nested control structure?</a><span class="min">10 min</span></li>
-        <li><a href="#s3">Step 3: Two kinds of nesting</a><span class="min">15 min</span></li>
-        <li><a href="#s4">Step 4: Plan it with pseudocode and a flowchart</a><span class="min">15 min</span></li>
-      </ul>
-    </div>
-    <div class="card">
-      <h3>Meeting 2 · 60 minutes</h3>
-      <ul class="plan-list">
-        <li><a href="#s5">Step 5: Watch it run</a><span class="min">10 min</span></li>
-        <li><a href="#s6">Step 6: Build the game in 4 stages</a><span class="min">25 min</span></li>
-        <li><a href="#s7">Step 7: Trace and test</a><span class="min">15 min</span></li>
-        <li><a href="#s8">Step 8: Score quiz</a><span class="min">10 min</span></li>
-      </ul>
+      <h3>By the end of today you can...</h3>
+      <p>✅ explain what a <b>nested control structure</b> is</p>
+      <p>✅ use <b>indentation</b> to find the <b>nesting level</b> of a line</p>
+      <p>✅ write <b>selection inside iteration</b> and <b>iteration inside selection</b></p>
+      <p>✅ <b>trace</b> nested code and turn <b>pseudocode</b> into Python</p>
+      <p>✅ build the guessing game with lives and check it with <b>test cases</b></p>
+      <p style="margin-top:14px;color:var(--muted);font-size:16px">Click any <b>Key word</b> to see what it means.</p>
+      <p style="color:var(--muted);font-size:16px">How to move: click the buttons at the top, use <b>Next</b> at the bottom, or press <kbd>→</kbd> and <kbd>←</kbd>.</p>
+      <p style="color:var(--muted);font-size:16px">Teams of three: <b>Driver</b> types, <b>Navigator</b> reads and checks, <b>Tracer</b> writes and predicts. Swap at every part marked "Swap".</p>
     </div>
   </div>
+  <aside class="tnotes" aria-label="Teacher notes"><div class="tn-head">Teacher notes</div><h4>Explain</h4><p>Today has two key ideas: <b>nested control structures</b> and the <b>nesting level</b>. Everything else (tracing, pseudocode, test cases) is a skill they already met; today it is used on nested code.</p><p>Press <b>Start</b> on the timer at the start of each part. The page remembers the current part if the browser is refreshed.</p><h4>Real life</h4><p>Before class: click Run on any program once so Python is loaded (first time 10 to 30 seconds). If the school network blocks it, students use <b>Copy</b> and paste into VS Code.</p><h4>Ask the class</h4><p>"Last lesson we saw an <code>if</code> inside a <code>while</code> in Activity 4. Who remembers what the <code>if</code> did?" (It printed Too low or Too high.)</p></aside>
+</section>
 
+<!-- 1 WARM-UP -->
+<section data-title="1. Review: selection and iteration" data-min="7">
+  <span class="mins">7 min</span>
+  <h2>Review: data types, selection and iteration</h2>
+  <div class="kwrow"><span class="kwlab">Key words</span><button class="kw" type="button" aria-expanded="false"><b>variable</b><span>A named place that stores a value, like score or lives.</span></button><button class="kw" type="button" aria-expanded="false"><b>data type</b><span>The kind of value: int, float or str.</span></button><button class="kw" type="button" aria-expanded="false"><b>selection</b><span>Choosing which lines run: if, elif, else.</span></button><button class="kw" type="button" aria-expanded="false"><b>iteration</b><span>Repeating lines: for and while loops.</span></button><button class="kw" type="button" aria-expanded="false"><b>condition</b><span>A question that is True or False, like score >= 80.</span></button></div>
+  <p class="sub">8 questions. You have <b>3 lives</b>. A wrong answer costs a life. Can your team finish with all 3?</p>
   <div class="card">
-    <h3>How to use this page</h3>
-    <p class="sub">Work in your team of three: Driver, Navigator and Tracer. Swap jobs after each step.</p>
-    <div class="two">
-      <ol>
-        <li><b>Predict first.</b> Agree on your answer before you click or run.</li>
-        <li><b>Run to check.</b> Click <b>Run</b> under any program. Change the code and run it again.</li>
-        <li><b>Explain.</b> Say why the answer is correct in one sentence.</li>
-        <li><b>Mark the step as done</b> when your team finishes it.</li>
-      </ol>
-      <div>
-        <p><b>When a program uses <code>input()</code></b>, a box pops up. Type your answer there and click OK. You can also type all your answers in <b>Inputs</b> (one per line) before you click Run.</p>
-        <p><b>If the program does not stop</b>, the runner stops it for you after a few seconds.</p>
-      </div>
+    <div class="row" style="justify-content:space-between">
+      <div class="monitors"><span class="mon">score <b id="qScore">0</b></span><span class="mon">lives <b id="qLives">3</b></span></div>
+      <span id="qNum" style="color:var(--muted)">Question 1 of 8</span>
     </div>
-    <div class="tnote">The code runner loads Python from the internet the first time a student clicks Run (about 10 to 30 seconds). After that it is instant. If the school network blocks it, students can copy the code with the Copy button and paste it into VS Code. Click "Teacher notes: on" in the top bar to show these notes when you project the page.</div>
+    <p class="big" id="qText" style="margin:14px 0 4px"></p>
+    <div id="qCode"></div>
+    <div class="opts" id="qOpts"></div>
+    <div class="feedback" id="qFb"></div>
+    <div class="row" style="margin-top:10px"><button class="btn" id="qNext" disabled>Next question</button><button class="btn alt" id="qAgain">Start again</button></div>
   </div>
+  <div class="card" id="qSecret" style="margin-top:14px;display:none">
+    <h3>Surprise: this quiz is a Python program</h3>
+    <p>Here is the code behind the quiz you just played. Look at the <b>indentation</b>. The <code>if</code> (<b>selection</b>) is inside the <code>while</code> loop (<b>iteration</b>). One control structure inside another is called a <b>nested control structure</b>. That is today's topic.</p>
+    <div data-code="quizcode" data-levels="1"></div>
+  </div>
+  <aside class="tnotes" aria-label="Teacher notes"><div class="tn-head">Teacher notes</div><h4>Explain</h4><p>The quiz itself is the hook. Students play a game with <b>score</b> and <b>lives</b>, then discover the code behind it: a <code>while</code> loop (iteration) with an <code>if</code>/<code>else</code> (selection) inside. They have just <i>used</i> a nested control structure before you name it.</p><p>Play as a whole class: teams agree, show fingers 1 to 4, one student clicks.</p><h4>Real life</h4><p><b>Video game lives.</b> Every game they play works like this: <i>while</i> you still have lives, keep playing; <i>if</i> you get hit, lose a life. That is iteration with selection nested inside.</p><h4>Ask the class</h4><p>After the code appears:</p><ul><li>"Which line takes away a life?" (line 10)</li><li>"How many spaces is it indented?" (8)</li><li>"Which line is the loop? Which is the selection?" (line 5 while; line 7 if)</li></ul><h4>Answers</h4><p>1 str · 2 105 · 3 B · 4 1 to 10 · 5 5 4 3 2 1 · 6 Line 3 · 7 colon · 8 3</p></aside>
+</section>
 
-  <!-- ================= MEETING 1 ================= -->
-  <div class="meeting" id="m1"><span class="chip peach">Meeting 1</span><h2>Review and the idea of nesting</h2></div>
-
-  <section class="step" id="s1">
-    <div class="step-head">
-      <div class="step-no peach">1</div>
-      <div class="t"><h2>Review Activities 1 to 5</h2>
-        <div class="step-meta"><span class="meta">20 minutes</span><span class="meta">Teams of three</span><span class="meta">About 4 minutes per activity</span></div>
-      </div>
-      <button class="btn done-btn" data-done="s1" aria-pressed="false">Mark step 1 as done</button>
-    </div>
+<!-- 2 BOXES -->
+<section data-title="2. Nested control structures" data-min="6">
+  <span class="mins">6 min</span>
+  <h2>Nested control structures</h2>
+  <div class="kwrow"><span class="kwlab">Key words</span><button class="kw" type="button" aria-expanded="false"><b>control structure</b><span>Code that controls which lines run, or how many times: if, for, while.</span></button><button class="kw" type="button" aria-expanded="false"><b>nested control structure</b><span>A control structure inside another control structure.</span></button><button class="kw" type="button" aria-expanded="false"><b>indentation</b><span>The spaces at the start of a line. In Python they show what is inside what.</span></button><button class="kw" type="button" aria-expanded="false"><b>nesting level</b><span>How deep a line is: every 4 spaces of indentation is one level.</span></button></div>
+  <p class="sub">A <b>control structure</b> decides which lines run (<b>selection</b>: <code>if</code>) or how many times they run (<b>iteration</b>: <code>for</code>, <code>while</code>). A <b>nested control structure</b> is a control structure inside another one.</p>
+  <div class="two">
     <div class="card">
-      <div class="doing"><b>For each activity:</b>
-        <ol><li>Read the code. The Navigator reads it aloud.</li><li>Answer the <b>Predict</b> question. Run the code to check.</li><li>Do <b>Find the bug</b>: click the wrong line.</li></ol>
-      </div>
-      <div class="tabs" role="tablist" id="actTabs"></div>
-      <div id="actPanel"></div>
-      <div class="tnote">Project Activity 1 and do it together as a class, then let teams do Activities 2 to 5 on their own. Pause the class after Activity 4 and point out that the if inside the while loop is already nested: that is the bridge to Step 2.</div>
-    </div>
-  </section>
-
-  <section class="step" id="s2">
-    <div class="step-head">
-      <div class="step-no lilac">2</div>
-      <div class="t"><h2>What is a nested control structure?</h2>
-        <div class="step-meta"><span class="meta">10 minutes</span><span class="meta">Whole class</span></div>
-      </div>
-      <button class="btn done-btn" data-done="s2" aria-pressed="false">Mark step 2 as done</button>
-    </div>
-    <div class="card">
-      <p>A <b>control structure</b> controls which lines run and how many times. In Python they are <code>if</code>, <code>for</code> and <code>while</code>.</p>
-      <p>A control structure is <b>nested</b> when it is inside another control structure.</p>
-      <div class="two">
-        <div>
-          <p>The <b>indentation</b> shows the nesting. Each extra 4 spaces is one <b>nesting level</b> deeper.</p>
-          <div class="tbl-wrap">
-            <table>
-              <tr><th>Level</th><th>Indentation</th><th>Where it is</th></tr>
-              <tr><td>0</td><td>0 spaces</td><td>The main program</td></tr>
-              <tr><td>1</td><td>4 spaces</td><td>Inside one control structure</td></tr>
-              <tr><td>2</td><td>8 spaces</td><td>Inside two control structures</td></tr>
-              <tr><td>3</td><td>12 spaces</td><td>Inside three control structures</td></tr>
-            </table>
-          </div>
-          <p style="margin-top:14px">You already wrote nested code in Activity 4. The <code>if</code> is inside the <code>while</code> loop.</p>
-        </div>
-        <div class="nest" style="background:#E9EBF8">while guess != secret: <small>Level 0: the while loop</small>
-          <div class="nest" style="background:#FFE8DA">if guess &lt; secret: <small>Level 1: selection inside the loop</small>
-            <div class="nest" style="background:#DDF5EA">print("Too low") <small>Level 2: runs only when the loop is running AND the guess is too low</small></div>
-          </div>
+      <h3>In Scratch, you could see the nesting</h3>
+      <div class="script">
+        <span class="blk ev hat">when green flag clicked</span>
+        <span class="blk co">forever</span>
+        <div class="in">
+          <span class="blk co">if <span class="r">touching Player?</span> then</span>
+          <div class="in"><span class="blk lo">say <span class="v">Caught you!</span></span></div>
         </div>
       </div>
-      <div class="task">
-        <h4><span class="tag lilac">Check</span> Count the nesting levels</h4>
-        <div data-predict="pLevels"></div>
-      </div>
-      <div class="tnote">Ask students to point at the indentation on their own screens. A useful line: "The more spaces, the deeper inside it is. Python only reaches a deep line if every condition above it lets it in."</div>
+      <p style="font-size:16px;color:var(--muted)">The <b>if</b> block (selection) sits inside the C shape of the <b>forever</b> block (iteration).</p>
     </div>
-  </section>
+    <div class="card">
+      <h3>In Python, indentation shows the nesting</h3>
+      <div data-code="boxes" data-levels="1"></div>
+      <p style="font-size:16px;color:var(--muted);margin-top:8px">Python has no C shapes. <b>Indentation</b> does the same job. Every 4 spaces = one <b>nesting level</b> deeper.</p>
+    </div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>Nesting level spotter: click any line</h3>
+    <div class="do"><b class="h">Navigator: click a line. Tracer: say its level before you read the answer.</b></div>
+    <div class="two">
+      <div id="spotCode"></div>
+      <div>
+        <div class="panel"><h4>This line</h4><div id="spotOut" class="say">Click a line in the code.</div></div>
+        <div class="legend">
+          <span style="background:#eceef8">Level 0: 0 spaces</span>
+          <span style="background:#ffe8da">Level 1: 4 spaces</span>
+          <span style="background:#ddf5ea">Level 2: 8 spaces</span>
+          <span style="background:#ece6fd">Level 3: 12 spaces</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <aside class="tnotes" aria-label="Teacher notes"><div class="tn-head">Teacher notes</div><h4>Explain</h4><p>Define the words in this order:</p><ol><li><b>Control structure</b>: code that controls which lines run (selection) or how many times (iteration).</li><li><b>Nested</b>: one inside another.</li><li><b>Indentation</b>: Python's way of showing what is inside what.</li><li><b>Nesting level</b>: 4 spaces = level 1, 8 = level 2, 12 = level 3.</li></ol><p>Use the Scratch picture: they built with C-shaped blocks for years. Key sentence: <i>"Python has no C shapes. The indentation does the same job."</i></p><h4>Real life</h4><p><b>Airport security.</b> You reach the gate only if you pass check-in, <i>then</i> security, <i>then</i> boarding. Each check is inside the one before. A deep line of code is the same: it only runs if every condition above it lets Python in.</p><p><b>Folders on a computer.</b> Documents › School › Year 8 › Python. Each folder is one level deeper, like indentation.</p><h4>Ask the class</h4><p>In the Level spotter, click line 14, <code>print("Too low")</code>:</p><ul><li>"What level?" (3)</li><li>"What must be True for this line to run?" (The loop is running, the guess is not 7, and the guess is less than 7.)</li></ul><p>Then click line 20: "Why is this line not inside the loop?" (It should run once, after the game ends.)</p></aside>
+</section>
 
-  <section class="step" id="s3">
-    <div class="step-head">
-      <div class="step-no mint">3</div>
-      <div class="t"><h2>Two kinds of nesting</h2>
-        <div class="step-meta"><span class="meta">15 minutes</span><span class="meta">Teams of three</span><span class="meta">Run each program</span></div>
-      </div>
-      <button class="btn done-btn" data-done="s3" aria-pressed="false">Mark step 3 as done</button>
+<!-- 3 TWO KINDS -->
+<section data-title="3. Selection and iteration nested (Swap)" data-min="8">
+  <span class="mins">8 min · Swap driver</span>
+  <h2>Selection and iteration, nested</h2>
+  <div class="kwrow"><span class="kwlab">Key words</span><button class="kw" type="button" aria-expanded="false"><b>selection inside iteration</b><span>An if inside a loop: the choice is made again each time round.</span></button><button class="kw" type="button" aria-expanded="false"><b>iteration inside selection</b><span>A loop inside an if: the loop only runs if the condition is True.</span></button><button class="kw" type="button" aria-expanded="false"><b>condition</b><span>A question that is True or False.</span></button><button class="kw" type="button" aria-expanded="false"><b>Boolean</b><span>A value that is either True or False.</span></button></div>
+  <p class="sub">There are two ways to nest them. <b>Predict</b> first. Then click <b>Run</b> to check.</p>
+  <div class="two even">
+    <div class="card">
+      <h3>A. Selection inside iteration</h3>
+      <p>The <code>for</code> loop repeats (<b>iteration</b>). <b>Each time round</b>, the <code>if</code> checks a <b>condition</b> and chooses (<b>selection</b>).</p>
+      <div data-code="selInLoop" data-levels="1"></div>
+      <div data-predict="pSel"></div>
+      <div data-runner="selInLoop" data-name="even_odd.py" data-hide="1"></div>
     </div>
     <div class="card">
-      <h3>A. Selection inside a loop</h3>
-      <p class="sub">The loop repeats. Each time round, the <code>if</code> makes a choice.</p>
-      <div data-runner="selInLoop" data-levels="1" data-name="even_odd.py"></div>
-      <div data-predict="pSelInLoop"></div>
+      <h3>B. Iteration inside selection</h3>
+      <p>The <code>if</code> checks a <b>condition</b> first (<b>selection</b>). The loop inside <b>only runs if</b> the condition is <code>True</code>.</p>
+      <div data-code="loopInSel" data-levels="1"></div>
+      <div data-predict="pLoop"></div>
+      <div data-runner="loopInSel" data-name="show_table.py" data-hide="1" data-inputs="no"></div>
     </div>
-    <div class="card">
-      <h3>B. A loop inside selection</h3>
-      <p class="sub">The <code>if</code> makes a choice. The loop runs only if the condition is True.</p>
-      <div data-runner="loopInSel" data-levels="1" data-name="show_table.py"></div>
-      <div data-predict="pLoopInSel"></div>
-    </div>
-    <div class="card">
-      <h3>Your turn</h3>
-      <div class="task" style="border-top:0;padding-top:0;margin-top:0">
-        <h4><span class="tag mint">Challenge 1</span> Selection inside a loop</h4>
-        <p>Write a program that counts from 1 to 10. Print <b>fizz</b> instead of the number when the number can be divided by 3. Otherwise print the number.</p>
-        <p class="sub">Hint: <code>i % 3 == 0</code> is True when <code>i</code> can be divided by 3.</p>
-        <div data-runner="ch1Start" data-name="fizz.py"></div>
-        <details class="answer"><summary>Show a possible answer</summary><div data-code="ch1" data-levels="1"></div></details>
-      </div>
-      <div class="task">
-        <h4><span class="tag mint">Challenge 2</span> A loop inside selection</h4>
-        <p>Ask "Start the countdown? (yes or no)". If the answer is yes, count down from 5 to 1 with a for loop, then print "Lift off!". Otherwise print "Countdown cancelled."</p>
-        <div data-runner="ch2Start" data-name="countdown.py"></div>
-        <details class="answer"><summary>Show a possible answer</summary><div data-code="ch2" data-levels="1"></div></details>
-      </div>
-    </div>
-  </section>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>Quick challenge: fizz</h3>
+    <p>Count from 1 to 10. Print <b>fizz</b> instead of the number when it can be divided by 3. Edit the code below and run it.</p>
+    <p style="font-size:16px;color:var(--muted)">Hint: <code>i % 3 == 0</code> is True when i can be divided by 3. You need selection (<code>if</code>/<code>else</code>) nested inside iteration (the <code>for</code> loop).</p>
+    <div data-runner="fizzStart" data-name="fizz.py"></div>
+    <button class="btn alt sm" style="margin-top:10px" data-reveal>Show a possible answer</button>
+    <div class="reveal" style="background:none;padding:0"><div data-code="fizz" data-levels="1"></div></div>
+  </div>
+  <aside class="tnotes" aria-label="Teacher notes"><div class="tn-head">Teacher notes</div><h4>Explain</h4><p>Two patterns, both on the board:</p><ul><li><b>Selection inside iteration</b>: the choice is made <i>again every time round</i> the loop.</li><li><b>Iteration inside selection</b>: the loop runs <i>only if</i> the condition is True.</li></ul><p>Point at the indentation each time: "The loop is inside the if, so it only runs when the if lets it in."</p><h4>Real life</h4><p><b>Selection inside iteration:</b> a teacher marking a stack of tests. <i>For each</i> test (iteration), <i>if</i> the score is 50 or more, write Pass, <i>else</i> write Not yet (selection).</p><p><b>Iteration inside selection:</b> <i>if</i> it starts raining (selection), then <i>for each</i> window in the house, close it (iteration). If it is not raining, no windows get closed at all.</p><h4>Ask the class</h4><ul><li>A: "What is the third line?" (3 is odd, because 3 % 2 is 1)</li><li>B: "The user types no. How many lines?" (1, Maybe next time. The loop never runs.)</li><li>"Give me your own real-life example of each pattern."</li></ul><h4>Fizz answer</h4><p><code>if i % 3 == 0:</code> print fizz, <code>else:</code> print i, both nested inside the for loop. Output: 1 2 fizz 4 5 fizz 7 8 fizz 10.</p></aside>
+</section>
 
-  <section class="step" id="s4">
-    <div class="step-head">
-      <div class="step-no butter">4</div>
-      <div class="t"><h2>Plan it: pseudocode and a flowchart</h2>
-        <div class="step-meta"><span class="meta">15 minutes</span><span class="meta">Tracer writes on paper</span></div>
-      </div>
-      <button class="btn done-btn" data-done="s4" aria-pressed="false">Mark step 4 as done</button>
-    </div>
-    <div class="card">
-      <h3>The plan: a guessing game with lives</h3>
-      <p>The player has <b>3 lives</b>. Each wrong guess gives a hint (too low or too high) and takes away one life. The game ends when the player guesses correctly <b>or</b> has no lives left.</p>
-      <div class="doing"><b>Team task</b>
-        <ol><li>Read the pseudocode. Cover the Level column with your hand and say the level of each line.</li><li>Find each line of the pseudocode on the flowchart.</li><li>The Tracer copies the pseudocode onto paper and marks the nesting levels.</li></ol>
-      </div>
-      <h4 style="margin:18px 0 10px">Pseudocode with nesting levels marked</h4>
-      <div class="tbl-wrap">
-        <table>
-          <tr><th style="width:12%">Level</th><th>Pseudocode</th></tr>
-          <tr><td>0</td><td>Set secret to 7, guess to 0, attempts to 0, lives to 3</td></tr>
-          <tr><td>0</td><td><b>WHILE</b> guess is not secret <b>AND</b> lives is more than 0</td></tr>
-          <tr><td>1</td><td>&nbsp;&nbsp;&nbsp;&nbsp;Ask for a guess. Add 1 to attempts</td></tr>
-          <tr><td>1</td><td>&nbsp;&nbsp;&nbsp;&nbsp;<b>IF</b> guess is secret</td></tr>
-          <tr><td>2</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Print "Correct!" and the number of attempts</td></tr>
-          <tr><td>1</td><td>&nbsp;&nbsp;&nbsp;&nbsp;<b>ELSE</b></td></tr>
-          <tr><td>2</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Take 1 away from lives</td></tr>
-          <tr><td>2</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>IF</b> guess is less than secret</td></tr>
-          <tr><td>3</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Print "Too low"</td></tr>
-          <tr><td>2</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>ELSE</b></td></tr>
-          <tr><td>3</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Print "Too high"</td></tr>
-          <tr><td>2</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Print the lives left</td></tr>
-          <tr><td>0</td><td><b>IF</b> lives is 0, print "Game over" and the secret number</td></tr>
-        </table>
-      </div>
-      <h4 style="margin:22px 0 10px">Flowchart</h4>
-      <p class="sub">The diamonds are decisions. The arrow that goes back up is the loop.</p>
-      <div class="flow-wrap">
-        <svg class="flow" viewBox="0 0 760 640" role="img" aria-label="Flowchart of the guessing game with lives">
-          <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2A2B47"/></marker></defs>
-          <g font-family="Segoe UI, Calibri, Arial, sans-serif" font-size="15" fill="#2A2B47" text-anchor="middle">
-            <rect x="290" y="14" width="180" height="44" rx="22" fill="#C3B4F5"/><text x="380" y="41" font-weight="700">Start</text>
-            <rect x="250" y="84" width="260" height="50" rx="12" fill="#F8F9FF" stroke="#2A2B47" stroke-width="1.5"/><text x="380" y="106">secret = 7, guess = 0</text><text x="380" y="125">attempts = 0, lives = 3</text>
-            <polygon points="380,160 520,215 380,270 240,215" fill="#FFD97A" stroke="#2A2B47" stroke-width="1.5"/><text x="380" y="210">guess != secret</text><text x="380" y="229">and lives &gt; 0?</text>
-            <rect x="250" y="300" width="260" height="50" rx="12" fill="#F8F9FF" stroke="#2A2B47" stroke-width="1.5"/><text x="380" y="322">Ask for a guess</text><text x="380" y="341">attempts = attempts + 1</text>
-            <polygon points="380,374 490,416 380,458 270,416" fill="#FFD97A" stroke="#2A2B47" stroke-width="1.5"/><text x="380" y="421">guess == secret?</text>
-            <rect x="40" y="392" width="170" height="48" rx="12" fill="#8FD9B6"/><text x="125" y="421">Print "Correct!"</text>
-            <rect x="290" y="488" width="180" height="40" rx="12" fill="#F8F9FF" stroke="#2A2B47" stroke-width="1.5"/><text x="380" y="513">lives = lives - 1</text>
-            <polygon points="380,546 480,580 380,614 280,580" fill="#FFD97A" stroke="#2A2B47" stroke-width="1.5"/><text x="380" y="585">guess &lt; secret?</text>
-            <rect x="520" y="560" width="200" height="40" rx="12" fill="#FFB088"/><text x="620" y="585">"Too low" or "Too high"</text>
-            <rect x="578" y="192" width="170" height="48" rx="12" fill="#C3B4F5"/><text x="663" y="213">End: if lives == 0,</text><text x="663" y="231">print "Game over"</text>
-          </g>
-          <g stroke="#2A2B47" stroke-width="1.8" fill="none" marker-end="url(#ah)">
-            <path d="M380 58 V82"/><path d="M380 134 V158"/><path d="M380 270 V298"/><path d="M380 350 V372"/>
-            <path d="M270 416 H212"/><path d="M380 458 V486"/><path d="M380 528 V544"/><path d="M480 580 H518"/>
-            <path d="M520 215 H576"/><path d="M125 392 V215 H238"/><path d="M720 580 H752 V150 H380 V158"/>
-          </g>
-          <g font-family="Segoe UI, Calibri, Arial, sans-serif" font-size="14" font-weight="700" fill="#2A2B47">
-            <text x="392" y="290">True</text><text x="530" y="206">False</text>
-            <text x="228" y="408">True</text><text x="392" y="478">False</text>
-            <text x="560" y="143">back to the loop</text>
-          </g>
-        </svg>
-      </div>
-      <div class="tnote">End of Meeting 1: collect the papers with the annotated pseudocode. In Meeting 2, students turn this plan into code in Step 6.</div>
-    </div>
-  </section>
+<!-- 4 WATCH IT RUN -->
+<section data-title="4. Tracing nested code" data-min="5">
+  <span class="mins">5 min</span>
+  <h2>Tracing nested code: the guessing game with lives</h2>
+  <div class="kwrow"><span class="kwlab">Key words</span><button class="kw" type="button" aria-expanded="false"><b>trace</b><span>Follow the code one line at a time, like the computer does.</span></button><button class="kw" type="button" aria-expanded="false"><b>trace table</b><span>A table that records the value of each variable after each step.</span></button><button class="kw" type="button" aria-expanded="false"><b>logical operator: and</b><span>Joins two conditions. The result is True only if both are True.</span></button></div>
+  <p class="sub"><b>Tracing</b> means following the code one line at a time and keeping track of every <b>variable</b>. The player types <b>3</b>, then <b>9</b>, then <b>7</b>. Before each click on <b>Next step</b>, predict which line runs next.</p>
+  <div class="two" id="player"></div>
+  <aside class="tnotes" aria-label="Teacher notes"><div class="tn-head">Teacher notes</div><h4>Explain</h4><p><b>Tracing</b> is what the computer does: one line at a time, remembering every variable. Run the animation on the projector and click <b>Next step</b> yourself.</p><p>Stop at line 9, <code>if guess == secret</code>: "It is False. Where does Python jump?" (line 11, else). When the guess is 7, show that lines 12 to 17 are skipped completely, because they are nested inside the else.</p><p>Explain <code>and</code>: the loop keeps going only while <b>both</b> conditions are True.</p><h4>Real life</h4><p><b>Video replay (VAR) in football.</b> The referee watches the play frame by frame to see exactly what happened. Tracing is a slow-motion replay of your program.</p><p><b>and</b> is like a ride rule: you can ride <i>if</i> you are tall enough <i>and</i> you have a ticket. Missing either one means no ride.</p><h4>Ask the class</h4><ul><li>Before each click: "Which line runs next?"</li><li>"What happens to lives when the guess is 3?" (3 becomes 2)</li><li>"Why does the loop stop after 7?" (guess != secret is False, so the whole and is False)</li></ul><p style="font-size:15px">Video alternative: "How to Code PYTHON: Implement a Number Guessing Game Using a While Loop" by Coding With Kids (YouTube).</p></aside>
+</section>
 
-  <!-- ================= MEETING 2 ================= -->
-  <div class="meeting" id="m2"><span class="chip mint">Meeting 2</span><h2>Build, trace and test the game</h2></div>
+<!-- 5 PUZZLE -->
+<section data-title="5. Pseudocode to code" data-min="6">
+  <span class="mins">6 min</span>
+  <h2>From pseudocode to code</h2>
+  <div class="kwrow"><span class="kwlab">Key words</span><button class="kw" type="button" aria-expanded="false"><b>algorithm</b><span>A list of steps that solves a problem.</span></button><button class="kw" type="button" aria-expanded="false"><b>pseudocode</b><span>An algorithm written in plain English, with the same structure as code.</span></button><button class="kw" type="button" aria-expanded="false"><b>Parsons puzzle</b><span>A puzzle where you put lines of code in the right order.</span></button></div>
+  <p class="sub"><b>Pseudocode</b> is the plan of an <b>algorithm</b> in plain English. Turn it into Python: the lines are mixed up and have no indentation. Use <b>↑ ↓</b> to put them in order. Use <b>← →</b> to set the <b>nesting level</b>. Then click <b>Check</b>.</p>
+  <div class="two pzgrid">
+    <div class="card">
+      <h3>The plan</h3>
+      <p style="font-size:17px">The first 3 lines are done for you:</p>
+      <pre class="code" style="margin-bottom:10px"><span class="ln" data-n="1">secret = 7</span><span class="ln" data-n="2">guess = 0</span><span class="ln" data-n="3">lives = 3</span></pre>
+      <p style="font-size:17px"><b>Pseudocode with nesting levels</b></p>
+      <div class="tblwrap"><table class="tbl" style="font-size:16px">
+        <tr><th>Level</th><th>Step</th></tr>
+        <tr><td>0</td><td><b>WHILE</b> guess is not secret <b>AND</b> lives &gt; 0</td></tr>
+        <tr><td>1</td><td>&nbsp;&nbsp;Ask for a guess</td></tr>
+        <tr><td>1</td><td>&nbsp;&nbsp;<b>IF</b> guess is secret: print Correct</td></tr>
+        <tr><td>1</td><td>&nbsp;&nbsp;<b>ELSE</b></td></tr>
+        <tr><td>2</td><td>&nbsp;&nbsp;&nbsp;&nbsp;Take 1 away from lives</td></tr>
+        <tr><td>2</td><td>&nbsp;&nbsp;&nbsp;&nbsp;<b>IF</b> guess &lt; secret: print Too low</td></tr>
+        <tr><td>2</td><td>&nbsp;&nbsp;&nbsp;&nbsp;<b>ELSE</b>: print Too high</td></tr>
+      </table></div>
+    </div>
+    <div class="card">
+      <h3>Your code (a Parsons puzzle)</h3>
+      <div class="pz" id="pz"></div>
+      <div class="row" style="margin-top:12px"><button class="btn" id="pzCheck">Check</button><button class="btn alt" id="pzRun">Run my code</button><button class="btn alt" id="pzMix">Mix again</button></div>
+      <div id="pzFb"></div>
+      <div id="pzRunner"></div>
+    </div>
+  </div>
+  <aside class="tnotes" aria-label="Teacher notes"><div class="tn-head">Teacher notes</div><h4>Explain</h4><p>This is a <b>Parsons puzzle</b>: students arrange given lines, so they focus on <b>order</b> and <b>nesting level</b> without typing errors. Research shows novices learn structure faster this way than by typing from scratch.</p><p>Roles: the <b>Tracer</b> reads the pseudocode aloud, the <b>Driver</b> moves lines, the <b>Navigator</b> checks levels. Check marks lines green or red. <b>Run my code</b> runs their version, so a wrong order gives a real error.</p><h4>Real life</h4><p><b>A recipe cut into strips.</b> The steps are all there, but you must put them in order and decide which steps belong <i>under</i> "if the oven is hot". Pseudocode is the recipe; Python is cooking it.</p><h4>Ask the class</h4><ul><li>"Which line has to come first? How do you know?" (the while: everything else repeats)</li><li>"There are two else lines. How do you know which level each one is?" (Each else lines up with its own if.)</li></ul><h4>Answer (line: level)</h4><p>while: 0 · guess = input: 1 · if guess == secret: 1 · print Correct: 2 · else: 1 · lives - 1: 2 · if guess &lt; secret: 2 · print Too low: 3 · else: 2 · print Too high: 3</p></aside>
+</section>
 
-  <section class="step" id="s5">
-    <div class="step-head">
-      <div class="step-no sky">5</div>
-      <div class="t"><h2>Watch it run</h2>
-        <div class="step-meta"><span class="meta">10 minutes</span><span class="meta">Whole class</span></div>
-      </div>
-      <button class="btn done-btn" data-done="s5" aria-pressed="false">Mark step 5 as done</button>
-    </div>
-    <div class="card">
-      <h3>A. Video: a number guessing game with a while loop</h3>
-      <p class="sub">This video builds a simpler version of the game, without lives. Watch how the while loop keeps asking until the guess is correct.</p>
-      <div class="video">
-        <iframe src="https://www.youtube-nocookie.com/embed/071g-1JvMUw?rel=0" title="How to Code Python: Implement a Number Guessing Game Using a While Loop (Coding With Kids)" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe>
-      </div>
-      <p class="sub" style="margin-top:10px">Video: "How to Code PYTHON: Implement a Number Guessing Game Using a While Loop" by Coding With Kids, on YouTube. If it does not play, use the animation below.</p>
-      <div class="tnote">Preview the video before class. If YouTube is blocked on the school network, skip it: the animation below shows the same idea and works without YouTube.</div>
-    </div>
-    <div class="card">
-      <h3>B. Animation: watch Python run the game line by line</h3>
-      <p class="sub">The player types 3, then 9, then 7. Click <b>Next step</b> or <b>Play</b>. Watch the yellow line, the variables and the output.</p>
-      <div class="player" id="player-lives"></div>
-      <div class="tnote">Before each step, ask the class: "Which line will Python run next?" This is the same skill as filling in a trace table in Step 7.</div>
-    </div>
-  </section>
+<!-- 6 BUILD -->
+<section data-title="6. Build and test (Swap)" data-min="18">
+  <span class="mins">18 min · Swap driver after stage 2</span>
+  <h2>Build and test, one stage at a time</h2>
+  <div class="kwrow"><span class="kwlab">Key words</span><button class="kw" type="button" aria-expanded="false"><b>counter</b><span>A variable that goes up by 1 each time, like attempts = attempts + 1.</span></button><button class="kw" type="button" aria-expanded="false"><b>test</b><span>Run the code to check that it does what you expect.</span></button><button class="kw" type="button" aria-expanded="false"><b>debug</b><span>Find and fix an error in the code.</span></button></div>
+  <p class="sub">In VS Code, make one file: <b>guess_lives.py</b>. Add one stage at a time and <b>test</b> it before you add the next. Tick each stage when it works.</p>
+  <div class="do"><b class="h">For each stage</b><ol><li>Read the <b>NEW</b> lines (yellow).</li><li>Tracer: predict the output for the test inputs.</li><li>Driver: add the new lines in VS Code and run.</li><li>Navigator: compare with the prediction. Tick the box.</li></ol></div>
+  <div id="stages"></div>
+  <div class="card" style="margin-top:6px">
+    <h3>Finished early?</h3>
+    <p>⭐ Give the player 5 lives instead of 3.</p>
+    <p>⭐⭐ Make the secret number random: add <code>import random</code> at the top and use <code>secret = random.randint(1, 10)</code>.</p>
+    <p>⭐⭐⭐ The game says "You took 1 attempts". Use a nested <code>if</code> to print "attempt" when attempts is 1.</p>
+  </div>
+  <div class="row" style="margin-top:10px"><button class="btn alt" id="clearChecks">Clear ticks</button></div>
+  <aside class="tnotes" aria-label="Teacher notes"><div class="tn-head">Teacher notes</div><h4>Explain</h4><p>Students build the full game in VS Code, one stage at a time, and test after each stage. This is how programmers really work: small steps, test often, so a bug can only be in the newest lines.</p><p><b>Stage 3 is the key moment.</b> Ask: "Why did <code>elif guess &gt; secret</code> become <code>else</code>?" (Inside the else the guess is already wrong, so it can only be too low or too high.)</p><p>Every team must reach Stage 4. Swap driver after Stage 2.</p><h4>Real life</h4><p><b>Building with LEGO in stages.</b> You check each section is solid before you build on top. <b>Cooking:</b> you taste as you go, not only at the end.</p><h4>Ask the class</h4><p>Walk around with one question: "Point to a line at level 2. What is it nested inside?"</p><h4>Common bugs</h4><ul><li>Missing colon after <code>if</code>, <code>else</code> or <code>while</code>.</li><li><code>print(f"Lives left: {lives}")</code> indented too far, so it only prints for Too high.</li><li>Forgot <code>and lives &gt; 0</code>, so the game never ends.</li><li>Game over <code>if</code> indented inside the loop, so it is checked every turn.</li></ul></aside>
+</section>
 
-  <section class="step" id="s6">
-    <div class="step-head">
-      <div class="step-no peach">6</div>
-      <div class="t"><h2>Build the game in 4 stages</h2>
-        <div class="step-meta"><span class="meta">25 minutes</span><span class="meta">Driver types · Navigator checks · Tracer predicts</span></div>
-      </div>
-      <button class="btn done-btn" data-done="s6" aria-pressed="false">Mark step 6 as done</button>
+<!-- 7 TEST + EXIT -->
+<section data-title="7. Test cases and exit" data-min="9">
+  <span class="mins">9 min</span>
+  <h2>Test cases and exit</h2>
+  <div class="kwrow"><span class="kwlab">Key words</span><button class="kw" type="button" aria-expanded="false"><b>test case</b><span>Inputs to try, plus the output you expect.</span></button><button class="kw" type="button" aria-expanded="false"><b>expected output</b><span>What the program should print if it works.</span></button><button class="kw" type="button" aria-expanded="false"><b>boundary value</b><span>A value at the edge, like 6 or 8 when the secret is 7. Errors often hide here.</span></button></div>
+  <p class="sub">A <b>test case</b> is a set of inputs plus the <b>expected output</b>. Each one below takes a different path through the nested control structures. Run each one in VS Code, then click Show to check.</p>
+  <div class="card">
+    <h3>Test cases</h3>
+    <div class="tblwrap"><table class="tbl" id="tests">
+      <tr><th>Test case</th><th>Inputs</th><th>Path it checks</th><th>Expected output (last line)</th></tr>
+      <tr><td>1 Normal</td><td class="m">3, 9, 7</td><td>wrong, wrong, right</td><td><button class="btn alt sm" data-show>Show</button><span class="reveal">Correct! You took 3 attempts.</span></td></tr>
+      <tr><td>2 First try</td><td class="m">7</td><td>the if runs straight away</td><td><button class="btn alt sm" data-show>Show</button><span class="reveal">Correct! You took 1 attempts.</span></td></tr>
+      <tr><td>3 Lose</td><td class="m">1, 2, 3</td><td>the else runs 3 times</td><td><button class="btn alt sm" data-show>Show</button><span class="reveal">Game over. The number was 7.</span></td></tr>
+      <tr><td>4 Boundary values</td><td class="m">6, 8, 7</td><td>one either side of the secret</td><td><button class="btn alt sm" data-show>Show</button><span class="reveal">Correct! You took 3 attempts. (1 life left)</span></td></tr>
+    </table></div>
+  </div>
+  <div class="two" style="margin-top:14px">
+    <div class="card">
+      <h3>Exit questions</h3>
+      <p style="font-size:16px;color:var(--muted)">Teams say their answer, then click.</p>
+      <div id="exit"></div>
     </div>
     <div class="card">
-      <div class="doing"><b>For each stage:</b>
-        <ol><li>Read the <b>NEW</b> lines (yellow).</li><li>Predict what will change when you run it.</li><li>Run it with the inputs given. Check your prediction.</li><li>Build the same code in VS Code, stage by stage, in one file called <code>guess_lives.py</code>.</li></ol>
-      </div>
-      <div id="stages"></div>
-      <div class="tnote">Stage 3 is the key moment: the if/else is now nested inside the while, and a second if/else is nested inside the else. Ask: "Why did we change elif guess &gt; secret into else?" (Inside the else, the guess is already wrong, so it can only be too low or too high.)</div>
+      <h3>Save</h3>
+      <p class="big">Save your file as <b>Y8_Surname_GuessLives.py</b></p>
+      <p>Next time: we use nested structures to build a bigger program.</p>
+      <div class="do" style="margin-top:12px"><b class="h">Remember</b>A <b>nested control structure</b> is a control structure inside another one. The <b>indentation</b> shows the <b>nesting level</b>.</div>
     </div>
-  </section>
+  </div>
+  <aside class="tnotes" aria-label="Teacher notes"><div class="tn-head">Teacher notes</div><h4>Explain</h4><p>A <b>test case</b> = inputs + <b>expected output</b>. Good testers choose test cases that take <b>every path</b> through the nested code: the if, the else, the inner if and the inner else.</p><p>Test 2 (typing 7) shows "1 attempts": a good hook for the three-star challenge (a nested if to print "attempt").</p><h4>Real life</h4><p><b>The Ride Gate from earlier this term:</b> testing a height limit of 120 cm with a normal value, a <b>boundary value</b> (exactly 120) and an extreme value. Here, 6 and 8 are boundary values because they sit right next to the secret.</p><p><b>Car safety tests:</b> engineers crash-test the car from the front, the side and the back. Each test checks a different path.</p><h4>Ask the class</h4><ul><li>"Which test case makes the inner else run?" (any guess above 7, such as 9 or 8)</li><li>"Which test case never takes away a life?" (Test 2: 7)</li></ul><h4>Exit answers</h4><ol><li>A control structure inside another, such as an if inside a while.</li><li>Level 3: 12 spaces, inside the inner if, inside the else, inside the while.</li><li>When the guess is correct OR lives reaches 0.</li></ol></aside>
+</section>
 
-  <section class="step" id="s7">
-    <div class="step-head">
-      <div class="step-no lilac">7</div>
-      <div class="t"><h2>Trace and test</h2>
-        <div class="step-meta"><span class="meta">15 minutes</span><span class="meta">Tracer leads</span></div>
-      </div>
-      <button class="btn done-btn" data-done="s7" aria-pressed="false">Mark step 7 as done</button>
-    </div>
-    <div class="card">
-      <h3>A. Nested trace table</h3>
-      <p class="sub">The player types 3, then 9, then 7. Predict each row on paper, then click to check it.</p>
-      <div class="tbl-wrap">
-        <table id="trace">
-          <tr><th>guess</th><th>attempts</th><th>guess == secret?</th><th>lives</th><th>guess &lt; secret?</th><th>Output</th></tr>
-          <tr class="hidden-row"><td class="mono">3</td><td>1</td><td>False</td><td>2</td><td>True</td><td class="mono">Too low<br>Lives left: 2</td></tr>
-          <tr class="hidden-row"><td class="mono">9</td><td>2</td><td>False</td><td>1</td><td>False</td><td class="mono">Too high<br>Lives left: 1</td></tr>
-          <tr class="hidden-row"><td class="mono">7</td><td>3</td><td>True</td><td>1</td><td>not checked</td><td class="mono">Correct! You took 3 attempts.</td></tr>
-        </table>
-      </div>
-      <div class="row-btns">
-        <button class="btn butter" id="traceNext">Show next row</button>
-        <button class="btn" id="traceReset">Hide all rows</button>
-      </div>
-      <p style="margin-top:14px"><b>Why "not checked"?</b> The inner <code>if guess &lt; secret</code> is inside the <code>else</code>. When the guess is correct, the <code>else</code> does not run, so the inner <code>if</code> is skipped.</p>
-    </div>
-    <div class="card">
-      <h3>B. Test cases</h3>
-      <p class="sub">Each test case checks a different path through the nested code. Predict, then type the inputs into the runner below to check.</p>
-      <div class="tbl-wrap">
-        <table>
-          <tr><th>Test case</th><th>Inputs</th><th>What it checks</th></tr>
-          <tr><td>1 Normal</td><td class="mono">3, 9, 7</td><td>Two wrong guesses, then correct</td></tr>
-          <tr><td>2 First try</td><td class="mono">7</td><td>The if runs straight away. No lives lost</td></tr>
-          <tr><td>3 Lose</td><td class="mono">1, 2, 3</td><td>All lives lost. Game over</td></tr>
-          <tr><td>4 Boundary</td><td class="mono">6, 8, 7</td><td>Guesses one either side of the secret</td></tr>
-        </table>
-      </div>
-      <div data-predict="tcFirst"></div>
-      <div data-predict="tcLose"></div>
-      <div data-predict="tcLives"></div>
-      <div class="task">
-        <h4><span class="tag lilac">Run the tests</span> Type each test case into Inputs, one number per line</h4>
-        <div data-runner="lives" data-levels="1" data-name="guess_lives.py" data-inputs="1&#10;2&#10;3"></div>
-      </div>
-    </div>
-    <div class="card">
-      <h3>Extension challenges for fast finishers</h3>
-      <div class="task" style="border-top:0;padding-top:0;margin-top:0">
-        <h4><span class="tag peach">Challenge 3</span> attempt or attempts?</h4>
-        <p>When the player wins on the first guess, the game prints "You took 1 attempts". Use a nested <code>if</code> so it prints "attempt" for 1 and "attempts" for any other number. Change <code>attempts = 1</code> to test both.</p>
-        <div data-runner="ch3Start" data-name="attempts.py"></div>
-        <details class="answer"><summary>Show a possible answer</summary><div data-code="ch3" data-levels="1"></div></details>
-      </div>
-      <div class="task">
-        <h4><span class="tag peach">Challenge 4</span> A random secret and 5 lives</h4>
-        <p>Change the game so the secret number is random and the player has 5 lives. Add <code>import random</code> at the top and use <code>secret = random.randint(1, 10)</code>.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="step" id="s8">
-    <div class="step-head">
-      <div class="step-no butter">8</div>
-      <div class="t"><h2>Score quiz</h2>
-        <div class="step-meta"><span class="meta">10 minutes</span><span class="meta">10 questions</span><span class="meta">One try per question</span></div>
-      </div>
-      <button class="btn done-btn" data-done="s8" aria-pressed="false">Mark step 8 as done</button>
-    </div>
-    <div class="card">
-      <div id="quizBox"></div>
-      <div class="result" id="result"><div class="big" id="resultScore"></div><p id="resultMsg"></p></div>
-      <div class="score"><span id="scoreText">Score: 0 / 10 · Answered: 0 / 10</span><button class="btn" id="quizReset">Try the quiz again</button></div>
-    </div>
-  </section>
-
-  <footer>Year 8 Digital Technologies · Golden International School, Vientiane</footer>
 </main>
+
+<div class="foot"><div class="in2">
+  <button class="btn alt" id="prev">← Back</button>
+  <div class="where" id="where"></div>
+  <button class="btn" id="next">Next →</button>
+</div></div>
 
 <script type="text/plain" id="harness">
 import sys, traceback, js
 
 class _Stopped(Exception): pass
 class _TooLong(Exception): pass
-
 _writes = [0]
 
 class _Writer:
@@ -595,7 +450,7 @@ class _Writer:
         pass
 
 def run_student(src, preset):
-    feed = [x for x in preset.split("\n")] if preset.strip() else []
+    feed = preset.split("\n") if preset.strip() else []
     _writes[0] = 0
     count = [0]
     def tracer(frame, event, arg):
@@ -645,106 +500,48 @@ def run_student(src, preset):
 </script>
 
 <script>
+(function(){
 const TRACES = {"lives": {"src": "secret = 7\nguess = 0\nattempts = 0\nlives = 3\n\nwhile guess != secret and lives > 0:\n    guess = int(input(\"Guess (1 to 10): \"))\n    attempts = attempts + 1\n    if guess == secret:\n        print(f\"Correct! You took {attempts} attempts.\")\n    else:\n        lives = lives - 1\n        if guess < secret:\n            print(\"Too low\")\n        else:\n            print(\"Too high\")\n        print(f\"Lives left: {lives}\")\n\nif lives == 0:\n    print(f\"Game over. The number was {secret}.\")", "inputs": ["3", "9", "7"], "keep": ["secret", "guess", "attempts", "lives"], "steps": [{"line": 1, "vars": {}, "out": ""}, {"line": 2, "vars": {"secret": "7"}, "out": ""}, {"line": 3, "vars": {"secret": "7", "guess": "0"}, "out": ""}, {"line": 4, "vars": {"secret": "7", "guess": "0", "attempts": "0"}, "out": ""}, {"line": 6, "vars": {"secret": "7", "guess": "0", "attempts": "0", "lives": "3"}, "out": ""}, {"line": 7, "vars": {"secret": "7", "guess": "0", "attempts": "0", "lives": "3"}, "out": ""}, {"line": 8, "vars": {"secret": "7", "guess": "3", "attempts": "0", "lives": "3"}, "out": "Guess (1 to 10): 3\n"}, {"line": 9, "vars": {"secret": "7", "guess": "3", "attempts": "1", "lives": "3"}, "out": "Guess (1 to 10): 3\n"}, {"line": 12, "vars": {"secret": "7", "guess": "3", "attempts": "1", "lives": "3"}, "out": "Guess (1 to 10): 3\n"}, {"line": 13, "vars": {"secret": "7", "guess": "3", "attempts": "1", "lives": "2"}, "out": "Guess (1 to 10): 3\n"}, {"line": 14, "vars": {"secret": "7", "guess": "3", "attempts": "1", "lives": "2"}, "out": "Guess (1 to 10): 3\n"}, {"line": 17, "vars": {"secret": "7", "guess": "3", "attempts": "1", "lives": "2"}, "out": "Guess (1 to 10): 3\nToo low\n"}, {"line": 6, "vars": {"secret": "7", "guess": "3", "attempts": "1", "lives": "2"}, "out": "Guess (1 to 10): 3\nToo low\nLives left: 2\n"}, {"line": 7, "vars": {"secret": "7", "guess": "3", "attempts": "1", "lives": "2"}, "out": "Guess (1 to 10): 3\nToo low\nLives left: 2\n"}, {"line": 8, "vars": {"secret": "7", "guess": "9", "attempts": "1", "lives": "2"}, "out": "Guess (1 to 10): 3\nToo low\nLives left: 2\nGuess (1 to 10): 9\n"}, {"line": 9, "vars": {"secret": "7", "guess": "9", "attempts": "2", "lives": "2"}, "out": "Guess (1 to 10): 3\nToo low\nLives left: 2\nGuess (1 to 10): 9\n"}, {"line": 12, "vars": {"secret": "7", "guess": "9", "attempts": "2", "lives": "2"}, "out": "Guess (1 to 10): 3\nToo low\nLives left: 2\nGuess (1 to 10): 9\n"}, {"line": 13, "vars": {"secret": "7", "guess": "9", "attempts": "2", "lives": "1"}, "out": "Guess (1 to 10): 3\nToo low\nLives left: 2\nGuess (1 to 10): 9\n"}, {"line": 16, "vars": {"secret": "7", "guess": "9", "attempts": "2", "lives": "1"}, "out": "Guess (1 to 10): 3\nToo low\nLives left: 2\nGuess (1 to 10): 9\n"}, {"line": 17, "vars": {"secret": "7", "guess": "9", "attempts": "2", "lives": "1"}, "out": "Guess (1 to 10): 3\nToo low\nLives left: 2\nGuess (1 to 10): 9\nToo high\n"}, {"line": 6, "vars": {"secret": "7", "guess": "9", "attempts": "2", "lives": "1"}, "out": "Guess (1 to 10): 3\nToo low\nLives left: 2\nGuess (1 to 10): 9\nToo high\nLives left: 1\n"}, {"line": 7, "vars": {"secret": "7", "guess": "9", "attempts": "2", "lives": "1"}, "out": "Guess (1 to 10): 3\nToo low\nLives left: 2\nGuess (1 to 10): 9\nToo high\nLives left: 1\n"}, {"line": 8, "vars": {"secret": "7", "guess": "7", "attempts": "2", "lives": "1"}, "out": "Guess (1 to 10): 3\nToo low\nLives left: 2\nGuess (1 to 10): 9\nToo high\nLives left: 1\nGuess (1 to 10): 7\n"}, {"line": 9, "vars": {"secret": "7", "guess": "7", "attempts": "3", "lives": "1"}, "out": "Guess (1 to 10): 3\nToo low\nLives left: 2\nGuess (1 to 10): 9\nToo high\nLives left: 1\nGuess (1 to 10): 7\n"}, {"line": 10, "vars": {"secret": "7", "guess": "7", "attempts": "3", "lives": "1"}, "out": "Guess (1 to 10): 3\nToo low\nLives left: 2\nGuess (1 to 10): 9\nToo high\nLives left: 1\nGuess (1 to 10): 7\n"}, {"line": 6, "vars": {"secret": "7", "guess": "7", "attempts": "3", "lives": "1"}, "out": "Guess (1 to 10): 3\nToo low\nLives left: 2\nGuess (1 to 10): 9\nToo high\nLives left: 1\nGuess (1 to 10): 7\nCorrect! You took 3 attempts.\n"}, {"line": 19, "vars": {"secret": "7", "guess": "7", "attempts": "3", "lives": "1"}, "out": "Guess (1 to 10): 3\nToo low\nLives left: 2\nGuess (1 to 10): 9\nToo high\nLives left: 1\nGuess (1 to 10): 7\nCorrect! You took 3 attempts.\n"}, {"line": 0, "vars": {"secret": "7", "guess": "7", "attempts": "3", "lives": "1"}, "out": "Guess (1 to 10): 3\nToo low\nLives left: 2\nGuess (1 to 10): 9\nToo high\nLives left: 1\nGuess (1 to 10): 7\nCorrect! You took 3 attempts.\n"}]}, "selInLoop": {"src": "for i in range(1, 7):\n    if i % 2 == 0:\n        print(f\"{i} is even\")\n    else:\n        print(f\"{i} is odd\")", "inputs": [], "keep": ["i"], "steps": [{"line": 1, "vars": {}, "out": ""}, {"line": 2, "vars": {"i": "1"}, "out": ""}, {"line": 5, "vars": {"i": "1"}, "out": ""}, {"line": 1, "vars": {"i": "1"}, "out": "1 is odd\n"}, {"line": 2, "vars": {"i": "2"}, "out": "1 is odd\n"}, {"line": 3, "vars": {"i": "2"}, "out": "1 is odd\n"}, {"line": 1, "vars": {"i": "2"}, "out": "1 is odd\n2 is even\n"}, {"line": 2, "vars": {"i": "3"}, "out": "1 is odd\n2 is even\n"}, {"line": 5, "vars": {"i": "3"}, "out": "1 is odd\n2 is even\n"}, {"line": 1, "vars": {"i": "3"}, "out": "1 is odd\n2 is even\n3 is odd\n"}, {"line": 2, "vars": {"i": "4"}, "out": "1 is odd\n2 is even\n3 is odd\n"}, {"line": 3, "vars": {"i": "4"}, "out": "1 is odd\n2 is even\n3 is odd\n"}, {"line": 1, "vars": {"i": "4"}, "out": "1 is odd\n2 is even\n3 is odd\n4 is even\n"}, {"line": 2, "vars": {"i": "5"}, "out": "1 is odd\n2 is even\n3 is odd\n4 is even\n"}, {"line": 5, "vars": {"i": "5"}, "out": "1 is odd\n2 is even\n3 is odd\n4 is even\n"}, {"line": 1, "vars": {"i": "5"}, "out": "1 is odd\n2 is even\n3 is odd\n4 is even\n5 is odd\n"}, {"line": 2, "vars": {"i": "6"}, "out": "1 is odd\n2 is even\n3 is odd\n4 is even\n5 is odd\n"}, {"line": 3, "vars": {"i": "6"}, "out": "1 is odd\n2 is even\n3 is odd\n4 is even\n5 is odd\n"}, {"line": 1, "vars": {"i": "6"}, "out": "1 is odd\n2 is even\n3 is odd\n4 is even\n5 is odd\n6 is even\n"}, {"line": 0, "vars": {"i": "6"}, "out": "1 is odd\n2 is even\n3 is odd\n4 is even\n5 is odd\n6 is even\n"}]}};
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const store={get(k,d){try{const v=localStorage.getItem('y8nest2t_'+k);return v===null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem('y8nest2t_'+k,JSON.stringify(v))}catch(e){}}};
 
 const CODE = {
-a1: `name = input("What is your name? ")
-first = input("First number: ")
-second = input("Second number: ")
+quizcode:`score = 0
+lives = 3
+question = 1
 
-total = first + second
+while question <= 8 and lives > 0:
+    answer = input(f"Question {question}: ")
+    if answer == correct:
+        score = score + 1
+    else:
+        lives = lives - 1
+    question = question + 1
 
-print(f"Hello, {name}!")
-print(f"{first} + {second} = {total}")
-print("Data type of first:", type(first))`,
-a2: `name = input("Student name: ")
-score = int(input("Score out of 100: "))
-
-if score >= 80:
-    grade = "A"
-elif score >= 65:
-    grade = "B"
-elif score >= 50:
-    grade = "C"
-else:
-    grade = "Not yet"
-
-print(f"{name} scored {score}. Grade: {grade}")`,
-a3: `number = int(input("Which times table? "))
-
-for i in range(1, 11):
-    answer = number * i
-    print(f"{number} x {i} = {answer}")
-
-print("Countdown:")
-for i in range(5, 0, -1):
-    print(i)
-print("Finished!")`,
-a4: `secret = 7
-guess = 0
-tries = 0
-
-while guess != secret:
-    guess = int(input("Guess (1 to 10): "))
-    tries = tries + 1
-    if guess < secret:
-        print("Too low")
-    elif guess > secret:
-        print("Too high")
-
-print(f"Correct! You took {tries} tries.")`,
-a5: `password = input("Create a password: ")
-
-while len(password) < 8:
-    print("Too short. Use at least 8 characters.")
-    password = input("Create a password: ")
-
-length = len(password)
-if length >= 12:
-    strength = "strong"
-elif length >= 10:
-    strength = "medium"
-else:
-    strength = "weak"
-
-print(f"Accepted. Your password is {strength}.")`,
-selInLoop: `for i in range(1, 7):
+print(f"Score: {score}  Lives: {lives}")`,
+boxes:`while True:
+    if touching_player:
+        print("Caught you!")`,
+selInLoop:`for i in range(1, 7):
     if i % 2 == 0:
         print(f"{i} is even")
     else:
         print(f"{i} is odd")`,
-loopInSel: `answer = input("Show the 5 times table? (yes or no) ")
+loopInSel:`answer = input("Show the 5 times table? (yes or no) ")
 if answer == "yes":
     for i in range(1, 6):
         print(f"5 x {i} = {5 * i}")
 else:
     print("Maybe next time.")`,
-ch1Start: `# Challenge 1: count from 1 to 10. Print fizz for numbers divided by 3.
+fizzStart:`# Print fizz instead of numbers that can be divided by 3.
 for i in range(1, 11):
     print(i)`,
-ch1: `for i in range(1, 11):
+fizz:`for i in range(1, 11):
     if i % 3 == 0:
         print("fizz")
     else:
         print(i)`,
-ch2Start: `# Challenge 2: ask the question, then count down only if the answer is yes.
-answer = input("Start the countdown? (yes or no) ")
-`,
-ch2: `answer = input("Start the countdown? (yes or no) ")
-if answer == "yes":
-    for i in range(5, 0, -1):
-        print(i)
-    print("Lift off!")
-else:
-    print("Countdown cancelled.")`,
-ch3Start: `attempts = 1
-print(f"Correct! You took {attempts} attempts.")`,
-ch3: `attempts = 1
-if attempts == 1:
-    print(f"Correct! You took {attempts} attempt.")
-else:
-    print(f"Correct! You took {attempts} attempts.")`,
-lives: `secret = 7
+lives:`secret = 7
 guess = 0
 attempts = 0
 lives = 3
@@ -766,9 +563,207 @@ if lives == 0:
     print(f"Game over. The number was {secret}.")`
 };
 
-const STAGES = [
-  { title: "Stage 1: the basic game", what: "This is Activity 4 without the counter. The if/elif is nested inside the while loop.", inputs: "3\n9\n7", newLines: [],
-    code: `secret = 7
+/* ---------- helpers ---------- */
+const KW=new Set(["if","elif","else","for","in","while","and","or","not","True","False","import"]);
+const FN=new Set(["print","input","int","float","str","len","range","type"]);
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+function hl(line){const re=/(#.*$)|(f?"[^"]*")|([A-Za-z_][A-Za-z0-9_]*)|(\d+)|(\s+)|(.)/g;let o="",m;
+  while((m=re.exec(line))!==null){if(m[0]==="")break;const t=esc(m[0]);
+    if(m[1])o+=`<span class="t-com">${t}</span>`;else if(m[2])o+=`<span class="t-str">${t}</span>`;
+    else if(m[3]&&KW.has(m[3]))o+=`<span class="t-kw">${t}</span>`;else if(m[3]&&FN.has(m[3]))o+=`<span class="t-fn">${t}</span>`;
+    else if(m[4])o+=`<span class="t-num">${t}</span>`;else o+=t}return o}
+function lvl(line){return line.trim()===""?0:Math.floor(line.match(/^ */)[0].length/4)}
+function codeBlock(src,opt={}){const pre=document.createElement("pre");pre.className="code"+(opt.levels?" levels":"")+(opt.click?" click":"");
+  const nw=new Set(opt.newLines||[]);
+  src.split("\n").forEach((line,i)=>{const s=document.createElement("span");s.className="ln"+(nw.has(i+1)?" new":"");s.dataset.n=i+1;
+    if(opt.levels&&!nw.has(i+1)){s.dataset.l=lvl(line);if(line.trim())s.dataset.badge="L"+lvl(line)}
+    s.innerHTML=hl(line)||" ";pre.appendChild(s)});return pre}
+function pop(el,v){el.textContent=v;el.classList.add('pop');setTimeout(()=>el.classList.remove('pop'),200)}
+function choice(item){const box=document.createElement("div");
+  box.innerHTML=`<p style="font-weight:700;margin:12px 0 0">${esc(item.q)}</p>`;
+  const opts=document.createElement("div");opts.className="opts";const fb=document.createElement("div");
+  item.opts.forEach((o,i)=>{const b=document.createElement("button");b.className="opt"+(item.mono?" mono":"");b.textContent=o;
+    b.onclick=()=>{const ok=i===item.ans;[...opts.children].forEach((x,j)=>{x.disabled=true;if(j===item.ans)x.classList.add("right")});if(!ok)b.classList.add("wrong");
+      fb.className="fb "+(ok?"ok":"no");fb.innerHTML=`<b>${ok?"Correct.":"Not quite."}</b>${esc(item.why)}`};opts.appendChild(b)});
+  box.appendChild(opts);box.appendChild(fb);return box}
+
+/* ---------- Python runner ---------- */
+let pyP=null,curOut=null;
+window.runnerOut=(t,c)=>{if(!curOut)return;const s=document.createElement("span");if(c)s.className=c;s.textContent=t;curOut.appendChild(s)};
+function loadPy(){if(pyP)return pyP;pyP=new Promise((res,rej)=>{const s=document.createElement("script");s.src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js";
+  s.onload=async()=>{try{const py=await loadPyodide();await py.runPythonAsync($("#harness").textContent);res(py)}catch(e){rej(e)}};s.onerror=()=>rej(new Error("load"));document.head.appendChild(s)});
+  pyP.catch(()=>{pyP=null});return pyP}
+function makeRunner(src,o={}){const box=document.createElement("div");box.className="runner";
+  box.innerHTML=`<div class="runner-bar"><span class="name">${esc(o.name||"program.py")}</span><button class="rbtn run" type="button">Run</button><button class="rbtn inp" type="button">Inputs</button><button class="rbtn edit" type="button">Hide code</button><button class="rbtn copy" type="button">Copy</button><button class="rbtn reset" type="button">Reset</button></div>
+  <div class="editor"><div class="gutter" aria-hidden="true"></div><textarea spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Python code editor"></textarea></div>
+  <div class="inputs-row"><label>Inputs, one per line. After these, a box pops up.</label><textarea spellcheck="false" aria-label="Inputs, one per line"></textarea></div>
+  <div class="out-head"><span>Output</span><span class="st"></span></div><pre class="out" aria-live="polite"><span class="note">Click Run to see the output.</span></pre>`;
+  const ta=box.querySelector(".editor textarea"),gut=box.querySelector(".gutter"),inRow=box.querySelector(".inputs-row"),inTa=inRow.querySelector("textarea"),
+    out=box.querySelector(".out"),st=box.querySelector(".st"),runB=box.querySelector(".run"),ed=box.querySelector(".editor"),edB=box.querySelector(".edit");
+  const fit=()=>{const n=ta.value.split("\n").length;gut.textContent=Array.from({length:n},(_,i)=>i+1).join("\n");ta.rows=Math.max(3,Math.min(n+1,22))};
+  box.setCode=v=>{ta.value=v;fit()};ta.value=src;fit();
+  const setEd=on=>{ed.style.display=on?"":"none";edB.textContent=on?"Hide code":"Edit code"};edB.onclick=()=>setEd(ed.style.display==="none");
+  if(o.hide)setEd(false);else edB.style.display="none";
+  if(o.inputs){inTa.value=o.inputs;inRow.classList.add("show")}
+  ta.addEventListener("input",fit);ta.addEventListener("scroll",()=>{gut.scrollTop=ta.scrollTop});
+  ta.addEventListener("keydown",e=>{const s=ta.selectionStart,en=ta.selectionEnd,v=ta.value,ls=v.lastIndexOf("\n",s-1)+1;
+    if(e.key==="Tab"){e.preventDefault();if(e.shiftKey){if(v.slice(ls,ls+4)==="    "){ta.value=v.slice(0,ls)+v.slice(ls+4);ta.selectionStart=ta.selectionEnd=Math.max(ls,s-4)}}
+      else{ta.value=v.slice(0,s)+"    "+v.slice(en);ta.selectionStart=ta.selectionEnd=s+4}fit()}
+    else if(e.key==="Enter"){e.preventDefault();const line=v.slice(ls,s);let ind=line.match(/^ */)[0];if(line.trimEnd().endsWith(":"))ind+="    ";
+      ta.value=v.slice(0,s)+"\n"+ind+v.slice(en);ta.selectionStart=ta.selectionEnd=s+1+ind.length;fit()}});
+  box.querySelector(".inp").onclick=()=>inRow.classList.toggle("show");
+  box.querySelector(".reset").onclick=()=>{ta.value=src;fit()};
+  box.querySelector(".copy").onclick=async e=>{try{await navigator.clipboard.writeText(ta.value);e.target.textContent="Copied"}catch(x){ta.select();e.target.textContent="Press Ctrl+C"}setTimeout(()=>e.target.textContent="Copy",1500)};
+  runB.onclick=async()=>{runB.disabled=true;out.replaceChildren();curOut=out;
+    if(!window.__py){st.textContent="Loading Python...";window.runnerOut("Loading Python. The first time takes about 10 to 30 seconds...","note")}
+    try{const py=await loadPy();window.__py=true;out.replaceChildren();st.textContent="Running";await new Promise(r=>setTimeout(r,30));curOut=out;
+      py.globals.get("run_student")(ta.value,inRow.classList.contains("show")?inTa.value:"");st.textContent=""}
+    catch(e){out.replaceChildren();window.runnerOut("Python could not load. Check the internet connection and click Run again, or click Copy and run the code in VS Code.","err");st.textContent=""}
+    curOut=null;runB.disabled=false};
+  return box}
+
+/* ---------- navigation ---------- */
+const secs=$$('main section');
+let cur=Math.min(store.get('cur',0),secs.length-1),seen=new Set(store.get('seen',[0]));
+const nav=$('#steps'),map=$('#map');
+secs.forEach((s,i)=>{const b=document.createElement('button');b.textContent=s.dataset.title;b.onclick=()=>go(i);nav.appendChild(b);
+  if(i>0){const m=document.createElement('button');m.innerHTML=`<span>${s.dataset.title}</span><b>${s.dataset.min} min</b>`;m.onclick=()=>go(i);map.appendChild(m)}});
+function go(i){cur=Math.max(0,Math.min(secs.length-1,i));seen.add(cur);
+  secs.forEach((s,k)=>s.classList.toggle('on',k===cur));
+  $$('#steps button').forEach((b,k)=>{b.classList.toggle('on',k===cur);b.classList.toggle('seen',seen.has(k))});
+  nav.children[cur].scrollIntoView({inline:'center',block:'nearest'});
+  $('#prog').style.width=(cur/(secs.length-1)*100)+'%';
+  $('#prev').disabled=cur===0;$('#next').disabled=cur===secs.length-1;
+  $('#where').textContent=cur===0?'Start':`Part ${cur} of ${secs.length-1} · ${secs[cur].dataset.min} min`;
+  window.scrollTo({top:0});resetTimer();store.set('cur',cur);store.set('seen',[...seen])}
+$('#prev').onclick=()=>go(cur-1);$('#next').onclick=()=>go(cur+1);
+document.addEventListener('keydown',e=>{if(['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName))return;
+  if(e.key==='ArrowRight')go(cur+1);if(e.key==='ArrowLeft')go(cur-1)});
+$('#fs').onclick=()=>{try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(e){}};
+
+/* ---------- timer ---------- */
+let left=0,tick=null;
+function show(){const m=Math.floor(Math.abs(left)/60),s=Math.abs(left)%60;$('#tleft').textContent=(left<0?'+':'')+m+':'+String(s).padStart(2,'0');$('#timer').classList.toggle('done',left<=0)}
+function resetTimer(){clearInterval(tick);tick=null;left=(+secs[cur].dataset.min)*60;$('#tgo').textContent='Start';show()}
+$('#tgo').onclick=()=>{if(tick){clearInterval(tick);tick=null;$('#tgo').textContent='Start'}else{tick=setInterval(()=>{left--;show()},1000);$('#tgo').textContent='Pause'}};
+$('#treset').onclick=resetTimer;
+
+/* ---------- static code, predicts, runners ---------- */
+$$('[data-code]').forEach(el=>el.appendChild(codeBlock(CODE[el.dataset.code],{levels:el.dataset.levels==="1"})));
+const PRED={
+  pSel:{q:"Predict: what is the third line of output?",opts:["3 is odd","3 is even","2 is even","6 is even"],ans:0,mono:true,why:"The third time round, i is 3. 3 % 2 is 1, not 0, so the else runs."},
+  pLoop:{q:"Predict: the user types no. How many lines print after the question?",opts:["0","1","5","6"],ans:1,why:"\"no\" == \"yes\" is False, so the loop inside the if never runs. The else prints one line: Maybe next time."}
+};
+$$('[data-predict]').forEach(el=>el.appendChild(choice(PRED[el.dataset.predict])));
+$$('[data-runner]').forEach(el=>el.appendChild(makeRunner(CODE[el.dataset.runner],{name:el.dataset.name,hide:el.dataset.hide==="1",inputs:el.dataset.inputs})));
+$$('[data-reveal]').forEach(b=>b.onclick=()=>b.nextElementSibling.classList.toggle('show'));
+
+/* ---------- 1. warm-up challenge ---------- */
+const Q=[
+ {q:"What data type does input() always give?",o:["int","float","str","It depends on what you type"],a:2,why:"input() always gives a str, even when you type a number."},
+ {q:"The user types 10, then 5. What does this print?",code:`first = input("First: ")
+second = input("Second: ")
+print(first + second)`,o:["15","105","10 + 5","TypeError"],a:1,why:"Both are str, so + joins them: \"10\" + \"5\" = \"105\". Fix it with int()."},
+ {q:"score is 65. Which grade does this give?",code:`if score >= 80:
+    grade = "A"
+elif score >= 65:
+    grade = "B"
+else:
+    grade = "C"`,o:["A","B","C","No grade"],a:1,why:"65 >= 80 is False. 65 >= 65 is True, so grade is B. Python stops at the first True."},
+ {q:"What does range(1, 11) give?",o:["1 to 11","0 to 10","1 to 10","0 to 11"],a:2,why:"range() stops before the stop number, so it gives 1 to 10."},
+ {q:"What does this print?",code:`for i in range(5, 0, -1):
+    print(i)`,o:["5 4 3 2 1","5 4 3 2 1 0","4 3 2 1 0","1 2 3 4 5"],a:0,why:"Start at 5, go down by 1, stop before 0."},
+ {q:"This game never asks for a guess. Which line is the bug?",code:`guess = 0
+secret = 7
+while guess == secret:
+    guess = int(input("Guess: "))`,o:["Line 1","Line 2","Line 3","Line 4"],a:2,why:"0 == 7 is False, so the loop never starts. It should be while guess != secret:"},
+ {q:"Python shows SyntaxError: expected ':'. What is missing?",code:`while len(password) < 8
+    password = input("Password: ")`,o:["A bracket","A colon at the end of line 1","Quote marks","An indent on line 1"],a:1,why:"Every if, elif, else, for and while line ends with a colon."},
+ {q:"tries is 0. After this code runs 3 times, what is tries?",code:`tries = tries + 1`,o:["1","3","0","4"],a:1,why:"Each time adds 1: 0, then 1, 2, 3."},
+];
+let qi=0,qs=0,ql=3,qDone=false;
+function qRender(){qDone=false;$('#qFb').textContent='';$('#qNext').disabled=true;$('#qCode').replaceChildren();
+  if(qi>=Q.length||ql<=0){
+    $('#qText').innerHTML=ql<=0?'💀 Game over. <b>lives = 0</b>, so the loop stopped.':`🎉 Finished! Score: <b>${qs}</b> out of ${Q.length}, with <b>${ql}</b> ${ql===1?'life':'lives'} left.`;
+    $('#qOpts').innerHTML='';$('#qNum').textContent='';$('#qSecret').style.display='block';$('#qNext').style.display='none';return}
+  $('#qNext').style.display='';
+  const it=Q[qi];$('#qNum').textContent=`Question ${qi+1} of ${Q.length}`;$('#qText').textContent=it.q;
+  if(it.code)$('#qCode').appendChild(codeBlock(it.code));
+  $('#qOpts').innerHTML=it.o.map((x,k)=>`<button class="opt${it.code?' mono':''}" data-k="${k}">${'ABCD'[k]}. ${esc(x)}</button>`).join('');
+  $$('#qOpts .opt').forEach(b=>b.onclick=()=>{if(qDone)return;qDone=true;const k=+b.dataset.k;
+    $$('#qOpts .opt')[it.a].classList.add('right');
+    if(k===it.a){qs++;pop($('#qScore'),qs);$('#qFb').innerHTML=`<span style="color:var(--ok)">Correct! score = score + 1.</span> <span style="font-weight:400">${esc(it.why)}</span>`}
+    else{b.classList.add('wrong');ql--;pop($('#qLives'),ql);$('#qFb').innerHTML=`<span style="color:var(--bad)">Not quite. lives = lives - 1.</span> <span style="font-weight:400">${esc(it.why)}</span>`}
+    $('#qNext').disabled=false;$('#qNext').textContent=(ql<=0||qi===Q.length-1)?'See result':'Next question'})}
+$('#qNext').onclick=()=>{qi++;qRender()};
+$('#qAgain').onclick=()=>{qi=0;qs=0;ql=3;$('#qScore').textContent=0;$('#qLives').textContent=3;$('#qSecret').style.display='none';qRender()};
+qRender();
+
+/* ---------- 2. level spotter ---------- */
+(function(){const src=CODE.lives,lines=src.split("\n"),pre=codeBlock(src,{levels:true,click:true});$('#spotCode').appendChild(pre);
+  const els=[...pre.querySelectorAll('.ln')];
+  els.forEach((el,i)=>{el.tabIndex=0;el.setAttribute('role','button');
+    const pick=()=>{const line=lines[i];els.forEach(e=>e.classList.remove('sel','par'));
+      if(!line.trim()){$('#spotOut').textContent="This line is empty. Click a line with code.";return}
+      el.classList.add('sel');const L=lvl(line);const parents=[];let need=L;
+      for(let j=i-1;j>=0&&need>0;j--){const t=lines[j];if(t.trim()&&lvl(t)===need-1&&t.trim().endsWith(':')){parents.unshift(j);need--}}
+      parents.forEach(j=>els[j].classList.add('par'));
+      let html=`Line ${i+1} has <b>${L*4} spaces</b>, so it is at <b>level ${L}</b>.`;
+      if(L===0)html+=`<br>It is not nested inside any control structure. It is part of the main program.`;
+      else{html+=`<br>It is nested inside ${parents.length===1?'this control structure':'these control structures'} (shown in blue):<ul style="margin:6px 0 0;padding-left:20px">`+parents.map(j=>`<li><code>${esc(lines[j].trim())}</code></li>`).join('')+`</ul>`;
+        html+=`<span style="font-size:16px;color:var(--muted)">It only runs when the condition of every control structure above it lets Python in.</span>`}
+      $('#spotOut').innerHTML=html};
+    el.onclick=pick;el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pick()}}})})();
+
+/* ---------- 4. player ---------- */
+(function(){const root=$('#player'),T=TRACES.lives,lines=T.src.split("\n"),steps=T.steps;
+  root.innerHTML=`<div><div class="pc"></div><div class="row" style="margin-top:10px">
+    <button class="btn alt" data-a="back">Back</button><button class="btn" data-a="next">Next step</button><button class="btn alt" data-a="play">Play</button><button class="btn alt" data-a="restart">Restart</button>
+    <span data-a="count" style="margin-left:auto;font-weight:700;font-size:16px"></span></div></div>
+    <div><div class="panel"><h4>What Python does</h4><div class="say"></div></div><div class="panel"><h4>Variables</h4><div class="vars"></div></div><div class="panel"><h4>Output</h4><pre class="pout"></pre></div></div>`;
+  const pre=codeBlock(T.src,{levels:true});root.querySelector('.pc').appendChild(pre);const ls=[...pre.querySelectorAll('.ln')];
+  const say=root.querySelector('.say'),vb=root.querySelector('.vars'),po=root.querySelector('.pout'),cnt=root.querySelector('[data-a="count"]'),pb=root.querySelector('[data-a="play"]');
+  let k=0,tm=null;
+  function explain(i){const s=steps[i],n=steps[i+1];if(s.line===0)return"The program has finished.";const t=lines[s.line-1].trim(),nl=n?n.line:0;
+    if(/^(while|if|elif)\b/.test(t)){const c=t.replace(/^(while|if|elif)\s+/,'').replace(/:$/,'');const ins=nl===s.line+1;
+      return`Check <code>${esc(c)}</code>. It is <b>${ins?'True':'False'}</b>, so Python ${ins?'goes inside the box':(t.startsWith('while')?'leaves the loop':'skips the box')}.`}
+    if(/^else:/.test(t))return"The if above was False, so Python goes into the else box.";
+    if(t.includes("input(")){const typed=n?n.out.slice(s.out.length).split("\n")[0].replace(/^.*: /,''):'';return`input() asks the player. They type <b>${esc(typed)}</b>.`}
+    if(t.startsWith("print("))return"print() shows text in the output.";
+    const m=t.match(/^(\w+) = /);if(m)return`Store a value in <code>${esc(m[1])}</code>.`;return"Run this line."}
+  function draw(){const s=steps[k];ls.forEach((e,i)=>e.classList.toggle('cur',i+1===s.line));say.innerHTML=explain(k);
+    const prev=k>0?steps[k-1].vars:{};vb.replaceChildren();
+    T.keep.filter(n=>n in s.vars).forEach(n=>{const d=document.createElement('div');d.className='var'+(k>0&&prev[n]!==s.vars[n]?' changed':'');d.innerHTML=`<div class="k">${esc(n)}</div><div class="v">${esc(s.vars[n])}</div>`;vb.appendChild(d)});
+    if(!vb.children.length)vb.innerHTML='<span style="color:var(--muted)">No variables yet.</span>';
+    po.textContent=s.out||'';po.scrollTop=po.scrollHeight;cnt.textContent=`Step ${k+1} of ${steps.length}`}
+  const stop=()=>{clearInterval(tm);tm=null;pb.textContent='Play'};const nx=()=>{if(k<steps.length-1){k++;draw()}else stop()};
+  root.querySelector('[data-a="next"]').onclick=()=>{stop();nx()};root.querySelector('[data-a="back"]').onclick=()=>{stop();if(k>0){k--;draw()}};
+  root.querySelector('[data-a="restart"]').onclick=()=>{stop();k=0;draw()};
+  pb.onclick=()=>{if(tm)return stop();if(k>=steps.length-1){k=0;draw()}pb.textContent='Pause';tm=setInterval(nx,1000)};draw()})();
+
+/* ---------- 5. parsons ---------- */
+(function(){const SOL=[["while guess != secret and lives > 0:",0],['guess = int(input("Guess (1 to 10): "))',1],["if guess == secret:",1],['print("Correct!")',2],["else:",1],["lives = lives - 1",2],["if guess < secret:",2],['print("Too low")',3],["else:",2],['print("Too high")',3]];
+  const HEAD="secret = 7\nguess = 0\nlives = 3\n\n";let items=[];const box=$('#pz');let runner=null;
+  function mix(){items=SOL.map(([t])=>({t,l:0}));for(let i=items.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[items[i],items[j]]=[items[j],items[i]]}
+    if(items.every((x,i)=>x.t===SOL[i][0]))return mix();$('#pzFb').replaceChildren();draw()}
+  function draw(marks){box.replaceChildren();items.forEach((it,i)=>{const r=document.createElement('div');r.className='pline'+(marks?(marks[i]?' good':' badp'):'');
+    r.innerHTML=`<span class="ctl"><button aria-label="Move up" ${i===0?'disabled':''}>↑</button><button aria-label="Move down" ${i===items.length-1?'disabled':''}>↓</button></span><span class="lvl">L${it.l}</span><code>${esc('    '.repeat(it.l)+it.t)}</code><span class="ctl"><button aria-label="Indent less">←</button><button aria-label="Indent more">→</button></span>`;
+    const [up,dn]=r.querySelectorAll('.ctl')[0].children,[le,ri]=r.querySelectorAll('.ctl')[1].children;
+    up.onclick=()=>{[items[i-1],items[i]]=[items[i],items[i-1]];draw()};dn.onclick=()=>{[items[i+1],items[i]]=[items[i],items[i+1]];draw()};
+    le.onclick=()=>{it.l=Math.max(0,it.l-1);draw()};ri.onclick=()=>{it.l=Math.min(3,it.l+1);draw()};box.appendChild(r)})}
+  $('#pzCheck').onclick=()=>{const marks=items.map((it,i)=>it.t===SOL[i][0]&&it.l===SOL[i][1]);const good=marks.filter(Boolean).length;draw(marks);
+    const fb=document.createElement('div');fb.className='fb '+(good===SOL.length?'ok':'no');
+    fb.innerHTML=good===SOL.length?'<b>Correct. Every line is in the right place and at the right level.</b>Click Run my code and type 3, 9, 7.':`<b>${good} of ${SOL.length} lines are right (green).</b>Check the red lines. Is the order right? Is the level right? Use the pseudocode.`;
+    $('#pzFb').replaceChildren(fb)};
+  $('#pzRun').onclick=()=>{const code=HEAD+items.map(it=>'    '.repeat(it.l)+it.t).join("\n");
+    if(!runner){runner=makeRunner(code,{name:"my_puzzle.py",inputs:"3\n9\n7"});$('#pzRunner').appendChild(runner)}else runner.setCode(code);
+    runner.querySelector('.run').click()};
+  $('#pzMix').onclick=mix;mix()})();
+
+/* ---------- 6. stages ---------- */
+const STAGES=[
+ {t:"Stage 1: the basic game",d:"An if/elif is nested inside the while loop. This is Activity 4 without the counter.",inp:"3\n9\n7",nw:[],
+  code:`secret = 7
 guess = 0
 
 while guess != secret:
@@ -778,10 +773,9 @@ while guess != secret:
     elif guess > secret:
         print("Too high")
 
-print("Correct!")`,
-    q: "Predict: how many times does the program ask for a guess with the inputs 3, 9, 7?", a: "3 times. The loop stops after 7 because guess != secret becomes False." },
-  { title: "Stage 2: add an attempt counter", what: "A new variable counts the guesses. It starts at 0 and goes up by 1 inside the loop.", inputs: "3\n9\n7", newLines: [3, 7, 13],
-    code: `secret = 7
+print("Correct!")`,p:"With 3, 9, 7: how many times does it ask?",a:"3 times. After 7, guess != secret is False, so the loop stops."},
+ {t:"Stage 2: add an attempt counter",d:"A new variable counts the guesses. It goes up by 1 inside the loop.",inp:"3\n9\n7",nw:[3,7,13],
+  code:`secret = 7
 guess = 0
 attempts = 0
 
@@ -793,10 +787,9 @@ while guess != secret:
     elif guess > secret:
         print("Too high")
 
-print(f"Correct! You took {attempts} attempts.")`,
-    q: "Predict: what number does the last line show with the inputs 3, 9, 7?", a: "3. attempts goes up by 1 each time round the loop." },
-  { title: "Stage 3: add lives (the nesting gets deeper)", what: "The loop now also stops when lives reaches 0. The if/else checks for a correct guess. A second if/else is nested inside the else, so the code reaches level 3.", inputs: "1\n2\n3", newLines: [4, 6, 9, 10, 11, 12, 13, 15, 16, 17],
-    code: `secret = 7
+print(f"Correct! You took {attempts} attempts.")`,p:"With 3, 9, 7: what number does the last line show?",a:"3. attempts goes up once each time round the loop.",swap:true},
+ {t:"Stage 3: add lives (the nesting gets deeper)",d:"The loop also stops when lives reaches 0. An if/else checks for a correct guess, and a second if/else is nested inside the else. The deepest lines are now level 3.",inp:"1\n2\n3",nw:[4,6,9,10,11,12,13,15,16,17],
+  code:`secret = 7
 guess = 0
 attempts = 0
 lives = 3
@@ -812,528 +805,42 @@ while guess != secret and lives > 0:
             print("Too low")
         else:
             print("Too high")
-        print(f"Lives left: {lives}")`,
-    q: "Predict: with the inputs 1, 2, 3, what is the last line of output? What is missing?", a: "Lives left: 0. The program just stops. It does not tell the player that the game is over. Stage 4 fixes this." },
-  { title: "Stage 4: the game over message", what: "After the loop, an if checks whether the player ran out of lives. This if is at level 0, so it runs once, after the loop ends.", inputs: "1\n2\n3", newLines: [19, 20],
-    code: CODE.lives,
-    q: "Predict: with the inputs 3, 9, 7, does Game over print? Why?", a: "No. The player wins with 1 life left, so lives == 0 is False." },
+        print(f"Lives left: {lives}")`,p:"With 1, 2, 3: what is the last line? What is missing?",a:"Lives left: 0. The game just stops without telling the player they lost. Stage 4 fixes this."},
+ {t:"Stage 4: the game over message",d:"After the loop, an if checks whether lives reached 0. It is at level 0, so it runs once, after the loop ends.",inp:"1\n2\n3",nw:[19,20],
+  code:CODE.lives,p:"With 3, 9, 7: does Game over print?",a:"No. The player wins with 1 life left, so lives == 0 is False."},
 ];
+let ticks=store.get('ticks',[]);
+function stRender(){$('#stages').replaceChildren();STAGES.forEach((s,i)=>{const c=document.createElement('div');c.className='check'+(ticks.includes(i)?' done':'');
+  c.innerHTML=`<label class="top"><input type="checkbox" ${ticks.includes(i)?'checked':''}><div><div class="t">${esc(s.t)}</div><div style="margin-top:2px">${esc(s.d)}</div></div></label>`;
+  c.appendChild(codeBlock(s.code,{levels:true,newLines:s.nw}));
+  const pr=document.createElement('div');pr.innerHTML=`<p style="margin:10px 0 4px"><b>Predict:</b> ${esc(s.p)} <button class="btn alt sm">Check</button></p><div class="reveal">${esc(s.a)}</div>`;
+  pr.querySelector('button').onclick=()=>pr.querySelector('.reveal').classList.toggle('show');c.appendChild(pr);
+  c.appendChild(makeRunner(s.code,{name:`guess_lives.py · stage ${i+1}`,hide:true,inputs:s.inp}));
+  if(s.swap){const sw=document.createElement('p');sw.innerHTML='<span class="badge" style="background:var(--maroon)">SWAP</span> <b>Swap driver now.</b>';sw.style.margin='10px 0 0';c.appendChild(sw)}
+  c.querySelector('input').onchange=e=>{ticks=e.target.checked?[...ticks,i]:ticks.filter(x=>x!==i);store.set('ticks',ticks);c.classList.toggle('done',e.target.checked)};
+  $('#stages').appendChild(c)})}
+stRender();$('#clearChecks').onclick=()=>{ticks=[];store.set('ticks',ticks);stRender()};
 
-const ACTIVITIES = [
-  { id: "a1", n: 1, col: "peach", title: "Calculator", file: "a1_calculator.py", keys: ["str", "int", "int()", "type()"], inputs: "Ana\n10\n5",
-    predict: { q: "The user types Ana, then 10, then 5. What is the second line of output?",
-      opts: ["10 + 5 = 15", "10 + 5 = 105", "15", "TypeError"], ans: 1,
-      why: "input() always gives a str. \"10\" + \"5\" joins the two pieces of text, so the total is 105. The fix is int( ) around each input( )." },
-    bug: { intro: "This copy is fixed with int(), but the answer is still wrong. Click the line with the bug.",
-      code: `first = int(input("First number: "))
-second = int(input("Second number: "))
-total = first - second
-print(f"{first} + {second} = {total}")`, line: 3,
-      why: "The program prints a + sign but the code uses the - operator, so 10 and 5 give 5.", fix: `total = first + second` } },
-  { id: "a2", n: 2, col: "peach", title: "Grade checker", file: "a2_grade.py", keys: ["if", "elif", "else", ">="], inputs: "Bo\n65",
-    predict: { q: "The user types Bo, then 65. What is the output?",
-      opts: ["Bo scored 65. Grade: A", "Bo scored 65. Grade: B", "Bo scored 65. Grade: C", "Bo scored 65. Grade: Not yet"], ans: 1,
-      why: "score >= 80 is False. score >= 65 is True, so grade is B. Python stops checking after the first True condition." },
-    bug: { intro: "A score of 90 gives the grade C. Click the line that causes the bug.",
-      code: `score = 90
-if score >= 50:
-    grade = "C"
-elif score >= 65:
-    grade = "B"
-elif score >= 80:
-    grade = "A"
-print(grade)`, line: 2,
-      why: "The conditions are in the wrong order. 90 >= 50 is True, so Python picks C and skips the rest. Check the highest score first.",
-      fix: `if score >= 80:
-    grade = "A"
-elif score >= 65:
-    grade = "B"
-elif score >= 50:
-    grade = "C"` } },
-  { id: "a3", n: 3, col: "mint", title: "Times table and countdown", file: "a3_loops.py", keys: ["for", "range()", "indentation"], inputs: "3",
-    predict: { q: "What does the countdown part print? (the last four lines of the code)",
-      opts: ["5 4 3 2 1 Finished!", "5 4 3 2 1 0 Finished!", "4 3 2 1 0 Finished!", "1 2 3 4 5 Finished!"], ans: 0,
-      why: "range(5, 0, -1) starts at 5, counts down by 1 and stops before 0. Each number prints on its own line, then Finished! prints once after the loop." },
-    bug: { intro: "The times table should go up to 10 x number, but it stops at 9. Click the line with the bug.",
-      code: `number = int(input("Which times table? "))
-for i in range(1, 10):
-    answer = number * i
-    print(f"{number} x {i} = {answer}")`, line: 2,
-      why: "range() stops before the stop number. range(1, 10) gives 1 to 9.", fix: `for i in range(1, 11):` } },
-  { id: "a4", n: 4, col: "mint", title: "Guessing game", file: "a4_guess.py", keys: ["while", "!=", "tries = tries + 1"], inputs: "9\n7",
-    predict: { q: "The user types 9, then 7. What is the output?",
-      opts: ["Too high\nCorrect! You took 2 tries.", "Too low\nCorrect! You took 2 tries.", "Too high\nCorrect! You took 1 tries.", "Correct! You took 2 tries."], ans: 0,
-      why: "9 is greater than 7, so it prints Too high. 7 equals the secret, so the loop stops. tries went up once for each guess, so it is 2." },
-    bug: { intro: "This game prints \"Correct! You took 0 tries.\" without asking for a guess. Click the line with the bug.",
-      code: `secret = 7
-guess = 0
-tries = 0
-while guess == secret:
-    guess = int(input("Guess: "))
-    tries = tries + 1
-print(f"Correct! You took {tries} tries.")`, line: 4,
-      why: "== means equal to. 0 == 7 is False, so the loop never starts. The loop should run while the guess is NOT equal to the secret.",
-      fix: `while guess != secret:` } },
-  { id: "a5", n: 5, col: "butter", title: "Password-strength checker", file: "a5_password.py", keys: ["len()", "while", "if", "elif", "else"], inputs: "abcdefghijk",
-    predict: { q: "The user types abcdefghijk (11 characters). What is the output?",
-      opts: ["Accepted. Your password is weak.", "Accepted. Your password is medium.", "Accepted. Your password is strong.", "Too short. Use at least 8 characters."], ans: 1,
-      why: "11 is not less than 8, so the while loop does not run. 11 >= 12 is False. 11 >= 10 is True, so the strength is medium." },
-    bug: { intro: "Python shows SyntaxError: expected ':'. Click the line with the bug.",
-      code: `password = input("Create a password: ")
-while len(password) < 8
-    print("Too short.")
-    password = input("Create a password: ")`, line: 2,
-      why: "Every while, for, if, elif and else line must end with a colon (:).", fix: `while len(password) < 8:` } },
-];
+/* ---------- 7. tests and exit ---------- */
+$$('#tests [data-show]').forEach(b=>b.onclick=()=>{b.nextElementSibling.classList.toggle('show')});
+const E=[["What is a nested control structure?","A control structure (if, for or while) inside another control structure. Example: an if inside a while loop."],
+ ["In the game, which level is print(\"Too low\")? How do you know?","Level 3. It has 12 spaces: it is inside the inner if, inside the else, inside the while."],
+ ["When does while guess != secret and lives > 0 stop?","When the guess is correct OR lives reaches 0. and needs both to be True to keep going."]];
+$('#exit').innerHTML=E.map(([q,a])=>`<div style="padding:8px 0;border-bottom:1px solid var(--line)"><button class="opt" style="width:100%">${esc(q)}</button><div class="reveal">${esc(a)}</div></div>`).join('');
+$$('#exit .opt').forEach(b=>b.onclick=()=>b.nextElementSibling.classList.toggle('show'));
 
-const PREDICT = {
-  pLevels: { q: "In this code, which nesting level is the line print(\"Too low\")?", code: `while guess != secret:
-    if guess < secret:
-        print("Too low")`, opts: ["Level 0", "Level 1", "Level 2", "Level 3"], ans: 2,
-    why: "print(\"Too low\") has 8 spaces. It is inside the if (level 1), which is inside the while (level 0). So it is level 2." },
-  pSelInLoop: { q: "Predict, then run: what is the third line of output?", opts: ["3 is odd", "3 is even", "2 is even", "6 is even"], ans: 0, mono: true,
-    why: "The third time round, i is 3. 3 % 2 is 1, not 0, so the else runs and prints 3 is odd." },
-  pLoopInSel: { q: "Predict, then run: the user types no. How many lines does the program print after the question?", opts: ["0", "1", "5", "6"], ans: 1,
-    why: "\"no\" == \"yes\" is False, so the for loop inside the if never runs. The else prints one line: Maybe next time." },
-  tcFirst: { q: "Test case 2: the player types 7 straight away. What is the output?",
-    opts: ["Correct! You took 1 attempts.", "Correct! You took 0 attempts.", "Too high\nLives left: 2", "Game over. The number was 7."], ans: 0, mono: true,
-    why: "attempts goes up to 1, then guess == secret is True, so it prints Correct. The loop stops because guess equals secret. lives is still 3, so Game over does not print." },
-  tcLose: { q: "Test case 3: the player types 1, 2, 3. What is the LAST line of output?",
-    opts: ["Lives left: 0", "Game over. The number was 7.", "Too low", "Correct! You took 3 attempts."], ans: 1, mono: true,
-    why: "Each wrong guess takes away a life: 3, 2, 1, then 0. lives > 0 becomes False, so the loop stops. lives == 0 is True, so the last line is Game over. The number was 7." },
-  tcLives: { q: "Test case 4: the player types 6, 8, 7. How many lives are left at the end?", opts: ["3", "2", "1", "0"], ans: 2,
-    why: "6 and 8 are wrong, so lives goes from 3 to 2 to 1. 7 is correct. The correct guess is in the if, not the else, so no life is taken away." },
-};
 
-const QUIZ = [
-  { q: "What data type does input() always give?", opts: ["int", "float", "str", "It depends on what the user types"], ans: 2,
-    why: "input() always gives a str, even when the user types a number." },
-  { q: "What is the value of 7 // 2?", opts: ["3.5", "3", "1", "4"], ans: 1, why: "// divides and keeps the whole-number part. 7 // 2 is 3." },
-  { q: "Which line compares two values?", opts: ["age = 12", "age == 12", "age := 12", "age =! 12"], ans: 1, mono: true,
-    why: "== compares and gives True or False. = stores a value." },
-  { q: "What numbers does range(2, 6) give?", opts: ["2, 3, 4, 5, 6", "2, 3, 4, 5", "3, 4, 5, 6", "2, 4, 6"], ans: 1,
-    why: "range() starts at the first number and stops before the second number." },
-  { q: "Which loop should you use to keep asking for a PIN until the correct one is typed?", opts: ["for", "while", "if", "elif"], ans: 1,
-    why: "Use while when you repeat until something happens. You do not know how many tries it will take." },
-  { q: "What is a nested control structure?", opts: ["Two programs in one file", "A control structure inside another control structure", "A loop that never stops", "A comment inside the code"], ans: 1,
-    why: "Nesting means one if, for or while is inside another one. The indentation shows it." },
-  { q: "What does this code print?", code: `for i in range(1, 4):
-    if i == 2:
-        print("two")
-    else:
-        print(i)`, opts: ["1\n2\n3", "1\ntwo\n3", "two", "1\ntwo\n3\n4"], ans: 1, mono: true,
-    why: "The if is nested inside the loop. When i is 2 it prints two. For 1 and 3 the else prints the number." },
-  { q: "What does this code print?", code: `count = 0
-for i in range(1, 11):
-    if i % 3 == 0:
-        count = count + 1
-print(count)`, opts: ["10", "3", "4", "0"], ans: 1, mono: true,
-    why: "i % 3 == 0 is True for 3, 6 and 9, so count goes up 3 times. print(count) is at level 0, so it runs once after the loop." },
-  { q: "In the guessing game with lives, which nesting level is print(\"Too low\")?", opts: ["Level 0", "Level 1", "Level 2", "Level 3"], ans: 3,
-    why: "It is inside the inner if, which is inside the else, which is inside the while. That is 12 spaces, so level 3." },
-  { q: "while guess != secret and lives > 0: When does this loop stop?", opts: ["Only when the guess is correct", "Only when lives reaches 0", "When the guess is correct OR lives reaches 0", "It never stops"], ans: 2,
-    why: "and needs both conditions to be True. If either one becomes False, the whole condition is False and the loop stops." },
-];
+$$('.kw').forEach(b=>b.onclick=()=>b.setAttribute('aria-expanded',String(b.getAttribute('aria-expanded')!=='true')));
 
-/* ================= Helpers ================= */
-const KW = new Set(["if", "elif", "else", "for", "in", "while", "and", "or", "not", "True", "False", "import"]);
-const FN = new Set(["print", "input", "int", "float", "str", "len", "range", "type"]);
-const store = {
-  get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } },
-  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
-};
-function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
-function hl(line) {
-  const re = /(#.*$)|(f?"[^"]*")|([A-Za-z_][A-Za-z0-9_]*)|(\d+)|(\s+)|(.)/g;
-  let out = "", m;
-  while ((m = re.exec(line)) !== null) {
-    if (m[0] === "") break;
-    const t = esc(m[0]);
-    if (m[1]) out += `<span class="t-com">${t}</span>`;
-    else if (m[2]) out += `<span class="t-str">${t}</span>`;
-    else if (m[3] && KW.has(m[3])) out += `<span class="t-kw">${t}</span>`;
-    else if (m[3] && FN.has(m[3])) out += `<span class="t-fn">${t}</span>`;
-    else if (m[4]) out += `<span class="t-num">${t}</span>`;
-    else out += t;
-  }
-  return out;
-}
-function codeBlock(src, opts = {}) {
-  const pre = document.createElement("pre");
-  pre.className = "code" + (opts.levels ? " levels" : "") + (opts.bug ? " bug" : "");
-  const newSet = new Set(opts.newLines || []);
-  src.split("\n").forEach((line, i) => {
-    const span = document.createElement("span");
-    span.className = "ln" + (newSet.has(i + 1) ? " new" : "");
-    span.dataset.n = i + 1;
-    if (opts.levels && !newSet.has(i + 1)) {
-      const lvl = line.trim() === "" ? 0 : Math.floor(line.match(/^ */)[0].length / 4);
-      span.dataset.l = lvl;
-      if (line.trim() !== "") span.dataset.badge = "L" + lvl;
-    }
-    span.innerHTML = hl(line) || " ";
-    if (opts.bug) { span.tabIndex = 0; span.setAttribute("role", "button"); span.setAttribute("aria-label", "Line " + (i + 1) + ": " + line.trim()); }
-    pre.appendChild(span);
-  });
-  return pre;
-}
-function feedback(ok, why, extraCode) {
-  const fb = document.createElement("div");
-  fb.className = "fb " + (ok ? "ok" : "no");
-  fb.innerHTML = `<b class="word">${ok ? "Correct." : "Not quite."}</b>${esc(why)}`;
-  if (extraCode) fb.appendChild(codeBlock(extraCode));
-  return fb;
-}
-function choiceSet(item, onAnswer) {
-  const box = document.createElement("div");
-  const q = document.createElement("p"); q.className = "q"; q.textContent = item.q; box.appendChild(q);
-  if (item.code) box.appendChild(codeBlock(item.code));
-  const opts = document.createElement("div"); opts.className = "opts"; if (item.code) opts.style.marginTop = "12px";
-  const fbSlot = document.createElement("div");
-  item.opts.forEach((o, i) => {
-    const b = document.createElement("button");
-    b.className = "opt" + (item.mono ? " mono" : "");
-    b.textContent = o;
-    b.addEventListener("click", () => {
-      const ok = i === item.ans;
-      opts.querySelectorAll("button").forEach((x, j) => { x.disabled = true; if (j === item.ans) x.classList.add("ok"); });
-      if (!ok) b.classList.add("no");
-      fbSlot.replaceChildren(feedback(ok, ok ? item.why : "The answer is: " + item.opts[item.ans].replace(/\n/g, " / ") + ". " + item.why));
-      if (onAnswer) onAnswer(ok);
-    });
-    opts.appendChild(b);
-  });
-  box.appendChild(opts); box.appendChild(fbSlot);
-  return box;
-}
-
-/* ================= Python runner (Pyodide) ================= */
-let pyPromise = null, currentOut = null;
-window.runnerOut = (text, cls) => {
-  if (!currentOut) return;
-  const span = document.createElement("span");
-  if (cls) span.className = cls;
-  span.textContent = text;
-  currentOut.appendChild(span);
-};
-function loadPython() {
-  if (pyPromise) return pyPromise;
-  pyPromise = new Promise((resolve, reject) => {
-    const s = document.createElement("script");
-    s.src = "https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js";
-    s.onload = async () => {
-      try {
-        const py = await loadPyodide();
-        await py.runPythonAsync(document.getElementById("harness").textContent);
-        resolve(py);
-      } catch (e) { reject(e); }
-    };
-    s.onerror = () => reject(new Error("load failed"));
-    document.head.appendChild(s);
-  });
-  pyPromise.catch(() => { pyPromise = null; });
-  return pyPromise;
-}
-function makeRunner(src, opts = {}) {
-  const box = document.createElement("div"); box.className = "runner";
-  box.innerHTML = `
-    <div class="runner-bar">
-      <span class="name">${esc(opts.name || "program.py")}</span>
-      <button class="rbtn run" type="button">Run</button>
-      <button class="rbtn inp" type="button" aria-expanded="false">Inputs</button>
-      <button class="rbtn edit" type="button" aria-expanded="true">Hide code</button>
-      <button class="rbtn copy" type="button">Copy</button>
-      <button class="rbtn reset" type="button">Reset code</button>
-    </div>
-    <div class="editor"><div class="gutter" aria-hidden="true"></div><textarea spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Python code editor"></textarea></div>
-    <div class="inputs-row"><label>Inputs, one per line. Used first by input(); after that a box pops up.</label><textarea spellcheck="false" aria-label="Inputs, one per line"></textarea></div>
-    <div class="out-head"><span>Output</span><span class="status"></span></div>
-    <pre class="out" aria-live="polite"><span class="note">Click Run to see the output.</span></pre>`;
-  const ta = box.querySelector(".editor textarea"), gut = box.querySelector(".gutter");
-  const inRow = box.querySelector(".inputs-row"), inTa = inRow.querySelector("textarea");
-  const out = box.querySelector(".out"), status = box.querySelector(".status");
-  const runBtn = box.querySelector(".run"), inpBtn = box.querySelector(".inp");
-  ta.value = src;
-  const editBtn = box.querySelector(".edit"), editor = box.querySelector(".editor");
-  const setEdit = (on) => { editor.style.display = on ? "" : "none"; editBtn.textContent = on ? "Hide code" : "Edit code"; editBtn.setAttribute("aria-expanded", String(on)); };
-  editBtn.addEventListener("click", () => setEdit(editor.style.display === "none"));
-  if (opts.hideEditor) setEdit(false); else editBtn.style.display = "none";
-  if (opts.inputs) { inTa.value = opts.inputs; inRow.classList.add("show"); inpBtn.setAttribute("aria-expanded", "true"); }
-  const fit = () => {
-    const n = ta.value.split("\n").length;
-    gut.textContent = Array.from({ length: n }, (_, i) => i + 1).join("\n");
-    ta.rows = Math.max(3, Math.min(n + 1, 24));
-  };
-  fit();
-  ta.addEventListener("input", fit);
-  ta.addEventListener("scroll", () => { gut.scrollTop = ta.scrollTop; });
-  ta.addEventListener("keydown", (e) => {
-    const s = ta.selectionStart, en = ta.selectionEnd, v = ta.value;
-    if (e.key === "Tab") {
-      e.preventDefault();
-      const lineStart = v.lastIndexOf("\n", s - 1) + 1;
-      if (e.shiftKey) {
-        if (v.slice(lineStart, lineStart + 4) === "    ") { ta.value = v.slice(0, lineStart) + v.slice(lineStart + 4); ta.selectionStart = ta.selectionEnd = Math.max(lineStart, s - 4); }
-      } else { ta.value = v.slice(0, s) + "    " + v.slice(en); ta.selectionStart = ta.selectionEnd = s + 4; }
-      fit();
-    } else if (e.key === "Enter") {
-      e.preventDefault();
-      const lineStart = v.lastIndexOf("\n", s - 1) + 1;
-      const line = v.slice(lineStart, s);
-      let indent = line.match(/^ */)[0];
-      if (line.trimEnd().endsWith(":")) indent += "    ";
-      ta.value = v.slice(0, s) + "\n" + indent + v.slice(en);
-      ta.selectionStart = ta.selectionEnd = s + 1 + indent.length;
-      fit();
-    }
-  });
-  inpBtn.addEventListener("click", () => { const on = inRow.classList.toggle("show"); inpBtn.setAttribute("aria-expanded", String(on)); });
-  box.querySelector(".reset").addEventListener("click", () => { ta.value = src; fit(); });
-  box.querySelector(".copy").addEventListener("click", async (e) => {
-    try { await navigator.clipboard.writeText(ta.value); e.target.textContent = "Copied"; }
-    catch (err) { ta.select(); e.target.textContent = "Press Ctrl+C"; }
-    setTimeout(() => { e.target.textContent = "Copy"; }, 1500);
-  });
-  runBtn.addEventListener("click", async () => {
-    runBtn.disabled = true;
-    out.replaceChildren();
-    currentOut = out;
-    const first = !window.__pyReady;
-    if (first) { status.textContent = "Loading Python..."; window.runnerOut("Loading Python. The first time takes about 10 to 30 seconds...", "note"); }
-    try {
-      const py = await loadPython();
-      window.__pyReady = true;
-      out.replaceChildren(); status.textContent = "Running";
-      await new Promise((r) => setTimeout(r, 30));
-      currentOut = out;
-      py.globals.get("run_student")(ta.value, inRow.classList.contains("show") ? inTa.value : "");
-      status.textContent = "";
-    } catch (e) {
-      out.replaceChildren();
-      window.runnerOut("Python could not load. Check the internet connection and click Run again, or click Copy and run the code in VS Code.", "err");
-      status.textContent = "";
-    }
-    currentOut = null;
-    runBtn.disabled = false;
-  });
-  return box;
-}
-
-/* ================= Step 1: activity tabs ================= */
-const tabRoot = document.getElementById("actTabs"), actPanel = document.getElementById("actPanel");
-const actDone = new Set();
-function buildActivity(a) {
-  const wrap = document.createElement("div");
-  wrap.innerHTML = `<div class="act-top"><div><div class="eyebrow">Activity ${a.n}</div><h3>${a.title}</h3></div><span class="file">${a.file}</span></div>`;
-  const chips = document.createElement("div"); chips.className = "chips"; chips.style.margin = "0 0 14px";
-  a.keys.forEach((k) => { const c = document.createElement("span"); c.className = "chip mono " + a.col; c.textContent = k; chips.appendChild(c); });
-  wrap.appendChild(chips);
-  const t1 = document.createElement("div");
-  t1.innerHTML = `<h4 style="margin:0 0 4px;display:flex;gap:10px;align-items:center"><span class="tag ${a.col}">Predict</span> Predict the output, then run the code</h4>`;
-  t1.appendChild(choiceSet(Object.assign({ mono: true }, a.predict)));
-  wrap.appendChild(t1);
-  wrap.appendChild(makeRunner(CODE[a.id], { name: a.file, inputs: a.inputs }));
-  const t2 = document.createElement("div"); t2.className = "task";
-  t2.innerHTML = `<h4><span class="tag lilac">Find the bug</span> Click the wrong line</h4><p>${esc(a.bug.intro)}</p>`;
-  const pre = codeBlock(a.bug.code, { bug: true });
-  const fbSlot = document.createElement("div");
-  let done = false;
-  pre.querySelectorAll(".ln").forEach((ln, i) => {
-    const pick = () => {
-      if (done) return;
-      if (i + 1 === a.bug.line) {
-        done = true; ln.classList.add("picked-ok"); actDone.add(a.id); drawTabs();
-        fbSlot.replaceChildren(feedback(true, "Line " + a.bug.line + " is the bug. " + a.bug.why + " The fix:", a.bug.fix));
-      } else {
-        ln.classList.add("picked-no");
-        fbSlot.replaceChildren(feedback(false, "Line " + (i + 1) + " is fine. Read the other lines again and try once more."));
-      }
-    };
-    ln.addEventListener("click", pick);
-    ln.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(); } });
-  });
-  t2.appendChild(pre); t2.appendChild(fbSlot);
-  wrap.appendChild(t2);
-  if (a.n < 5) {
-    const nx = document.createElement("div"); nx.className = "row-btns";
-    nx.innerHTML = `<button class="btn butter" type="button">Next: Activity ${a.n + 1}</button>`;
-    nx.querySelector("button").addEventListener("click", () => { showActivity(a.n); tabRoot.scrollIntoView({ block: "center" }); });
-    wrap.appendChild(nx);
-  }
-  return wrap;
-}
-const actViews = ACTIVITIES.map(buildActivity);
-let actIndex = 0;
-function drawTabs() {
-  tabRoot.replaceChildren();
-  ACTIVITIES.forEach((a, i) => {
-    const b = document.createElement("button");
-    b.type = "button"; b.setAttribute("role", "tab"); b.setAttribute("aria-selected", String(i === actIndex));
-    b.innerHTML = `Activity ${a.n}: ${esc(a.title)}${actDone.has(a.id) ? '<span class="tick" aria-label="bug found">✓</span>' : ""}`;
-    b.addEventListener("click", () => showActivity(i));
-    tabRoot.appendChild(b);
-  });
-}
-function showActivity(i) { actIndex = i; actPanel.replaceChildren(actViews[i]); drawTabs(); }
-showActivity(0);
-
-/* ================= Fill code, runner and predict slots ================= */
-document.querySelectorAll("[data-code]").forEach((el) => el.appendChild(codeBlock(CODE[el.dataset.code], { levels: el.dataset.levels === "1" })));
-document.querySelectorAll("[data-runner]").forEach((el) => {
-  if (el.dataset.levels === "1") el.appendChild(codeBlock(CODE[el.dataset.runner], { levels: true }));
-  el.appendChild(makeRunner(CODE[el.dataset.runner], { name: el.dataset.name, inputs: el.dataset.inputs, hideEditor: el.dataset.levels === "1" }));
-});
-document.querySelectorAll("[data-predict]").forEach((el) => { el.style.marginTop = "8px"; el.appendChild(choiceSet(PREDICT[el.dataset.predict])); });
-
-/* ================= Step 6: stages ================= */
-const stageRoot = document.getElementById("stages");
-STAGES.forEach((st, i) => {
-  const d = document.createElement("div"); d.className = i ? "task" : "";
-  d.innerHTML = `<h4><span class="tag ${["peach", "mint", "lilac", "butter"][i]}">Stage ${i + 1}</span> ${esc(st.title.replace(/^Stage \d: /, ""))}</h4><p>${esc(st.what)}</p>`;
-  d.appendChild(codeBlock(st.code, { levels: true, newLines: st.newLines }));
-  const q = document.createElement("p"); q.className = "q"; q.textContent = st.q; d.appendChild(q);
-  const det = document.createElement("details"); det.className = "answer";
-  det.innerHTML = `<summary>Check your prediction</summary><div class="fb ok">${esc(st.a)}</div>`;
-  d.appendChild(det);
-  d.appendChild(makeRunner(st.code, { name: `guess_lives.py · stage ${i + 1}`, inputs: st.inputs, hideEditor: true }));
-  stageRoot.appendChild(d);
-});
-
-/* ================= Step 5: animation player ================= */
-function makePlayer(root, key) {
-  const T = TRACES[key], lines = T.src.split("\n"), steps = T.steps;
-  root.innerHTML = `
-    <div><div class="pcode"></div>
-      <div class="controls">
-        <button class="btn" type="button" data-a="back">Back</button>
-        <button class="btn butter" type="button" data-a="play">Play</button>
-        <button class="btn" type="button" data-a="next">Next step</button>
-        <button class="btn" type="button" data-a="restart">Restart</button>
-        <label style="font-size:14px;font-weight:700">Speed <select data-a="speed"><option value="1600">Slow</option><option value="900" selected>Normal</option><option value="450">Fast</option></select></label>
-        <span class="count"></span>
-      </div></div>
-    <div>
-      <div class="panel"><h4>What Python does</h4><div class="say"></div></div>
-      <div class="panel"><h4>Variables</h4><div class="vars"></div></div>
-      <div class="panel" style="margin-bottom:0"><h4>Output</h4><pre class="pout"></pre></div>
-    </div>`;
-  const pre = codeBlock(T.src, { levels: true }); root.querySelector(".pcode").appendChild(pre);
-  const lnEls = pre.querySelectorAll(".ln"), say = root.querySelector(".say"), varsBox = root.querySelector(".vars");
-  const pout = root.querySelector(".pout"), count = root.querySelector(".count"), playBtn = root.querySelector('[data-a="play"]');
-  let k = 0, timer = null;
-  function explain(i) {
-    const st = steps[i], nx = steps[i + 1];
-    if (st.line === 0) return "The program has finished.";
-    const text = lines[st.line - 1].trim();
-    const nextLine = nx ? nx.line : 0;
-    if (/^(while|if|elif)\b/.test(text)) {
-      const cond = text.replace(/^(while|if|elif)\s+/, "").replace(/:$/, "");
-      const inside = nextLine === st.line + 1;
-      return `Check the condition <code>${esc(cond)}</code>. It is <b>${inside ? "True" : "False"}</b>, so Python ${inside ? "goes inside" : (text.startsWith("while") ? "leaves the loop" : "skips the lines inside")}.`;
-    }
-    if (/^for\b/.test(text)) {
-      const inside = nextLine === st.line + 1;
-      return inside ? `The for loop gives <code>i</code> its next value: <b>${esc(nx.vars.i)}</b>.` : "There are no more values in range(), so the loop ends.";
-    }
-    if (/^else:/.test(text)) return "The condition above was False, so Python runs the else part.";
-    if (text.includes("input(")) {
-      const typed = nx ? nx.out.slice(st.out.length).split("\n")[0].replace(/^.*: /, "") : "";
-      return `input() asks the player. The player types <b>${esc(typed)}</b>.`;
-    }
-    if (text.startsWith("print(")) return "print() shows text in the output.";
-    const m = text.match(/^(\w+) = /);
-    if (m) return `Store a value in the variable <code>${esc(m[1])}</code>.`;
-    return "Run this line.";
-  }
-  function draw() {
-    const st = steps[k];
-    lnEls.forEach((el, i) => el.classList.toggle("cur", i + 1 === st.line));
-    if (st.line && lnEls[st.line - 1]) {
-      const el = lnEls[st.line - 1], top = el.offsetTop - pre.clientHeight / 2;
-      pre.scrollTop = Math.max(0, top);
-    }
-    say.innerHTML = explain(k);
-    const prev = k > 0 ? steps[k - 1].vars : {};
-    varsBox.replaceChildren();
-    const names = T.keep.filter((n) => n in st.vars);
-    if (!names.length) varsBox.innerHTML = '<span class="sub">No variables yet.</span>';
-    names.forEach((n) => {
-      const d = document.createElement("div"); d.className = "var" + (k > 0 && prev[n] !== st.vars[n] ? " changed" : "");
-      d.innerHTML = `<div class="k">${esc(n)}</div><div class="v">${esc(st.vars[n])}</div>`;
-      varsBox.appendChild(d);
-    });
-    pout.textContent = st.out || "";
-    pout.scrollTop = pout.scrollHeight;
-    count.textContent = `Step ${k + 1} of ${steps.length}`;
-  }
-  function stop() { clearInterval(timer); timer = null; playBtn.textContent = "Play"; }
-  function next() { if (k < steps.length - 1) { k++; draw(); } else stop(); }
-  root.querySelector('[data-a="next"]').addEventListener("click", () => { stop(); next(); });
-  root.querySelector('[data-a="back"]').addEventListener("click", () => { stop(); if (k > 0) { k--; draw(); } });
-  root.querySelector('[data-a="restart"]').addEventListener("click", () => { stop(); k = 0; draw(); });
-  playBtn.addEventListener("click", () => {
-    if (timer) return stop();
-    if (k >= steps.length - 1) { k = 0; draw(); }
-    playBtn.textContent = "Pause";
-    timer = setInterval(next, +root.querySelector('[data-a="speed"]').value);
-  });
-  root.querySelector('[data-a="speed"]').addEventListener("change", () => { if (timer) { stop(); playBtn.click(); } });
-  draw();
-}
-makePlayer(document.getElementById("player-lives"), "lives");
-
-/* ================= Step 7: trace table ================= */
-const traceRows = [...document.querySelectorAll("#trace tr.hidden-row")];
-document.getElementById("traceNext").addEventListener("click", () => { const r = traceRows.find((x) => x.classList.contains("hidden-row")); if (r) r.classList.remove("hidden-row"); });
-document.getElementById("traceReset").addEventListener("click", () => traceRows.forEach((r) => r.classList.add("hidden-row")));
-
-/* ================= Step 8: quiz ================= */
-const quizBox = document.getElementById("quizBox");
-let score = 0, answered = 0;
-function updateScore() {
-  document.getElementById("scoreText").textContent = `Score: ${score} / ${QUIZ.length} · Answered: ${answered} / ${QUIZ.length}`;
-  const res = document.getElementById("result");
-  if (answered === QUIZ.length) {
-    document.getElementById("resultScore").textContent = `${score} / ${QUIZ.length}`;
-    document.getElementById("resultMsg").textContent = score >= 8 ? "Well done. You understand nested control structures." : "Read the explanations for the questions you got wrong, then try the quiz again.";
-    res.classList.add("show");
-  } else res.classList.remove("show");
-}
-function buildQuiz() {
-  score = 0; answered = 0; quizBox.replaceChildren();
-  QUIZ.forEach((item, i) => {
-    const w = document.createElement("div"); w.className = "qz";
-    w.appendChild(choiceSet(Object.assign({}, item, { q: `${i + 1}. ${item.q}` }), (ok) => { answered++; if (ok) score++; updateScore(); }));
-    quizBox.appendChild(w);
-  });
-  updateScore();
-}
-document.getElementById("quizReset").addEventListener("click", () => { buildQuiz(); document.getElementById("s8").scrollIntoView(); });
-buildQuiz();
-
-/* ================= Progress and teacher notes ================= */
-const STEP_IDS = ["s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8"];
-let doneSteps = new Set(store.get("y8nest-done") || []);
-function drawProgress() {
-  document.querySelectorAll("[data-done]").forEach((b) => {
-    const on = doneSteps.has(b.dataset.done);
-    b.setAttribute("aria-pressed", String(on));
-    b.textContent = on ? `Step ${b.dataset.done.slice(1)} done ✓` : `Mark step ${b.dataset.done.slice(1)} as done`;
-  });
-  document.querySelectorAll(".steps-nav a[data-step]").forEach((a) => a.classList.toggle("done", doneSteps.has(a.dataset.step)));
-  document.getElementById("progFill").style.width = (doneSteps.size / STEP_IDS.length * 100) + "%";
-  document.getElementById("progText").textContent = `${doneSteps.size} of ${STEP_IDS.length} steps done`;
-}
-document.querySelectorAll("[data-done]").forEach((b) => b.addEventListener("click", () => {
-  const id = b.dataset.done;
-  doneSteps.has(id) ? doneSteps.delete(id) : doneSteps.add(id);
-  store.set("y8nest-done", [...doneSteps]); drawProgress();
-}));
-drawProgress();
-const tBtn = document.getElementById("teacherToggle");
-function setTeacher(on) { document.body.classList.toggle("teacher", on); tBtn.setAttribute("aria-pressed", String(on)); tBtn.textContent = "Teacher notes: " + (on ? "on" : "off"); store.set("y8nest-teacher", on); }
-tBtn.addEventListener("click", () => setTeacher(!document.body.classList.contains("teacher")));
-setTeacher(!!store.get("y8nest-teacher"));
+/* teacher notes: wrap each part so notes sit beside it */
+secs.forEach(s=>{const aside=s.querySelector('.tnotes');if(!aside)return;const w=document.createElement('div');w.className='sec-main';
+  [...s.childNodes].forEach(n=>{if(n!==aside)w.appendChild(n)});s.insertBefore(w,aside)});
+function setNotes(on){document.body.classList.toggle('notes',on);$('#tn').setAttribute('aria-pressed',String(on));$('#tn').textContent=on?'Hide notes':'Teacher notes';store.set('notes',on)}
+$('#tn').onclick=()=>setNotes(!document.body.classList.contains('notes'));
+document.addEventListener('keydown',e=>{if(['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName))return;if(e.key==='n'||e.key==='N')setNotes(!document.body.classList.contains('notes'))});
+setNotes(store.get('notes',false));
+go(cur);
+})();
 </script>
 </body>
 </html>
