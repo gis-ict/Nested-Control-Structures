@@ -171,6 +171,7 @@ pre.click .ln.par{background:rgba(92,177,214,.25)}
 
 /* Show code exactly as typed: no font ligatures (so != stays !=, == stays ==) */
 code,pre,textarea,.mono,.opt,.mon,.var,.pline,.out,.pout,.gutter,.tbl td.m,.runner-bar .name,.file,td.mono,.nest{font-variant-ligatures:none;font-feature-settings:"liga" 0,"calt" 0,"dlig" 0}
+.ver{background:rgba(255,255,255,.18);border-radius:999px;padding:3px 10px;font-size:13px;font-weight:700;white-space:nowrap}
 
 .kwrow{display:flex;flex-wrap:wrap;gap:8px;align-items:flex-start;margin:6px 0 16px}
 .kwlab{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:7px;margin-right:2px}
@@ -185,6 +186,7 @@ code,pre,textarea,.mono,.opt,.mon,.var,.pline,.out,.pout,.gutter,.tbl td.m,.runn
 <header>
   <div class="bar">
     <h1>Year 8 Digital Technologies · Python IV · Nested Control Structures</h1>
+    <span class="ver" title="Version of this page">Student copy · v4, 21 Oct</span>
     <div class="timer" id="timer" title="Timer for this part of the lesson">
       <span id="tleft">1:00</span>
       <button id="tgo" aria-label="Start or pause timer">Start</button>
@@ -726,7 +728,7 @@ qRender();
   function draw(){const s=steps[k];ls.forEach((e,i)=>e.classList.toggle('cur',i+1===s.line));say.innerHTML=explain(k);
     const prev=k>0?steps[k-1].vars:{};vb.replaceChildren();
     T.keep.filter(n=>n in s.vars).forEach(n=>{const d=document.createElement('div');d.className='var'+(k>0&&prev[n]!==s.vars[n]?' changed':'');d.innerHTML=`<div class="k">${esc(n)}</div><div class="v">${esc(s.vars[n])}</div>`;vb.appendChild(d)});
-    if(!vb.children.length)vb.innerHTML='<span style="color:var(--muted)">No variables yet.</span>';
+    if(!vb.children.length)vb.innerHTML='<span style="color:var(--muted);grid-column:1/-1">No variables yet.</span>';
     po.textContent=s.out||'';po.scrollTop=po.scrollHeight;cnt.textContent=`Step ${k+1} of ${steps.length}`}
   const stop=()=>{clearInterval(tm);tm=null;pb.textContent='Play'};const nx=()=>{if(k<steps.length-1){k++;draw()}else stop()};
   root.querySelector('[data-a="next"]').onclick=()=>{stop();nx()};root.querySelector('[data-a="back"]').onclick=()=>{stop();if(k>0){k--;draw()}};
