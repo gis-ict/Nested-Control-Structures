@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Y8 Nested Control Structures (Teacher)</title>
+<title>Y8 Nested Control Structures</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -176,16 +176,6 @@ pre.click .ln.par{background:rgba(92,177,214,.25)}
 .kw span{display:none;font-size:15px;color:var(--ink);margin-top:2px}
 .kw[aria-expanded="true"]{background:#fff7e0;border-color:#e8c35a}
 .kw[aria-expanded="true"] span{display:block}
-
-.tnotes{display:none;background:#fffdf7;border:2px solid #e8c35a;border-radius:16px;padding:14px 16px;font-size:16px;line-height:1.5;align-self:start;position:sticky;top:122px;max-height:calc(100vh - 210px);overflow:auto}
-.tnotes .tn-head{font-weight:700;color:#7a5a00;text-transform:uppercase;letter-spacing:.06em;font-size:13px;margin-bottom:4px}
-.tnotes h4{margin:12px 0 4px;color:var(--maroon);font-size:16px}
-.tnotes p{margin:4px 0}.tnotes ul,.tnotes ol{margin:4px 0;padding-left:20px}
-body.notes main{max-width:1500px}
-body.notes section.on{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:20px}
-body.notes .tnotes{display:block}
-@media (max-width:1100px){body.notes section.on{display:block}body.notes .tnotes{position:static;max-height:none;margin-top:18px}}
-.iconbtn[aria-pressed="true"]{background:var(--gold);color:#3b2a00}
 </style>
 </head>
 <body>
@@ -197,7 +187,6 @@ body.notes .tnotes{display:block}
       <button id="tgo" aria-label="Start or pause timer">Start</button>
       <button id="treset" aria-label="Reset timer">Reset</button>
     </div>
-    <button class="iconbtn" id="tn" aria-pressed="false" title="Show or hide teacher notes (key: N)">Teacher notes</button>
     <button class="iconbtn" id="fs" title="Full screen">Full screen</button>
   </div>
   <nav class="steps" id="steps" aria-label="Lesson parts"></nav>
@@ -210,29 +199,28 @@ body.notes .tnotes{display:block}
 <section data-title="Start" data-min="1">
   <span class="mins">1 min</span>
   <h2>Today's lesson</h2>
-  <p class="sub">Last lesson we reviewed Activities 1 to 5. Today: a warm-up challenge, then <b>nested control structures</b>. You will finish with a guessing game that has <b>attempts, hints and lives</b>.</p>
+  <p class="sub">Last lesson we reviewed Activities 1 to 5. Today: a warm-up game, then a new idea: <b>nested control structures</b>. At the end, you will build a guessing game with <b>lives</b>.</p>
   <div class="two">
     <div class="map" id="map"></div>
     <div class="card">
       <h3>By the end of today you can...</h3>
-      <p>✅ explain what a <b>nested control structure</b> is</p>
-      <p>✅ use <b>indentation</b> to find the <b>nesting level</b> of a line</p>
-      <p>✅ write <b>selection inside iteration</b> and <b>iteration inside selection</b></p>
-      <p>✅ <b>trace</b> nested code and turn <b>pseudocode</b> into Python</p>
-      <p>✅ build the guessing game with lives and check it with <b>test cases</b></p>
+      <p>✅ say what a <b>nested control structure</b> is</p>
+      <p>✅ count the spaces (<b>indentation</b>) to find the <b>nesting level</b> of a line</p>
+      <p>✅ put an <code>if</code> inside a loop, and a loop inside an <code>if</code></p>
+      <p>✅ follow nested code line by line (<b>trace</b> it)</p>
+      <p>✅ build the guessing game and check it with <b>test cases</b></p>
       <p style="margin-top:14px;color:var(--muted);font-size:16px">Click any <b>Key word</b> to see what it means.</p>
       <p style="color:var(--muted);font-size:16px">How to move: click the buttons at the top, use <b>Next</b> at the bottom, or press <kbd>→</kbd> and <kbd>←</kbd>.</p>
       <p style="color:var(--muted);font-size:16px">Teams of three: <b>Driver</b> types, <b>Navigator</b> reads and checks, <b>Tracer</b> writes and predicts. Swap at every part marked "Swap".</p>
     </div>
   </div>
-  <aside class="tnotes" aria-label="Teacher notes"><div class="tn-head">Teacher notes</div><h4>Explain</h4><p>Today has two key ideas: <b>nested control structures</b> and the <b>nesting level</b>. Everything else (tracing, pseudocode, test cases) is a skill they already met; today it is used on nested code.</p><p>Press <b>Start</b> on the timer at the start of each part. The page remembers the current part if the browser is refreshed.</p><h4>Real life</h4><p>Before class: click Run on any program once so Python is loaded (first time 10 to 30 seconds). If the school network blocks it, students use <b>Copy</b> and paste into VS Code.</p><h4>Ask the class</h4><p>"Last lesson we saw an <code>if</code> inside a <code>while</code> in Activity 4. Who remembers what the <code>if</code> did?" (It printed Too low or Too high.)</p></aside>
 </section>
 
 <!-- 1 WARM-UP -->
 <section data-title="1. Review: selection and iteration" data-min="7">
   <span class="mins">7 min</span>
   <h2>Review: data types, selection and iteration</h2>
-  <div class="kwrow"><span class="kwlab">Key words</span><button class="kw" type="button" aria-expanded="false"><b>variable</b><span>A named place that stores a value, like score or lives.</span></button><button class="kw" type="button" aria-expanded="false"><b>data type</b><span>The kind of value: int, float or str.</span></button><button class="kw" type="button" aria-expanded="false"><b>selection</b><span>Choosing which lines run: if, elif, else.</span></button><button class="kw" type="button" aria-expanded="false"><b>iteration</b><span>Repeating lines: for and while loops.</span></button><button class="kw" type="button" aria-expanded="false"><b>condition</b><span>A question that is True or False, like score >= 80.</span></button></div>
+  <div class="kwrow"><span class="kwlab">Key words</span><button class="kw" type="button" aria-expanded="false"><b>variable</b><span>A box with a name. It keeps a value, like score = 0.</span></button><button class="kw" type="button" aria-expanded="false"><b>data type</b><span>What kind of value it is: a whole number (int), a decimal (float) or text (str).</span></button><button class="kw" type="button" aria-expanded="false"><b>selection</b><span>Making a choice. Python picks which lines to run. Uses if, elif, else.</span></button><button class="kw" type="button" aria-expanded="false"><b>iteration</b><span>Repeating. Python runs lines again and again. Uses for and while.</span></button><button class="kw" type="button" aria-expanded="false"><b>condition</b><span>A yes-or-no question for Python. The answer is True or False. Example: score >= 80</span></button></div>
   <p class="sub">8 questions. You have <b>3 lives</b>. A wrong answer costs a life. Can your team finish with all 3?</p>
   <div class="card">
     <div class="row" style="justify-content:space-between">
@@ -247,18 +235,20 @@ body.notes .tnotes{display:block}
   </div>
   <div class="card" id="qSecret" style="margin-top:14px;display:none">
     <h3>Surprise: this quiz is a Python program</h3>
-    <p>Here is the code behind the quiz you just played. Look at the <b>indentation</b>. The <code>if</code> (<b>selection</b>) is inside the <code>while</code> loop (<b>iteration</b>). One control structure inside another is called a <b>nested control structure</b>. That is today's topic.</p>
+    <p>This is the code behind the quiz you just played. Look at the spaces at the start of the lines. The <code>if</code> is pushed in, so it is <b>inside</b> the <code>while</code> loop.</p>
+    <p>An <code>if</code> inside a loop is a <b>nested control structure</b>. That is today's topic.</p>
     <div data-code="quizcode" data-levels="1"></div>
   </div>
-  <aside class="tnotes" aria-label="Teacher notes"><div class="tn-head">Teacher notes</div><h4>Explain</h4><p>The quiz itself is the hook. Students play a game with <b>score</b> and <b>lives</b>, then discover the code behind it: a <code>while</code> loop (iteration) with an <code>if</code>/<code>else</code> (selection) inside. They have just <i>used</i> a nested control structure before you name it.</p><p>Play as a whole class: teams agree, show fingers 1 to 4, one student clicks.</p><h4>Real life</h4><p><b>Video game lives.</b> Every game they play works like this: <i>while</i> you still have lives, keep playing; <i>if</i> you get hit, lose a life. That is iteration with selection nested inside.</p><h4>Ask the class</h4><p>After the code appears:</p><ul><li>"Which line takes away a life?" (line 10)</li><li>"How many spaces is it indented?" (8)</li><li>"Which line is the loop? Which is the selection?" (line 5 while; line 7 if)</li></ul><h4>Answers</h4><p>1 str · 2 105 · 3 B · 4 1 to 10 · 5 5 4 3 2 1 · 6 Line 3 · 7 colon · 8 3</p></aside>
 </section>
 
 <!-- 2 BOXES -->
 <section data-title="2. Nested control structures" data-min="6">
   <span class="mins">6 min</span>
   <h2>Nested control structures</h2>
-  <div class="kwrow"><span class="kwlab">Key words</span><button class="kw" type="button" aria-expanded="false"><b>control structure</b><span>Code that controls which lines run, or how many times: if, for, while.</span></button><button class="kw" type="button" aria-expanded="false"><b>nested control structure</b><span>A control structure inside another control structure.</span></button><button class="kw" type="button" aria-expanded="false"><b>indentation</b><span>The spaces at the start of a line. In Python they show what is inside what.</span></button><button class="kw" type="button" aria-expanded="false"><b>nesting level</b><span>How deep a line is: every 4 spaces of indentation is one level.</span></button></div>
-  <p class="sub">A <b>control structure</b> decides which lines run (<b>selection</b>: <code>if</code>) or how many times they run (<b>iteration</b>: <code>for</code>, <code>while</code>). A <b>nested control structure</b> is a control structure inside another one.</p>
+  <div class="kwrow"><span class="kwlab">Key words</span><button class="kw" type="button" aria-expanded="false"><b>control structure</b><span>if, for and while. They control which lines run, and how many times.</span></button><button class="kw" type="button" aria-expanded="false"><b>nested control structure</b><span>One control structure inside another. Example: an if inside a while loop.</span></button><button class="kw" type="button" aria-expanded="false"><b>indentation</b><span>The spaces at the start of a line.</span></button><button class="kw" type="button" aria-expanded="false"><b>nesting level</b><span>How deep a line is. Count the spaces: 4 = level 1, 8 = level 2, 12 = level 3.</span></button></div>
+  <div class="card" style="margin-bottom:14px"><p style="margin:0"><code>if</code>, <code>for</code> and <code>while</code> are <b>control structures</b>. They control which lines run, and how many times.</p>
+  <p style="margin:6px 0 0"><b>Nested</b> means <b>one inside another</b>. So a <b>nested control structure</b> is one of them inside another one.</p>
+  <p style="margin:6px 0 0;color:var(--muted)">Think of it like a small box inside a bigger box.</p></div>
   <div class="two">
     <div class="card">
       <h3>In Scratch, you could see the nesting</h3>
@@ -270,12 +260,12 @@ body.notes .tnotes{display:block}
           <div class="in"><span class="blk lo">say <span class="v">Caught you!</span></span></div>
         </div>
       </div>
-      <p style="font-size:16px;color:var(--muted)">The <b>if</b> block (selection) sits inside the C shape of the <b>forever</b> block (iteration).</p>
+      <p style="font-size:16px;color:var(--muted)">You can see the <b>if</b> block sitting inside the <b>forever</b> block.</p>
     </div>
     <div class="card">
       <h3>In Python, indentation shows the nesting</h3>
       <div data-code="boxes" data-levels="1"></div>
-      <p style="font-size:16px;color:var(--muted);margin-top:8px">Python has no C shapes. <b>Indentation</b> does the same job. Every 4 spaces = one <b>nesting level</b> deeper.</p>
+      <p style="font-size:16px;color:var(--muted);margin-top:8px">Python has no C shapes. It uses <b>spaces</b> instead. More spaces = deeper inside.<br>4 spaces = level 1 · 8 spaces = level 2</p>
     </div>
   </div>
   <div class="card" style="margin-top:14px">
@@ -294,26 +284,27 @@ body.notes .tnotes{display:block}
       </div>
     </div>
   </div>
-  <aside class="tnotes" aria-label="Teacher notes"><div class="tn-head">Teacher notes</div><h4>Explain</h4><p>Define the words in this order:</p><ol><li><b>Control structure</b>: code that controls which lines run (selection) or how many times (iteration).</li><li><b>Nested</b>: one inside another.</li><li><b>Indentation</b>: Python's way of showing what is inside what.</li><li><b>Nesting level</b>: 4 spaces = level 1, 8 = level 2, 12 = level 3.</li></ol><p>Use the Scratch picture: they built with C-shaped blocks for years. Key sentence: <i>"Python has no C shapes. The indentation does the same job."</i></p><h4>Real life</h4><p><b>Airport security.</b> You reach the gate only if you pass check-in, <i>then</i> security, <i>then</i> boarding. Each check is inside the one before. A deep line of code is the same: it only runs if every condition above it lets Python in.</p><p><b>Folders on a computer.</b> Documents › School › Year 8 › Python. Each folder is one level deeper, like indentation.</p><h4>Ask the class</h4><p>In the Level spotter, click line 14, <code>print("Too low")</code>:</p><ul><li>"What level?" (3)</li><li>"What must be True for this line to run?" (The loop is running, the guess is not 7, and the guess is less than 7.)</li></ul><p>Then click line 20: "Why is this line not inside the loop?" (It should run once, after the game ends.)</p></aside>
 </section>
 
 <!-- 3 TWO KINDS -->
 <section data-title="3. Selection and iteration nested (Swap)" data-min="8">
   <span class="mins">8 min · Swap driver</span>
   <h2>Selection and iteration, nested</h2>
-  <div class="kwrow"><span class="kwlab">Key words</span><button class="kw" type="button" aria-expanded="false"><b>selection inside iteration</b><span>An if inside a loop: the choice is made again each time round.</span></button><button class="kw" type="button" aria-expanded="false"><b>iteration inside selection</b><span>A loop inside an if: the loop only runs if the condition is True.</span></button><button class="kw" type="button" aria-expanded="false"><b>condition</b><span>A question that is True or False.</span></button><button class="kw" type="button" aria-expanded="false"><b>Boolean</b><span>A value that is either True or False.</span></button></div>
-  <p class="sub">There are two ways to nest them. <b>Predict</b> first. Then click <b>Run</b> to check.</p>
+  <div class="kwrow"><span class="kwlab">Key words</span><button class="kw" type="button" aria-expanded="false"><b>selection inside iteration</b><span>An if inside a loop. Python makes the choice again every time round.</span></button><button class="kw" type="button" aria-expanded="false"><b>iteration inside selection</b><span>A loop inside an if. The loop only runs if the answer is True.</span></button><button class="kw" type="button" aria-expanded="false"><b>Boolean</b><span>True or False. Nothing else.</span></button></div>
+  <p class="sub">There are two ways to nest. <b>Predict</b> first, then click <b>Run</b> to check.</p>
   <div class="two even">
     <div class="card">
-      <h3>A. Selection inside iteration</h3>
-      <p>The <code>for</code> loop repeats (<b>iteration</b>). <b>Each time round</b>, the <code>if</code> checks a <b>condition</b> and chooses (<b>selection</b>).</p>
+      <h3>A. Selection inside iteration</h3><p style="margin:0 0 6px;color:var(--muted)">(an <code>if</code> inside a loop)</p>
+      <p>The loop repeats. <b>Each time round</b>, the <code>if</code> asks a question and makes a choice.</p>
+      <p style="font-size:16px;color:var(--muted)">Think of it like a teacher marking tests: <b>for</b> each test, <b>if</b> the score is 50 or more, write Pass.</p>
       <div data-code="selInLoop" data-levels="1"></div>
       <div data-predict="pSel"></div>
       <div data-runner="selInLoop" data-name="even_odd.py" data-hide="1"></div>
     </div>
     <div class="card">
-      <h3>B. Iteration inside selection</h3>
-      <p>The <code>if</code> checks a <b>condition</b> first (<b>selection</b>). The loop inside <b>only runs if</b> the condition is <code>True</code>.</p>
+      <h3>B. Iteration inside selection</h3><p style="margin:0 0 6px;color:var(--muted)">(a loop inside an <code>if</code>)</p>
+      <p>The <code>if</code> asks a question first. The loop <b>only runs if</b> the answer is <code>True</code>.</p>
+      <p style="font-size:16px;color:var(--muted)">Think of it like this: <b>if</b> it rains, close <b>every</b> window. If it does not rain, close none.</p>
       <div data-code="loopInSel" data-levels="1"></div>
       <div data-predict="pLoop"></div>
       <div data-runner="loopInSel" data-name="show_table.py" data-hide="1" data-inputs="no"></div>
@@ -322,30 +313,29 @@ body.notes .tnotes{display:block}
   <div class="card" style="margin-top:14px">
     <h3>Quick challenge: fizz</h3>
     <p>Count from 1 to 10. Print <b>fizz</b> instead of the number when it can be divided by 3. Edit the code below and run it.</p>
-    <p style="font-size:16px;color:var(--muted)">Hint: <code>i % 3 == 0</code> is True when i can be divided by 3. You need selection (<code>if</code>/<code>else</code>) nested inside iteration (the <code>for</code> loop).</p>
+    <p style="font-size:16px;color:var(--muted)">Hint: <code>i % 3 == 0</code> means "i can be divided by 3". Put an <code>if</code>/<code>else</code> inside the <code>for</code> loop.</p>
     <div data-runner="fizzStart" data-name="fizz.py"></div>
     <button class="btn alt sm" style="margin-top:10px" data-reveal>Show a possible answer</button>
     <div class="reveal" style="background:none;padding:0"><div data-code="fizz" data-levels="1"></div></div>
   </div>
-  <aside class="tnotes" aria-label="Teacher notes"><div class="tn-head">Teacher notes</div><h4>Explain</h4><p>Two patterns, both on the board:</p><ul><li><b>Selection inside iteration</b>: the choice is made <i>again every time round</i> the loop.</li><li><b>Iteration inside selection</b>: the loop runs <i>only if</i> the condition is True.</li></ul><p>Point at the indentation each time: "The loop is inside the if, so it only runs when the if lets it in."</p><h4>Real life</h4><p><b>Selection inside iteration:</b> a teacher marking a stack of tests. <i>For each</i> test (iteration), <i>if</i> the score is 50 or more, write Pass, <i>else</i> write Not yet (selection).</p><p><b>Iteration inside selection:</b> <i>if</i> it starts raining (selection), then <i>for each</i> window in the house, close it (iteration). If it is not raining, no windows get closed at all.</p><h4>Ask the class</h4><ul><li>A: "What is the third line?" (3 is odd, because 3 % 2 is 1)</li><li>B: "The user types no. How many lines?" (1, Maybe next time. The loop never runs.)</li><li>"Give me your own real-life example of each pattern."</li></ul><h4>Fizz answer</h4><p><code>if i % 3 == 0:</code> print fizz, <code>else:</code> print i, both nested inside the for loop. Output: 1 2 fizz 4 5 fizz 7 8 fizz 10.</p></aside>
 </section>
 
 <!-- 4 WATCH IT RUN -->
 <section data-title="4. Tracing nested code" data-min="5">
   <span class="mins">5 min</span>
   <h2>Tracing nested code: the guessing game with lives</h2>
-  <div class="kwrow"><span class="kwlab">Key words</span><button class="kw" type="button" aria-expanded="false"><b>trace</b><span>Follow the code one line at a time, like the computer does.</span></button><button class="kw" type="button" aria-expanded="false"><b>trace table</b><span>A table that records the value of each variable after each step.</span></button><button class="kw" type="button" aria-expanded="false"><b>logical operator: and</b><span>Joins two conditions. The result is True only if both are True.</span></button></div>
-  <p class="sub"><b>Tracing</b> means following the code one line at a time and keeping track of every <b>variable</b>. The player types <b>3</b>, then <b>9</b>, then <b>7</b>. Before each click on <b>Next step</b>, predict which line runs next.</p>
+  <div class="kwrow"><span class="kwlab">Key words</span><button class="kw" type="button" aria-expanded="false"><b>trace</b><span>Follow the code line by line, the same way the computer does.</span></button><button class="kw" type="button" aria-expanded="false"><b>trace table</b><span>A table where you write down each variable's value as the code runs.</span></button><button class="kw" type="button" aria-expanded="false"><b>and</b><span>Joins two conditions. Both must be True. Example: keep playing if you have not won and you still have lives.</span></button></div>
+  <p class="sub"><b>Tracing</b> means following the code one line at a time, like the computer does. The player types <b>3</b>, then <b>9</b>, then <b>7</b>. Before you click <b>Next step</b>, guess which line comes next.</p>
   <div class="two" id="player"></div>
-  <aside class="tnotes" aria-label="Teacher notes"><div class="tn-head">Teacher notes</div><h4>Explain</h4><p><b>Tracing</b> is what the computer does: one line at a time, remembering every variable. Run the animation on the projector and click <b>Next step</b> yourself.</p><p>Stop at line 9, <code>if guess == secret</code>: "It is False. Where does Python jump?" (line 11, else). When the guess is 7, show that lines 12 to 17 are skipped completely, because they are nested inside the else.</p><p>Explain <code>and</code>: the loop keeps going only while <b>both</b> conditions are True.</p><h4>Real life</h4><p><b>Video replay (VAR) in football.</b> The referee watches the play frame by frame to see exactly what happened. Tracing is a slow-motion replay of your program.</p><p><b>and</b> is like a ride rule: you can ride <i>if</i> you are tall enough <i>and</i> you have a ticket. Missing either one means no ride.</p><h4>Ask the class</h4><ul><li>Before each click: "Which line runs next?"</li><li>"What happens to lives when the guess is 3?" (3 becomes 2)</li><li>"Why does the loop stop after 7?" (guess != secret is False, so the whole and is False)</li></ul><p style="font-size:15px">Video alternative: "How to Code PYTHON: Implement a Number Guessing Game Using a While Loop" by Coding With Kids (YouTube).</p></aside>
 </section>
 
 <!-- 5 PUZZLE -->
 <section data-title="5. Pseudocode to code" data-min="6">
   <span class="mins">6 min</span>
   <h2>From pseudocode to code</h2>
-  <div class="kwrow"><span class="kwlab">Key words</span><button class="kw" type="button" aria-expanded="false"><b>algorithm</b><span>A list of steps that solves a problem.</span></button><button class="kw" type="button" aria-expanded="false"><b>pseudocode</b><span>An algorithm written in plain English, with the same structure as code.</span></button><button class="kw" type="button" aria-expanded="false"><b>Parsons puzzle</b><span>A puzzle where you put lines of code in the right order.</span></button></div>
-  <p class="sub"><b>Pseudocode</b> is the plan of an <b>algorithm</b> in plain English. Turn it into Python: the lines are mixed up and have no indentation. Use <b>↑ ↓</b> to put them in order. Use <b>← →</b> to set the <b>nesting level</b>. Then click <b>Check</b>.</p>
+  <div class="kwrow"><span class="kwlab">Key words</span><button class="kw" type="button" aria-expanded="false"><b>algorithm</b><span>Step-by-step instructions to solve a problem. Like a recipe.</span></button><button class="kw" type="button" aria-expanded="false"><b>pseudocode</b><span>Your plan, written in normal English, before you write Python.</span></button><button class="kw" type="button" aria-expanded="false"><b>Parsons puzzle</b><span>Lines of code in the wrong order. You put them in the right order.</span></button></div>
+  <p class="sub"><b>Pseudocode</b> is a plan written in normal English. Now turn the plan into Python. The lines are mixed up, and none of them have spaces yet.</p>
+  <div class="do"><b class="h">How to play</b><ol><li>Use <b>↑ ↓</b> to put the lines in order.</li><li>Use <b>← →</b> to add spaces (set the <b>nesting level</b>).</li><li>Click <b>Check</b>. Green = right. Red = try again.</li></ol></div>
   <div class="two pzgrid">
     <div class="card">
       <h3>The plan</h3>
@@ -371,41 +361,39 @@ body.notes .tnotes{display:block}
       <div id="pzRunner"></div>
     </div>
   </div>
-  <aside class="tnotes" aria-label="Teacher notes"><div class="tn-head">Teacher notes</div><h4>Explain</h4><p>This is a <b>Parsons puzzle</b>: students arrange given lines, so they focus on <b>order</b> and <b>nesting level</b> without typing errors. Research shows novices learn structure faster this way than by typing from scratch.</p><p>Roles: the <b>Tracer</b> reads the pseudocode aloud, the <b>Driver</b> moves lines, the <b>Navigator</b> checks levels. Check marks lines green or red. <b>Run my code</b> runs their version, so a wrong order gives a real error.</p><h4>Real life</h4><p><b>A recipe cut into strips.</b> The steps are all there, but you must put them in order and decide which steps belong <i>under</i> "if the oven is hot". Pseudocode is the recipe; Python is cooking it.</p><h4>Ask the class</h4><ul><li>"Which line has to come first? How do you know?" (the while: everything else repeats)</li><li>"There are two else lines. How do you know which level each one is?" (Each else lines up with its own if.)</li></ul><h4>Answer (line: level)</h4><p>while: 0 · guess = input: 1 · if guess == secret: 1 · print Correct: 2 · else: 1 · lives - 1: 2 · if guess &lt; secret: 2 · print Too low: 3 · else: 2 · print Too high: 3</p></aside>
 </section>
 
 <!-- 6 BUILD -->
 <section data-title="6. Build and test (Swap)" data-min="18">
   <span class="mins">18 min · Swap driver after stage 2</span>
   <h2>Build and test, one stage at a time</h2>
-  <div class="kwrow"><span class="kwlab">Key words</span><button class="kw" type="button" aria-expanded="false"><b>counter</b><span>A variable that goes up by 1 each time, like attempts = attempts + 1.</span></button><button class="kw" type="button" aria-expanded="false"><b>test</b><span>Run the code to check that it does what you expect.</span></button><button class="kw" type="button" aria-expanded="false"><b>debug</b><span>Find and fix an error in the code.</span></button></div>
-  <p class="sub">In VS Code, make one file: <b>guess_lives.py</b>. Add one stage at a time and <b>test</b> it before you add the next. Tick each stage when it works.</p>
+  <div class="kwrow"><span class="kwlab">Key words</span><button class="kw" type="button" aria-expanded="false"><b>counter</b><span>A variable that counts. It goes up by 1 each time: attempts = attempts + 1</span></button><button class="kw" type="button" aria-expanded="false"><b>test</b><span>Run your code to see if it works.</span></button><button class="kw" type="button" aria-expanded="false"><b>debug</b><span>Find the mistake (the bug) and fix it.</span></button></div>
+  <p class="sub">Build the game in VS Code, one stage at a time. Make one file: <b>guess_lives.py</b>. Add a stage, run it, and tick the box when it works. Then add the next stage.</p>
   <div class="do"><b class="h">For each stage</b><ol><li>Read the <b>NEW</b> lines (yellow).</li><li>Tracer: predict the output for the test inputs.</li><li>Driver: add the new lines in VS Code and run.</li><li>Navigator: compare with the prediction. Tick the box.</li></ol></div>
   <div id="stages"></div>
   <div class="card" style="margin-top:6px">
     <h3>Finished early?</h3>
     <p>⭐ Give the player 5 lives instead of 3.</p>
     <p>⭐⭐ Make the secret number random: add <code>import random</code> at the top and use <code>secret = random.randint(1, 10)</code>.</p>
-    <p>⭐⭐⭐ The game says "You took 1 attempts". Use a nested <code>if</code> to print "attempt" when attempts is 1.</p>
+    <p>⭐⭐⭐ When you win on the first try, the game says "You took 1 attempts". Add an <code>if</code> so it says "attempt" when attempts is 1.</p>
   </div>
   <div class="row" style="margin-top:10px"><button class="btn alt" id="clearChecks">Clear ticks</button></div>
-  <aside class="tnotes" aria-label="Teacher notes"><div class="tn-head">Teacher notes</div><h4>Explain</h4><p>Students build the full game in VS Code, one stage at a time, and test after each stage. This is how programmers really work: small steps, test often, so a bug can only be in the newest lines.</p><p><b>Stage 3 is the key moment.</b> Ask: "Why did <code>elif guess &gt; secret</code> become <code>else</code>?" (Inside the else the guess is already wrong, so it can only be too low or too high.)</p><p>Every team must reach Stage 4. Swap driver after Stage 2.</p><h4>Real life</h4><p><b>Building with LEGO in stages.</b> You check each section is solid before you build on top. <b>Cooking:</b> you taste as you go, not only at the end.</p><h4>Ask the class</h4><p>Walk around with one question: "Point to a line at level 2. What is it nested inside?"</p><h4>Common bugs</h4><ul><li>Missing colon after <code>if</code>, <code>else</code> or <code>while</code>.</li><li><code>print(f"Lives left: {lives}")</code> indented too far, so it only prints for Too high.</li><li>Forgot <code>and lives &gt; 0</code>, so the game never ends.</li><li>Game over <code>if</code> indented inside the loop, so it is checked every turn.</li></ul></aside>
 </section>
 
 <!-- 7 TEST + EXIT -->
 <section data-title="7. Test cases and exit" data-min="9">
   <span class="mins">9 min</span>
   <h2>Test cases and exit</h2>
-  <div class="kwrow"><span class="kwlab">Key words</span><button class="kw" type="button" aria-expanded="false"><b>test case</b><span>Inputs to try, plus the output you expect.</span></button><button class="kw" type="button" aria-expanded="false"><b>expected output</b><span>What the program should print if it works.</span></button><button class="kw" type="button" aria-expanded="false"><b>boundary value</b><span>A value at the edge, like 6 or 8 when the secret is 7. Errors often hide here.</span></button></div>
-  <p class="sub">A <b>test case</b> is a set of inputs plus the <b>expected output</b>. Each one below takes a different path through the nested control structures. Run each one in VS Code, then click Show to check.</p>
+  <div class="kwrow"><span class="kwlab">Key words</span><button class="kw" type="button" aria-expanded="false"><b>test case</b><span>What you type in, and what you expect to see.</span></button><button class="kw" type="button" aria-expanded="false"><b>expected output</b><span>What the program should show if it works.</span></button><button class="kw" type="button" aria-expanded="false"><b>boundary value</b><span>A value right at the edge. If the secret is 7, then 6 and 8 are at the edge. Mistakes often hide here.</span></button></div>
+  <p class="sub">A <b>test case</b> is what you type in, plus what you expect to see (the <b>expected output</b>). Each test case below checks a different part of the code. Run each one in VS Code, then click Show.</p>
   <div class="card">
     <h3>Test cases</h3>
     <div class="tblwrap"><table class="tbl" id="tests">
-      <tr><th>Test case</th><th>Inputs</th><th>Path it checks</th><th>Expected output (last line)</th></tr>
+      <tr><th>Test case</th><th>What you type</th><th>What it checks</th><th>Expected output (last line)</th></tr>
       <tr><td>1 Normal</td><td class="m">3, 9, 7</td><td>wrong, wrong, right</td><td><button class="btn alt sm" data-show>Show</button><span class="reveal">Correct! You took 3 attempts.</span></td></tr>
-      <tr><td>2 First try</td><td class="m">7</td><td>the if runs straight away</td><td><button class="btn alt sm" data-show>Show</button><span class="reveal">Correct! You took 1 attempts.</span></td></tr>
-      <tr><td>3 Lose</td><td class="m">1, 2, 3</td><td>the else runs 3 times</td><td><button class="btn alt sm" data-show>Show</button><span class="reveal">Game over. The number was 7.</span></td></tr>
-      <tr><td>4 Boundary values</td><td class="m">6, 8, 7</td><td>one either side of the secret</td><td><button class="btn alt sm" data-show>Show</button><span class="reveal">Correct! You took 3 attempts. (1 life left)</span></td></tr>
+      <tr><td>2 First try</td><td class="m">7</td><td>you win at once: only the if runs</td><td><button class="btn alt sm" data-show>Show</button><span class="reveal">Correct! You took 1 attempts.</span></td></tr>
+      <tr><td>3 Lose</td><td class="m">1, 2, 3</td><td>you lose: the else runs 3 times</td><td><button class="btn alt sm" data-show>Show</button><span class="reveal">Game over. The number was 7.</span></td></tr>
+      <tr><td>4 Boundary values</td><td class="m">6, 8, 7</td><td>guesses right next to 7</td><td><button class="btn alt sm" data-show>Show</button><span class="reveal">Correct! You took 3 attempts. (1 life left)</span></td></tr>
     </table></div>
   </div>
   <div class="two" style="margin-top:14px">
@@ -418,10 +406,9 @@ body.notes .tnotes{display:block}
       <h3>Save</h3>
       <p class="big">Save your file as <b>Y8_Surname_GuessLives.py</b></p>
       <p>Next time: we use nested structures to build a bigger program.</p>
-      <div class="do" style="margin-top:12px"><b class="h">Remember</b>A <b>nested control structure</b> is a control structure inside another one. The <b>indentation</b> shows the <b>nesting level</b>.</div>
+      <div class="do" style="margin-top:12px"><b class="h">Remember</b>A <b>nested control structure</b> is one control structure inside another, like an <code>if</code> inside a loop. Count the spaces to find the <b>nesting level</b>.</div>
     </div>
   </div>
-  <aside class="tnotes" aria-label="Teacher notes"><div class="tn-head">Teacher notes</div><h4>Explain</h4><p>A <b>test case</b> = inputs + <b>expected output</b>. Good testers choose test cases that take <b>every path</b> through the nested code: the if, the else, the inner if and the inner else.</p><p>Test 2 (typing 7) shows "1 attempts": a good hook for the three-star challenge (a nested if to print "attempt").</p><h4>Real life</h4><p><b>The Ride Gate from earlier this term:</b> testing a height limit of 120 cm with a normal value, a <b>boundary value</b> (exactly 120) and an extreme value. Here, 6 and 8 are boundary values because they sit right next to the secret.</p><p><b>Car safety tests:</b> engineers crash-test the car from the front, the side and the back. Each test checks a different path.</p><h4>Ask the class</h4><ul><li>"Which test case makes the inner else run?" (any guess above 7, such as 9 or 8)</li><li>"Which test case never takes away a life?" (Test 2: 7)</li></ul><h4>Exit answers</h4><ol><li>A control structure inside another, such as an if inside a while.</li><li>Level 3: 12 spaces, inside the inner if, inside the else, inside the while.</li><li>When the guess is correct OR lives reaches 0.</li></ol></aside>
 </section>
 
 </main>
@@ -503,7 +490,7 @@ def run_student(src, preset):
 (function(){
 const TRACES = {"lives": {"src": "secret = 7\nguess = 0\nattempts = 0\nlives = 3\n\nwhile guess != secret and lives > 0:\n    guess = int(input(\"Guess (1 to 10): \"))\n    attempts = attempts + 1\n    if guess == secret:\n        print(f\"Correct! You took {attempts} attempts.\")\n    else:\n        lives = lives - 1\n        if guess < secret:\n            print(\"Too low\")\n        else:\n            print(\"Too high\")\n        print(f\"Lives left: {lives}\")\n\nif lives == 0:\n    print(f\"Game over. The number was {secret}.\")", "inputs": ["3", "9", "7"], "keep": ["secret", "guess", "attempts", "lives"], "steps": [{"line": 1, "vars": {}, "out": ""}, {"line": 2, "vars": {"secret": "7"}, "out": ""}, {"line": 3, "vars": {"secret": "7", "guess": "0"}, "out": ""}, {"line": 4, "vars": {"secret": "7", "guess": "0", "attempts": "0"}, "out": ""}, {"line": 6, "vars": {"secret": "7", "guess": "0", "attempts": "0", "lives": "3"}, "out": ""}, {"line": 7, "vars": {"secret": "7", "guess": "0", "attempts": "0", "lives": "3"}, "out": ""}, {"line": 8, "vars": {"secret": "7", "guess": "3", "attempts": "0", "lives": "3"}, "out": "Guess (1 to 10): 3\n"}, {"line": 9, "vars": {"secret": "7", "guess": "3", "attempts": "1", "lives": "3"}, "out": "Guess (1 to 10): 3\n"}, {"line": 12, "vars": {"secret": "7", "guess": "3", "attempts": "1", "lives": "3"}, "out": "Guess (1 to 10): 3\n"}, {"line": 13, "vars": {"secret": "7", "guess": "3", "attempts": "1", "lives": "2"}, "out": "Guess (1 to 10): 3\n"}, {"line": 14, "vars": {"secret": "7", "guess": "3", "attempts": "1", "lives": "2"}, "out": "Guess (1 to 10): 3\n"}, {"line": 17, "vars": {"secret": "7", "guess": "3", "attempts": "1", "lives": "2"}, "out": "Guess (1 to 10): 3\nToo low\n"}, {"line": 6, "vars": {"secret": "7", "guess": "3", "attempts": "1", "lives": "2"}, "out": "Guess (1 to 10): 3\nToo low\nLives left: 2\n"}, {"line": 7, "vars": {"secret": "7", "guess": "3", "attempts": "1", "lives": "2"}, "out": "Guess (1 to 10): 3\nToo low\nLives left: 2\n"}, {"line": 8, "vars": {"secret": "7", "guess": "9", "attempts": "1", "lives": "2"}, "out": "Guess (1 to 10): 3\nToo low\nLives left: 2\nGuess (1 to 10): 9\n"}, {"line": 9, "vars": {"secret": "7", "guess": "9", "attempts": "2", "lives": "2"}, "out": "Guess (1 to 10): 3\nToo low\nLives left: 2\nGuess (1 to 10): 9\n"}, {"line": 12, "vars": {"secret": "7", "guess": "9", "attempts": "2", "lives": "2"}, "out": "Guess (1 to 10): 3\nToo low\nLives left: 2\nGuess (1 to 10): 9\n"}, {"line": 13, "vars": {"secret": "7", "guess": "9", "attempts": "2", "lives": "1"}, "out": "Guess (1 to 10): 3\nToo low\nLives left: 2\nGuess (1 to 10): 9\n"}, {"line": 16, "vars": {"secret": "7", "guess": "9", "attempts": "2", "lives": "1"}, "out": "Guess (1 to 10): 3\nToo low\nLives left: 2\nGuess (1 to 10): 9\n"}, {"line": 17, "vars": {"secret": "7", "guess": "9", "attempts": "2", "lives": "1"}, "out": "Guess (1 to 10): 3\nToo low\nLives left: 2\nGuess (1 to 10): 9\nToo high\n"}, {"line": 6, "vars": {"secret": "7", "guess": "9", "attempts": "2", "lives": "1"}, "out": "Guess (1 to 10): 3\nToo low\nLives left: 2\nGuess (1 to 10): 9\nToo high\nLives left: 1\n"}, {"line": 7, "vars": {"secret": "7", "guess": "9", "attempts": "2", "lives": "1"}, "out": "Guess (1 to 10): 3\nToo low\nLives left: 2\nGuess (1 to 10): 9\nToo high\nLives left: 1\n"}, {"line": 8, "vars": {"secret": "7", "guess": "7", "attempts": "2", "lives": "1"}, "out": "Guess (1 to 10): 3\nToo low\nLives left: 2\nGuess (1 to 10): 9\nToo high\nLives left: 1\nGuess (1 to 10): 7\n"}, {"line": 9, "vars": {"secret": "7", "guess": "7", "attempts": "3", "lives": "1"}, "out": "Guess (1 to 10): 3\nToo low\nLives left: 2\nGuess (1 to 10): 9\nToo high\nLives left: 1\nGuess (1 to 10): 7\n"}, {"line": 10, "vars": {"secret": "7", "guess": "7", "attempts": "3", "lives": "1"}, "out": "Guess (1 to 10): 3\nToo low\nLives left: 2\nGuess (1 to 10): 9\nToo high\nLives left: 1\nGuess (1 to 10): 7\n"}, {"line": 6, "vars": {"secret": "7", "guess": "7", "attempts": "3", "lives": "1"}, "out": "Guess (1 to 10): 3\nToo low\nLives left: 2\nGuess (1 to 10): 9\nToo high\nLives left: 1\nGuess (1 to 10): 7\nCorrect! You took 3 attempts.\n"}, {"line": 19, "vars": {"secret": "7", "guess": "7", "attempts": "3", "lives": "1"}, "out": "Guess (1 to 10): 3\nToo low\nLives left: 2\nGuess (1 to 10): 9\nToo high\nLives left: 1\nGuess (1 to 10): 7\nCorrect! You took 3 attempts.\n"}, {"line": 0, "vars": {"secret": "7", "guess": "7", "attempts": "3", "lives": "1"}, "out": "Guess (1 to 10): 3\nToo low\nLives left: 2\nGuess (1 to 10): 9\nToo high\nLives left: 1\nGuess (1 to 10): 7\nCorrect! You took 3 attempts.\n"}]}, "selInLoop": {"src": "for i in range(1, 7):\n    if i % 2 == 0:\n        print(f\"{i} is even\")\n    else:\n        print(f\"{i} is odd\")", "inputs": [], "keep": ["i"], "steps": [{"line": 1, "vars": {}, "out": ""}, {"line": 2, "vars": {"i": "1"}, "out": ""}, {"line": 5, "vars": {"i": "1"}, "out": ""}, {"line": 1, "vars": {"i": "1"}, "out": "1 is odd\n"}, {"line": 2, "vars": {"i": "2"}, "out": "1 is odd\n"}, {"line": 3, "vars": {"i": "2"}, "out": "1 is odd\n"}, {"line": 1, "vars": {"i": "2"}, "out": "1 is odd\n2 is even\n"}, {"line": 2, "vars": {"i": "3"}, "out": "1 is odd\n2 is even\n"}, {"line": 5, "vars": {"i": "3"}, "out": "1 is odd\n2 is even\n"}, {"line": 1, "vars": {"i": "3"}, "out": "1 is odd\n2 is even\n3 is odd\n"}, {"line": 2, "vars": {"i": "4"}, "out": "1 is odd\n2 is even\n3 is odd\n"}, {"line": 3, "vars": {"i": "4"}, "out": "1 is odd\n2 is even\n3 is odd\n"}, {"line": 1, "vars": {"i": "4"}, "out": "1 is odd\n2 is even\n3 is odd\n4 is even\n"}, {"line": 2, "vars": {"i": "5"}, "out": "1 is odd\n2 is even\n3 is odd\n4 is even\n"}, {"line": 5, "vars": {"i": "5"}, "out": "1 is odd\n2 is even\n3 is odd\n4 is even\n"}, {"line": 1, "vars": {"i": "5"}, "out": "1 is odd\n2 is even\n3 is odd\n4 is even\n5 is odd\n"}, {"line": 2, "vars": {"i": "6"}, "out": "1 is odd\n2 is even\n3 is odd\n4 is even\n5 is odd\n"}, {"line": 3, "vars": {"i": "6"}, "out": "1 is odd\n2 is even\n3 is odd\n4 is even\n5 is odd\n"}, {"line": 1, "vars": {"i": "6"}, "out": "1 is odd\n2 is even\n3 is odd\n4 is even\n5 is odd\n6 is even\n"}, {"line": 0, "vars": {"i": "6"}, "out": "1 is odd\n2 is even\n3 is odd\n4 is even\n5 is odd\n6 is even\n"}]}};
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
-const store={get(k,d){try{const v=localStorage.getItem('y8nest2t_'+k);return v===null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem('y8nest2t_'+k,JSON.stringify(v))}catch(e){}}};
+const store={get(k,d){try{const v=localStorage.getItem('y8nest2_'+k);return v===null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem('y8nest2_'+k,JSON.stringify(v))}catch(e){}}};
 
 const CODE = {
 quizcode:`score = 0
@@ -651,8 +638,8 @@ $('#treset').onclick=resetTimer;
 /* ---------- static code, predicts, runners ---------- */
 $$('[data-code]').forEach(el=>el.appendChild(codeBlock(CODE[el.dataset.code],{levels:el.dataset.levels==="1"})));
 const PRED={
-  pSel:{q:"Predict: what is the third line of output?",opts:["3 is odd","3 is even","2 is even","6 is even"],ans:0,mono:true,why:"The third time round, i is 3. 3 % 2 is 1, not 0, so the else runs."},
-  pLoop:{q:"Predict: the user types no. How many lines print after the question?",opts:["0","1","5","6"],ans:1,why:"\"no\" == \"yes\" is False, so the loop inside the if never runs. The else prints one line: Maybe next time."}
+  pSel:{q:"Predict: what is the third line of output?",opts:["3 is odd","3 is even","2 is even","6 is even"],ans:0,mono:true,why:"The 3rd time round, i is 3. 3 is odd, so the else runs."},
+  pLoop:{q:"Predict: the user types no. How many lines print after the question?",opts:["0","1","5","6"],ans:1,why:"no is not yes, so the if is False. The loop inside the if never runs. Only the else line prints: Maybe next time."}
 };
 $$('[data-predict]').forEach(el=>el.appendChild(choice(PRED[el.dataset.predict])));
 $$('[data-runner]').forEach(el=>el.appendChild(makeRunner(CODE[el.dataset.runner],{name:el.dataset.name,hide:el.dataset.hide==="1",inputs:el.dataset.inputs})));
@@ -669,14 +656,14 @@ print(first + second)`,o:["15","105","10 + 5","TypeError"],a:1,why:"Both are str
 elif score >= 65:
     grade = "B"
 else:
-    grade = "C"`,o:["A","B","C","No grade"],a:1,why:"65 >= 80 is False. 65 >= 65 is True, so grade is B. Python stops at the first True."},
- {q:"What does range(1, 11) give?",o:["1 to 11","0 to 10","1 to 10","0 to 11"],a:2,why:"range() stops before the stop number, so it gives 1 to 10."},
+    grade = "C"`,o:["A","B","C","No grade"],a:1,why:"Is 65 >= 80? No. Is 65 >= 65? Yes. So the grade is B."},
+ {q:"What does range(1, 11) give?",o:["1 to 11","0 to 10","1 to 10","0 to 11"],a:2,why:"range() stops just before the last number. So range(1, 11) gives 1 to 10."},
  {q:"What does this print?",code:`for i in range(5, 0, -1):
     print(i)`,o:["5 4 3 2 1","5 4 3 2 1 0","4 3 2 1 0","1 2 3 4 5"],a:0,why:"Start at 5, go down by 1, stop before 0."},
  {q:"This game never asks for a guess. Which line is the bug?",code:`guess = 0
 secret = 7
 while guess == secret:
-    guess = int(input("Guess: "))`,o:["Line 1","Line 2","Line 3","Line 4"],a:2,why:"0 == 7 is False, so the loop never starts. It should be while guess != secret:"},
+    guess = int(input("Guess: "))`,o:["Line 1","Line 2","Line 3","Line 4"],a:2,why:"0 == 7 is False, so the loop never starts. Use != (not equal): while guess != secret:"},
  {q:"Python shows SyntaxError: expected ':'. What is missing?",code:`while len(password) < 8
     password = input("Password: ")`,o:["A bracket","A colon at the end of line 1","Quote marks","An indent on line 1"],a:1,why:"Every if, elif, else, for and while line ends with a colon."},
  {q:"tries is 0. After this code runs 3 times, what is tries?",code:`tries = tries + 1`,o:["1","3","0","4"],a:1,why:"Each time adds 1: 0, then 1, 2, 3."},
@@ -708,10 +695,10 @@ qRender();
       el.classList.add('sel');const L=lvl(line);const parents=[];let need=L;
       for(let j=i-1;j>=0&&need>0;j--){const t=lines[j];if(t.trim()&&lvl(t)===need-1&&t.trim().endsWith(':')){parents.unshift(j);need--}}
       parents.forEach(j=>els[j].classList.add('par'));
-      let html=`Line ${i+1} has <b>${L*4} spaces</b>, so it is at <b>level ${L}</b>.`;
-      if(L===0)html+=`<br>It is not nested inside any control structure. It is part of the main program.`;
-      else{html+=`<br>It is nested inside ${parents.length===1?'this control structure':'these control structures'} (shown in blue):<ul style="margin:6px 0 0;padding-left:20px">`+parents.map(j=>`<li><code>${esc(lines[j].trim())}</code></li>`).join('')+`</ul>`;
-        html+=`<span style="font-size:16px;color:var(--muted)">It only runs when the condition of every control structure above it lets Python in.</span>`}
+      let html=`Line ${i+1} has <b>${L*4} spaces</b>, so it is at <b>nesting level ${L}</b>.`;
+      if(L===0)html+=`<br>It is not inside anything. It always runs.`;
+      else{html+=`<br>It is inside ${parents.length===1?'this control structure':'these '+parents.length+' control structures'} (blue):<ul style="margin:6px 0 0;padding-left:20px">`+parents.map(j=>`<li><code>${esc(lines[j].trim())}</code></li>`).join('')+`</ul>`;
+        html+=`<span style="font-size:16px;color:var(--muted)">Python only runs this line if it gets through all of them.</span>`}
       $('#spotOut').innerHTML=html};
     el.onclick=pick;el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pick()}}})})();
 
@@ -726,8 +713,8 @@ qRender();
   let k=0,tm=null;
   function explain(i){const s=steps[i],n=steps[i+1];if(s.line===0)return"The program has finished.";const t=lines[s.line-1].trim(),nl=n?n.line:0;
     if(/^(while|if|elif)\b/.test(t)){const c=t.replace(/^(while|if|elif)\s+/,'').replace(/:$/,'');const ins=nl===s.line+1;
-      return`Check <code>${esc(c)}</code>. It is <b>${ins?'True':'False'}</b>, so Python ${ins?'goes inside the box':(t.startsWith('while')?'leaves the loop':'skips the box')}.`}
-    if(/^else:/.test(t))return"The if above was False, so Python goes into the else box.";
+      return`Python asks: <code>${esc(c)}</code>? The answer is <b>${ins?'True':'False'}</b>, so it ${ins?'goes inside':(t.startsWith('while')?'leaves the loop':'skips the lines inside')}.`}
+    if(/^else:/.test(t))return"The if above was False, so Python runs the else part.";
     if(t.includes("input(")){const typed=n?n.out.slice(s.out.length).split("\n")[0].replace(/^.*: /,''):'';return`input() asks the player. They type <b>${esc(typed)}</b>.`}
     if(t.startsWith("print("))return"print() shows text in the output.";
     const m=t.match(/^(\w+) = /);if(m)return`Store a value in <code>${esc(m[1])}</code>.`;return"Run this line."}
@@ -762,7 +749,7 @@ qRender();
 
 /* ---------- 6. stages ---------- */
 const STAGES=[
- {t:"Stage 1: the basic game",d:"An if/elif is nested inside the while loop. This is Activity 4 without the counter.",inp:"3\n9\n7",nw:[],
+ {t:"Stage 1: the basic game",d:"This is Activity 4 without the counter. The if/elif is inside the while loop.",inp:"3\n9\n7",nw:[],
   code:`secret = 7
 guess = 0
 
@@ -774,7 +761,7 @@ while guess != secret:
         print("Too high")
 
 print("Correct!")`,p:"With 3, 9, 7: how many times does it ask?",a:"3 times. After 7, guess != secret is False, so the loop stops."},
- {t:"Stage 2: add an attempt counter",d:"A new variable counts the guesses. It goes up by 1 inside the loop.",inp:"3\n9\n7",nw:[3,7,13],
+ {t:"Stage 2: add an attempt counter",d:"New: a counter. attempts goes up by 1 every time round the loop.",inp:"3\n9\n7",nw:[3,7,13],
   code:`secret = 7
 guess = 0
 attempts = 0
@@ -788,7 +775,7 @@ while guess != secret:
         print("Too high")
 
 print(f"Correct! You took {attempts} attempts.")`,p:"With 3, 9, 7: what number does the last line show?",a:"3. attempts goes up once each time round the loop.",swap:true},
- {t:"Stage 3: add lives (the nesting gets deeper)",d:"The loop also stops when lives reaches 0. An if/else checks for a correct guess, and a second if/else is nested inside the else. The deepest lines are now level 3.",inp:"1\n2\n3",nw:[4,6,9,10,11,12,13,15,16,17],
+ {t:"Stage 3: add lives (the nesting gets deeper)",d:"New: 3 lives. Each wrong guess takes away a life. The game stops when you win OR when lives reaches 0. Look: there is now an if/else inside the else, so the deepest lines are level 3.",inp:"1\n2\n3",nw:[4,6,9,10,11,12,13,15,16,17],
   code:`secret = 7
 guess = 0
 attempts = 0
@@ -806,7 +793,7 @@ while guess != secret and lives > 0:
         else:
             print("Too high")
         print(f"Lives left: {lives}")`,p:"With 1, 2, 3: what is the last line? What is missing?",a:"Lives left: 0. The game just stops without telling the player they lost. Stage 4 fixes this."},
- {t:"Stage 4: the game over message",d:"After the loop, an if checks whether lives reached 0. It is at level 0, so it runs once, after the loop ends.",inp:"1\n2\n3",nw:[19,20],
+ {t:"Stage 4: the game over message",d:"New: a game over message. It has no spaces (level 0), so it runs once, after the loop ends.",inp:"1\n2\n3",nw:[19,20],
   code:CODE.lives,p:"With 3, 9, 7: does Game over print?",a:"No. The player wins with 1 life left, so lives == 0 is False."},
 ];
 let ticks=store.get('ticks',[]);
@@ -823,22 +810,14 @@ stRender();$('#clearChecks').onclick=()=>{ticks=[];store.set('ticks',ticks);stRe
 
 /* ---------- 7. tests and exit ---------- */
 $$('#tests [data-show]').forEach(b=>b.onclick=()=>{b.nextElementSibling.classList.toggle('show')});
-const E=[["What is a nested control structure?","A control structure (if, for or while) inside another control structure. Example: an if inside a while loop."],
+const E=[["What is a nested control structure?","One control structure inside another. Example: an if inside a while loop."],
  ["In the game, which level is print(\"Too low\")? How do you know?","Level 3. It has 12 spaces: it is inside the inner if, inside the else, inside the while."],
- ["When does while guess != secret and lives > 0 stop?","When the guess is correct OR lives reaches 0. and needs both to be True to keep going."]];
+ ["When does while guess != secret and lives > 0 stop?","When you guess right, OR when lives reaches 0. With and, both must be True to keep going."]];
 $('#exit').innerHTML=E.map(([q,a])=>`<div style="padding:8px 0;border-bottom:1px solid var(--line)"><button class="opt" style="width:100%">${esc(q)}</button><div class="reveal">${esc(a)}</div></div>`).join('');
 $$('#exit .opt').forEach(b=>b.onclick=()=>b.nextElementSibling.classList.toggle('show'));
 
 
 $$('.kw').forEach(b=>b.onclick=()=>b.setAttribute('aria-expanded',String(b.getAttribute('aria-expanded')!=='true')));
-
-/* teacher notes: wrap each part so notes sit beside it */
-secs.forEach(s=>{const aside=s.querySelector('.tnotes');if(!aside)return;const w=document.createElement('div');w.className='sec-main';
-  [...s.childNodes].forEach(n=>{if(n!==aside)w.appendChild(n)});s.insertBefore(w,aside)});
-function setNotes(on){document.body.classList.toggle('notes',on);$('#tn').setAttribute('aria-pressed',String(on));$('#tn').textContent=on?'Hide notes':'Teacher notes';store.set('notes',on)}
-$('#tn').onclick=()=>setNotes(!document.body.classList.contains('notes'));
-document.addEventListener('keydown',e=>{if(['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName))return;if(e.key==='n'||e.key==='N')setNotes(!document.body.classList.contains('notes'))});
-setNotes(store.get('notes',false));
 go(cur);
 })();
 </script>
