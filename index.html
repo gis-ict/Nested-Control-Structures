@@ -14,7 +14,7 @@
   --tok-kw:#ffb088; --tok-fn:#ffd97a; --tok-str:#9ee6c2; --tok-num:#c3b4f5;
   --l1:rgba(255,176,136,.16); --l2:rgba(143,217,182,.18); --l3:rgba(195,180,245,.24);
   --control:#FFAB19; --events:#FFBF00; --looks:#9966FF; --sensing:#5CB1D6; --vars:#FF8C1A; --ops:#59C059;
-  --mono:"Cascadia Code",Consolas,"Courier New",monospace;
+  --mono:Consolas,"Courier New",monospace;
 }
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Atkinson Hyperlegible",system-ui,sans-serif;font-size:19px;line-height:1.5}
@@ -169,6 +169,9 @@ pre.click .ln.par{background:rgba(92,177,214,.25)}
 .tbl tr.hid td{color:transparent;background:#f6f1eb}
 .tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
 
+/* Show code exactly as typed: no font ligatures (so != stays !=, == stays ==) */
+code,pre,textarea,.mono,.opt,.mon,.var,.pline,.out,.pout,.gutter,.tbl td.m,.runner-bar .name,.file,td.mono,.nest{font-variant-ligatures:none;font-feature-settings:"liga" 0,"calt" 0,"dlig" 0}
+
 .kwrow{display:flex;flex-wrap:wrap;gap:8px;align-items:flex-start;margin:6px 0 16px}
 .kwlab{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:7px;margin-right:2px}
 .kw{background:#fff;border:2px solid #e3c9cd;border-radius:12px;padding:5px 12px;text-align:left;color:var(--ink);max-width:340px}
@@ -238,6 +241,7 @@ pre.click .ln.par{background:rgba(92,177,214,.25)}
     <p>This is the code behind the quiz you just played. Look at the spaces at the start of the lines. The <code>if</code> is pushed in, so it is <b>inside</b> the <code>while</code> loop.</p>
     <p>An <code>if</code> inside a loop is a <b>nested control structure</b>. That is today's topic.</p>
     <div data-code="quizcode" data-levels="1"></div>
+    <p style="font-size:16px;color:var(--muted);margin-top:8px">This is a short version to show the idea. <code>correct</code> stands for the right answer to each question.</p>
   </div>
 </section>
 
@@ -265,6 +269,7 @@ pre.click .ln.par{background:rgba(92,177,214,.25)}
     <div class="card">
       <h3>In Python, indentation shows the nesting</h3>
       <div data-code="boxes" data-levels="1"></div>
+      <p style="font-size:15px;color:var(--muted);margin:6px 0 0">Example only: <code>touching_player</code> is not a real Python word. It just matches the Scratch block.</p>
       <p style="font-size:16px;color:var(--muted);margin-top:8px">Python has no C shapes. It uses <b>spaces</b> instead. More spaces = deeper inside.<br>4 spaces = level 1 · 8 spaces = level 2</p>
     </div>
   </div>
@@ -393,7 +398,7 @@ pre.click .ln.par{background:rgba(92,177,214,.25)}
       <tr><td>1 Normal</td><td class="m">3, 9, 7</td><td>wrong, wrong, right</td><td><button class="btn alt sm" data-show>Show</button><span class="reveal">Correct! You took 3 attempts.</span></td></tr>
       <tr><td>2 First try</td><td class="m">7</td><td>you win at once: only the if runs</td><td><button class="btn alt sm" data-show>Show</button><span class="reveal">Correct! You took 1 attempts.</span></td></tr>
       <tr><td>3 Lose</td><td class="m">1, 2, 3</td><td>you lose: the else runs 3 times</td><td><button class="btn alt sm" data-show>Show</button><span class="reveal">Game over. The number was 7.</span></td></tr>
-      <tr><td>4 Boundary values</td><td class="m">6, 8, 7</td><td>guesses right next to 7</td><td><button class="btn alt sm" data-show>Show</button><span class="reveal">Correct! You took 3 attempts. (1 life left)</span></td></tr>
+      <tr><td>4 Boundary values</td><td class="m">6, 8, 7</td><td>guesses right next to 7 (ends with 1 life left)</td><td><button class="btn alt sm" data-show>Show</button><span class="reveal">Correct! You took 3 attempts.</span></td></tr>
     </table></div>
   </div>
   <div class="two" style="margin-top:14px">
@@ -659,7 +664,7 @@ else:
     grade = "C"`,o:["A","B","C","No grade"],a:1,why:"Is 65 >= 80? No. Is 65 >= 65? Yes. So the grade is B."},
  {q:"What does range(1, 11) give?",o:["1 to 11","0 to 10","1 to 10","0 to 11"],a:2,why:"range() stops just before the last number. So range(1, 11) gives 1 to 10."},
  {q:"What does this print?",code:`for i in range(5, 0, -1):
-    print(i)`,o:["5 4 3 2 1","5 4 3 2 1 0","4 3 2 1 0","1 2 3 4 5"],a:0,why:"Start at 5, go down by 1, stop before 0."},
+    print(i)`,o:["5\n4\n3\n2\n1","5\n4\n3\n2\n1\n0","4\n3\n2\n1\n0","1\n2\n3\n4\n5"],a:0,why:"Start at 5, go down by 1, stop before 0. Each number prints on its own line."},
  {q:"This game never asks for a guess. Which line is the bug?",code:`guess = 0
 secret = 7
 while guess == secret:
